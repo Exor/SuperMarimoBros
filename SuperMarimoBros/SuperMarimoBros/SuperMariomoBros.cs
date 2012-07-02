@@ -97,7 +97,9 @@ namespace SuperMarimoBros
         private void CollisionDetection()
         {
             Point bottomLeft = new Point(marimo.BoundingRectangle().Left, marimo.BoundingRectangle().Bottom);
+            Point bottomLeftPlusOne = new Point(marimo.BoundingRectangle().Left, marimo.BoundingRectangle().Bottom + 1);
             Point bottomRight = new Point(marimo.BoundingRectangle().Right, marimo.BoundingRectangle().Bottom);
+            Point bottomRightPlusOne = new Point(marimo.BoundingRectangle().Right, marimo.BoundingRectangle().Bottom + 1);
             Point topLeft = new Point(marimo.BoundingRectangle().Left, marimo.BoundingRectangle().Top);
             Point topRight = new Point(marimo.BoundingRectangle().Right, marimo.BoundingRectangle().Top);
 
@@ -109,6 +111,9 @@ namespace SuperMarimoBros
                 marimo.CollidesWithTile(tileManager.ReturnTileAt(topLeft));
             if (tileManager.SolidTileExistsAt(topRight))
                 marimo.CollidesWithTile(tileManager.ReturnTileAt(topRight));
+
+            if (!tileManager.SolidTileExistsAt(bottomLeftPlusOne) && !tileManager.SolidTileExistsAt(bottomRightPlusOne))
+                marimo.ShouldFall();
 
         }
 

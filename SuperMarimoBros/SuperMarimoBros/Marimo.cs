@@ -24,6 +24,8 @@ namespace SuperMarimoBros
         float gravity = 500f;
         float maximumFallSpeed = 120f;
 
+        float launchVelocity = 250f;
+
         Sprite Standing;
         Animation Running;
         Animation Walking;
@@ -31,9 +33,9 @@ namespace SuperMarimoBros
         Sprite Sliding;
         Sprite Dying;
 
-        public State CurrentState;
+        State CurrentState;
 
-        public enum State
+        enum State
         {
         Standing,
         Running,
@@ -102,13 +104,13 @@ namespace SuperMarimoBros
             CalculateVerticalMovement(elapsedGameTime);
             CalculatePosition(elapsedGameTime);
 
+            CalculateState();
+            
             //reset mario to the top of the screen if he falls off
             if (position.Y > 240)
                 position.Y = 0;
 
             CalculateSpriteEffects();
-
-            CalculateState();
         }
 
         private void CalculateState()
@@ -129,9 +131,9 @@ namespace SuperMarimoBros
         }
 
         private void CalculateVerticalMovement(float elapsedGameTime)
-        {
-            if (CurrentState == State.Falling || CurrentState == State.Jumping)
-                velocity.Y += velocity.Y + gravity * elapsedGameTime;
+        {                
+            if (input.WasButtonPressed(Keys.Up))
+                velocity.Y = -launchVelocity;
         }
 
         private void CalculateSpriteEffects()
@@ -155,7 +157,7 @@ namespace SuperMarimoBros
                 else if (CurrentState == State.Running)
                     velocity.X = MathHelper.Clamp(velocity.X, 0, maximumRunSpeed);
                 if (CurrentState == State.Falling || CurrentState == State.Jumping)
-                    velocity.X = MathHelper.Clamp(velocity.X, 0, maximumWalkSpeed);
+                    velocity.X = MathHelper.Clamp(velocity.X, 0, maximumRunSpeed);
 
             }
             else if (velocity.X < 0)
@@ -166,11 +168,18 @@ namespace SuperMarimoBros
                 if (CurrentState == State.Running)
                     velocity.X = MathHelper.Clamp(velocity.X, -maximumRunSpeed, 0);
                 if (CurrentState == State.Falling || CurrentState == State.Jumping)
-                    velocity.X = MathHelper.Clamp(velocity.X, -maximumWalkSpeed, 0);
+                    velocity.X = MathHelper.Clamp(velocity.X, -maximumRunSpeed, 0);
 
             }
-            velocity.Y = MathHelper.Clamp(velocity.Y, 0, maximumFallSpeed);
-
+            if (CurrentState == State.Jumping)
+            {
+                velocity.Y = velocity.Y + gravity * elapsedGameTime;
+            }
+            else if (CurrentState == State.Falling)
+            {
+                velocity.Y = velocity.Y + gravity * elapsedGameTime;
+                velocity.Y = MathHelper.Clamp(velocity.Y, 0, maximumFallSpeed);
+            }
             position.X = position.X + (velocity.X * elapsedGameTime);
             position.Y = position.Y + (velocity.Y * elapsedGameTime);
         }
@@ -187,14 +196,13 @@ namespace SuperMarimoBros
             }
         }
 
-        public void ChangeState(State newState)
+        private void ChangeState(State newState)
         {
             State oldState = CurrentState;
             if (oldState != newState)
             {
                 Walking.Stop();
                 Running.Stop();
-                velocity.Y = 0;
                 CurrentState = newState;
             }
             
@@ -203,7 +211,7 @@ namespace SuperMarimoBros
 
         public Rectangle BoundingRectangle()
         {
-            return new Rectangle((int)position.X, (int)position.Y, 15, 15);
+            return new Rectangle((int)position.X, (int)position.Y, 16, 16);
         }
 
         public void CollidesWithTile(Tile t)
@@ -224,8 +232,18 @@ namespace SuperMarimoBros
                 if (mario.Y > tile.Y)
                     position.Y = collision.Y + collision.Height;
                 if (mario.Y < tile.Y)
-                    position.Y = collision.Y - collision.Height - mario.Height;
+                {
+                    ChangeState(State.Standing);
+                    position.Y = collision.Y - mario.Height;
+                }
+                velocity.Y = 0;
             }
+        }
+
+        public void ShouldFall()
+        {
+            if (CurrentState != State.Jumping)
+                ChangeState(State.Falling);
         }
     }
 }
