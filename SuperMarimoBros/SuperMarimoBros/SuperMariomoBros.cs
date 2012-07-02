@@ -61,7 +61,7 @@ namespace SuperMarimoBros
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            marimo.Load(Content.Load<Texture2D>("Graphics/mariospritesheet"), new Vector2(0,192), animations, input);
+            marimo.Load(Content.Load<Texture2D>("Graphics/mariospritesheet"), new Vector2(32,192), animations, input);
             marioGraphics = Content.Load<Texture2D>("Graphics/smbtiles");
             levelOneOneMusic = Content.Load<Song>("BackgroundMusic/OneOne");
             MediaPlayer.Play(levelOneOneMusic);
@@ -98,11 +98,18 @@ namespace SuperMarimoBros
         {
             Point bottomLeft = new Point(marimo.BoundingRectangle().Left, marimo.BoundingRectangle().Bottom);
             Point bottomRight = new Point(marimo.BoundingRectangle().Right, marimo.BoundingRectangle().Bottom);
+            Point topLeft = new Point(marimo.BoundingRectangle().Left, marimo.BoundingRectangle().Top);
+            Point topRight = new Point(marimo.BoundingRectangle().Right, marimo.BoundingRectangle().Top);
 
-            if (tileManager.SolidTileExistsAt(bottomLeft) || tileManager.SolidTileExistsAt(bottomRight))
-            {
-                //TODO Marimo Hit something
-            }
+            if (tileManager.SolidTileExistsAt(bottomLeft))
+                marimo.CollidesWithTile(tileManager.ReturnTileAt(bottomLeft));
+            if (tileManager.SolidTileExistsAt(bottomRight))
+                marimo.CollidesWithTile(tileManager.ReturnTileAt(bottomRight));
+            if (tileManager.SolidTileExistsAt(topLeft))
+                marimo.CollidesWithTile(tileManager.ReturnTileAt(topLeft));
+            if (tileManager.SolidTileExistsAt(topRight))
+                marimo.CollidesWithTile(tileManager.ReturnTileAt(topRight));
+
         }
 
 

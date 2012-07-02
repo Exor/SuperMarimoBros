@@ -31,5 +31,10 @@ namespace XnaLibrary
         {
             return isSolid;
         }
+
+        public Rectangle BoundingRectangle()
+        {
+            return new Rectangle((int)Position.X, (int)Position.Y, Frame.Width, Frame.Height);
+        }
     }
 }

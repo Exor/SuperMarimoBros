@@ -190,8 +190,20 @@ namespace XnaLibrary
         {
             int x = p.X / 16;
             int y = p.Y / 16;
-            int tile = x * 16 + y;
-            return tiles[tile].IsSolid();
+            int tile = x * 15 + y;
+            if (tile > 0 && tile < tiles.Count)
+                return tiles[tile].IsSolid();
+            return false;
+        }
+
+        public Tile ReturnTileAt(Point p)
+        {
+            int x = p.X / 16;
+            int y = p.Y / 16;
+            int tile = x * 15 + y;
+            if (tile > 0 && tile < tiles.Count)
+                return tiles[tile];
+            return tiles[0];
         }
 
         public override void Update(GameTime gameTime)
