@@ -5,14 +5,14 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace XnaLibrary
+namespace SuperMarimoBros
 {
-    public class Tile
+    class Tile
     {
         Texture2D Texture;
         Vector2 Position;
-        Rectangle Frame;
-        Boolean isSolid;
+        internal Rectangle Frame;
+        internal Boolean isSolid;
 
         public Tile(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid)
         {
@@ -35,6 +35,26 @@ namespace XnaLibrary
         public Rectangle BoundingRectangle()
         {
             return new Rectangle((int)Position.X, (int)Position.Y, Frame.Width, Frame.Height);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            
+        }
+
+        public virtual void OnHeadbutt()
+        {
+
+        }
+
+        public virtual void OnStomp()
+        {
+
+        }
+
+        public virtual void OnSideCollision()
+        {
+
         }
     }
 }

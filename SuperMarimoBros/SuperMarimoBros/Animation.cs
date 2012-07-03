@@ -12,9 +12,9 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
 
-namespace XnaLibrary
+namespace SuperMarimoBros
 {
-    public class Animation
+    class Animation
     {
         Texture2D texture;
 

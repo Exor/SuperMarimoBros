@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SuperMarimoBros.Tiles;
 
-namespace XnaLibrary
+namespace SuperMarimoBros
 {
-    public class TileManager : Microsoft.Xna.Framework.DrawableGameComponent
+    class TileManager
     {
         SpriteBatch spriteBatch;
         List<Rectangle> tilePositions;
@@ -15,9 +16,8 @@ namespace XnaLibrary
 
         Boolean[] isTileSolid;
 
-        public override void Initialize()
+        public TileManager ()
         {
-            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             tiles = new List<Tile>();
             tilePositions = new List<Rectangle>();
             for (int y = 0; y < 86; y += 17)
@@ -157,13 +157,6 @@ namespace XnaLibrary
                 true, //whitespace
                 true, //whitespace
             };
-            base.Initialize();
-        }
-
-        public TileManager (Game game)
-            : base (game)
-        {
-
         }
 
         public void CreateTiles(string level, Texture2D texture)
@@ -174,8 +167,17 @@ namespace XnaLibrary
 
             foreach (string piece in levelComponents)
             {
-                //if (piece != "0")
-                    tiles.Add(new Tile(texture, tilePositions[Convert.ToInt32(piece)], position, isTileSolid[Convert.ToInt32(piece)]));
+                int x = Convert.ToInt32(piece);
+
+                switch (x)
+                {
+                    case 6:
+                        tiles.Add(new Brick(texture, tilePositions[x], position, isTileSolid[x]));
+                        break;
+                    default:
+                        tiles.Add(new Tile(texture, tilePositions[x], position, isTileSolid[x]));
+                        break;
+                }
 
                 position.Y += 16;
                 if (position.Y > 224)
@@ -206,17 +208,16 @@ namespace XnaLibrary
             return tiles[0];
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-
+            foreach (Tile t in tiles)
+                t.Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             foreach (Tile t in tiles)
                 t.Draw(spriteBatch);
-            spriteBatch.End();
         }
     }
 }

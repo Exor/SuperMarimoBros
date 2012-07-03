@@ -12,19 +12,19 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
 
-namespace XnaLibrary
+namespace SuperMarimoBros
 {
-    public class AnimationHandler : Microsoft.Xna.Framework.DrawableGameComponent
+    class AnimationHandler
     {
         List<Animation> animations;
         SpriteBatch spriteBatch;
 
         float elapsedTime;
 
-        public AnimationHandler(Game game)
-            : base(game)
+        public AnimationHandler()
         {
-            
+            elapsedTime = 0f;
+            animations = new List<Animation>();
         }
 
         public void AddAnimation(Animation animation)
@@ -32,15 +32,7 @@ namespace XnaLibrary
             animations.Add(animation);
         }
 
-        public override void Initialize()
-        {
-            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-            elapsedTime = 0f;
-            animations = new List<Animation>();
-            base.Initialize();
-        }
-
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -65,19 +57,15 @@ namespace XnaLibrary
                 animation.CurrentFrame = new Rectangle
                     (animation.FramePosition.X + animation.CurrentFrameNumber * (animation.WidthOfFrames + animation.FrameBuffer), animation.FramePosition.Y, animation.WidthOfFrames, animation.HeightOfFrames);
             }
-            base.Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             foreach (Animation animation in animations)
             {
                 if (animation.IsPlaying)
                     spriteBatch.Draw(animation.Texture, animation.Position, animation.CurrentFrame, Color.White, animation.Rotation, Vector2.Zero, animation.Scale, animation.Effects, animation.Layer);
             }
-            spriteBatch.End();
-            base.Draw(gameTime);
         }
     }
 }

@@ -214,30 +214,24 @@ namespace SuperMarimoBros
             return new Rectangle((int)position.X, (int)position.Y, 16, 16);
         }
 
-        public void CollidesWithTile(Tile t)
+
+        public void OnHeadbutt(int y)
         {
-            Rectangle mario = BoundingRectangle();
-            Rectangle tile = t.BoundingRectangle();
-            Rectangle collision = Rectangle.Intersect(mario, tile);
-            if (collision.Width < collision.Height)
-            {
-                if (mario.X > tile.X)
-                    position.X = collision.X + collision.Width;
-                if (mario.X < tile.X)
-                    position.X = collision.X - mario.Width + collision.Width;
-                velocity.X = 0;
-            }
-            else if (collision.Width > collision.Height)
-            {
-                if (mario.Y > tile.Y)
-                    position.Y = collision.Y + collision.Height;
-                if (mario.Y < tile.Y)
-                {
-                    ChangeState(State.Standing);
-                    position.Y = collision.Y - mario.Height;
-                }
-                velocity.Y = 0;
-            }
+            position.Y = y;
+            velocity.Y = 0;
+        }
+
+        public void OnStomp(int y)
+        {
+            ChangeState(State.Standing);
+            position.Y = y;
+            velocity.Y = 0;
+        }
+
+        public void OnSideCollision(int x)
+        {
+            position.X = x;
+            velocity.X = 0;
         }
 
         public void ShouldFall()

@@ -48,12 +48,10 @@ namespace SuperMarimoBros
         {
             fps = new FPS(this);
             this.Components.Add(fps);
-            tileManager = new TileManager(this);
-            this.Components.Add(tileManager);
-            animations = new AnimationHandler(this);
-            this.Components.Add(animations);
             input = new InputHandler(this);
             this.Components.Add(input);
+            tileManager = new TileManager();
+            animations = new AnimationHandler();
             marimo = new Marimo();
             base.Initialize();
         }
@@ -88,7 +86,10 @@ namespace SuperMarimoBros
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            tileManager.Update(gameTime);
             marimo.Update(gameTime);
+            animations.Update(gameTime);
+            
             CollisionDetection();
 
             base.Update(gameTime);
@@ -104,25 +105,61 @@ namespace SuperMarimoBros
             Point topRight = new Point(marimo.BoundingRectangle().Right, marimo.BoundingRectangle().Top);
 
             if (tileManager.SolidTileExistsAt(bottomLeft))
-                marimo.CollidesWithTile(tileManager.ReturnTileAt(bottomLeft));
+                CollidesWithTile(tileManager.ReturnTileAt(bottomLeft));
             if (tileManager.SolidTileExistsAt(bottomRight))
-                marimo.CollidesWithTile(tileManager.ReturnTileAt(bottomRight));
+                CollidesWithTile(tileManager.ReturnTileAt(bottomRight));
             if (tileManager.SolidTileExistsAt(topLeft))
-                marimo.CollidesWithTile(tileManager.ReturnTileAt(topLeft));
+                CollidesWithTile(tileManager.ReturnTileAt(topLeft));
             if (tileManager.SolidTileExistsAt(topRight))
-                marimo.CollidesWithTile(tileManager.ReturnTileAt(topRight));
+                CollidesWithTile(tileManager.ReturnTileAt(topRight));
 
             if (!tileManager.SolidTileExistsAt(bottomLeftPlusOne) && !tileManager.SolidTileExistsAt(bottomRightPlusOne))
                 marimo.ShouldFall();
 
         }
 
+        private void CollidesWithTile(Tile t)
+        {
+            Rectangle mario = marimo.BoundingRectangle();
+            Rectangle tile = t.BoundingRectangle();
+            Rectangle collision = Rectangle.Intersect(mario, tile);
+            if (collision.Width < collision.Height)
+            {
+                if (mario.X > tile.X)
+                {
+                    marimo.OnSideCollision(collision.X + collision.Width);
+                    t.OnSideCollision();
+                }
+
+                if (mario.X < tile.X)
+                {
+                    marimo.OnSideCollision(collision.X - mario.Width + collision.Width);
+                    t.OnSideCollision();
+                }
+                
+            }
+            else if (collision.Width > collision.Height)
+            {
+                if (mario.Y > tile.Y)
+                {
+                    marimo.OnHeadbutt(collision.Y + collision.Height);
+                    t.OnHeadbutt();
+                }
+                if (mario.Y < tile.Y)
+                {
+                    marimo.OnStomp(collision.Y - mario.Height);
+                    t.OnStomp();
+                }
+            }
+        }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            
+
+            tileManager.Draw(spriteBatch);
+            animations.Draw(spriteBatch);
             marimo.Draw(spriteBatch);
 
             spriteBatch.End();
