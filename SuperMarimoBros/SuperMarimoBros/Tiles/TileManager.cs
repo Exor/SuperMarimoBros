@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SuperMarimoBros.Tiles;
+using XnaLibrary;
 
 namespace SuperMarimoBros
 {
@@ -159,7 +160,7 @@ namespace SuperMarimoBros
             };
         }
 
-        public void CreateTiles(string level, Texture2D texture)
+        public void CreateTiles(string level, Texture2D texture, SoundManager sm)
         {
             Vector2 position = new Vector2(0, 0);
 
@@ -172,10 +173,10 @@ namespace SuperMarimoBros
                 switch (x)
                 {
                     case 6:
-                        tiles.Add(new Brick(texture, tilePositions[x], position, isTileSolid[x]));
+                        tiles.Add(new Brick(texture, tilePositions[x], position, isTileSolid[x], sm));
                         break;
                     default:
-                        tiles.Add(new Tile(texture, tilePositions[x], position, isTileSolid[x]));
+                        tiles.Add(new Tile(texture, tilePositions[x], position, isTileSolid[x], sm));
                         break;
                 }
 
