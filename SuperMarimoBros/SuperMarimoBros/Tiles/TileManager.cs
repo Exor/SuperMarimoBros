@@ -160,7 +160,7 @@ namespace SuperMarimoBros
             };
         }
 
-        public void CreateTiles(string level, Texture2D texture, SoundManager sm)
+        public void CreateTiles(string level, Texture2D texture, SoundManager sm, AnimationHandler ah, Texture2D questionBlockTexture)
         {
             Vector2 position = new Vector2(0, 0);
 
@@ -174,6 +174,9 @@ namespace SuperMarimoBros
                 {
                     case 6:
                         tiles.Add(new Brick(texture, tilePositions[x], position, isTileSolid[x], sm));
+                        break;
+                    case 7:
+                        tiles.Add(new QuestionBlock(texture, tilePositions[x], position, isTileSolid[x], sm, ah, questionBlockTexture));
                         break;
                     default:
                         tiles.Add(new Tile(texture, tilePositions[x], position, isTileSolid[x], sm));

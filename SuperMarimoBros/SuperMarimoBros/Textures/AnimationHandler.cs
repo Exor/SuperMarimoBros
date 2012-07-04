@@ -17,13 +17,9 @@ namespace SuperMarimoBros
     class AnimationHandler
     {
         List<Animation> animations;
-        SpriteBatch spriteBatch;
-
-        float elapsedTime;
 
         public AnimationHandler()
         {
-            elapsedTime = 0f;
             animations = new List<Animation>();
         }
 
@@ -34,15 +30,15 @@ namespace SuperMarimoBros
 
         public void Update(GameTime gameTime)
         {
-            elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             foreach (Animation animation in animations)
             {
                 if (animation.IsPlaying)
                 {
-                    if (elapsedTime > animation.TimeBetweenFrameTransitions)
+                    animation.ElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    if (animation.ElapsedTime > animation.TimeBetweenFrameTransitions)
                     {
-                        elapsedTime -= animation.TimeBetweenFrameTransitions;
+                        animation.ElapsedTime -= animation.TimeBetweenFrameTransitions;
                         if (animation.IsLooping)
                         {
                             animation.CurrentFrameNumber = (animation.CurrentFrameNumber + 1) % animation.TotalNumberOfFrames;
@@ -66,6 +62,11 @@ namespace SuperMarimoBros
                 if (animation.IsPlaying)
                     spriteBatch.Draw(animation.Texture, animation.Position, animation.CurrentFrame, Color.White, animation.Rotation, Vector2.Zero, animation.Scale, animation.Effects, animation.Layer);
             }
+        }
+
+        public void DisposeOf(Animation animation)
+        {
+            animations.Remove(animation);
         }
     }
 }

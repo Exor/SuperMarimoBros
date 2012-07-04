@@ -29,6 +29,7 @@ namespace SuperMarimoBros
 
         Marimo marimo;
         Texture2D marioGraphics;
+        Texture2D coinBlock;
 
         public SuperMariomoBros()
         {
@@ -106,12 +107,12 @@ namespace SuperMarimoBros
 
             marimo.Load(Content.Load<Texture2D>("Graphics/mariospritesheet"), new Vector2(32,192), animations, input, soundManager);
             marioGraphics = Content.Load<Texture2D>("Graphics/smbtiles");
-            
+            coinBlock = Content.Load<Texture2D>("Graphics/coinblock");
 
             StreamReader streamReader = new StreamReader("Levels/levelOneOne.txt");
             string level = streamReader.ReadToEnd();
             streamReader.Close();
-            tileManager.CreateTiles(level, marioGraphics, soundManager);
+            tileManager.CreateTiles(level, marioGraphics, soundManager, animations, coinBlock);
             
         }
 

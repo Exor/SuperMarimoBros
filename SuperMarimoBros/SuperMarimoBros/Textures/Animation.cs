@@ -41,26 +41,7 @@ namespace SuperMarimoBros
         Vector2 scale;
         float layer;
 
-        //public Animation(string textureLocation, ContentManager content, float timeBetweenFrameTransitions, int numberOfFrames)
-        //{
-        //    texture = content.Load<Texture2D>(textureLocation);
-        //    this.timeBetweenFrameTransitions = timeBetweenFrameTransitions;
-
-        //    totalNumberOfFrames = numberOfFrames;
-        //    widthOfFrames = texture.Width / totalNumberOfFrames;
-        //    heightOfFrames = texture.Height;
-        //    currentFrameNumber = 0;
-
-        //    isLooping = true;
-        //    isPlaying = false;
-
-        //    position = Vector2.Zero;
-
-        //    rotation = 0f;
-        //    spriteEffects = SpriteEffects.None;
-        //    scale = Vector2.One;
-        //    layer = 0f;
-        //}
+        float elapsedTime;
 
         public Animation(Texture2D texture, Point framePosition, Point frameSize, int numberOfFrames, float timeBetweenFrameTransitions, int frameBuffer)
         {
@@ -83,30 +64,6 @@ namespace SuperMarimoBros
             scale = Vector2.One;
             layer = 0f;
         }
-
-        //public Animation(string textureLocation,
-        //    ContentManager content,
-        //    float timeBetweenFrameTransitions,
-        //    int totalNumberOfFrames,
-        //    int widthOfFrames,
-        //    int heightOfFrames,
-        //    bool isLooping,
-        //    bool isPlaying,
-        //    Vector2 position)
-        //{
-        //    texture = content.Load<Texture2D>(textureLocation);
-        //    this.timeBetweenFrameTransitions = timeBetweenFrameTransitions;
-
-        //    this.totalNumberOfFrames = totalNumberOfFrames;
-        //    this.widthOfFrames = widthOfFrames;
-        //    this.heightOfFrames = texture.Height;
-        //    currentFrameNumber = 0;
-
-        //    this.isLooping = isLooping;
-        //    this.isPlaying = isPlaying;
-
-        //    this.position = position;
-        //}
 
         public Point FramePosition
         {
@@ -203,6 +160,12 @@ namespace SuperMarimoBros
         public void Stop()
         {
             isPlaying = false;
+        }
+
+        public float ElapsedTime
+        {
+            get { return elapsedTime; }
+            set { elapsedTime = value; }
         }
     }
 }

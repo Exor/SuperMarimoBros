@@ -117,6 +117,7 @@
     <Compile Include="Textures\Sprite.cs" />
     <Compile Include="SuperMariomoBros.cs" />
     <Compile Include="Tiles\Brick.cs" />
+    <Compile Include="Tiles\QuestionBlock.cs" />
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileManager.cs" />
   </ItemGroup>
