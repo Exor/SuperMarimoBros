@@ -47,6 +47,8 @@ namespace SuperMarimoBros
                         {
                             if (animation.CurrentFrameNumber < animation.TotalNumberOfFrames - 1)
                                 animation.CurrentFrameNumber = (animation.CurrentFrameNumber + 1) % animation.TotalNumberOfFrames;
+                            else
+                                animation.IsPlaying = false;
                         }
                     }
                 }

@@ -8,26 +8,24 @@ using XnaLibrary;
 
 namespace SuperMarimoBros
 {
-    class Tile
+    class Tile : GameObject
     {
-        internal Texture2D Texture;
-        internal Vector2 Position;
         internal Rectangle Frame;
         internal Boolean isSolid;
         internal SoundManager soundManager;
 
         public Tile(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid, SoundManager sm)
         {
-            Texture = texture;
-            Position = position;
+            this.texture = texture;
+            this.position = position;
             Frame = frame;
             isSolid = solid;
             soundManager = sm;
         }
 
-        public virtual void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(Texture, Position, Frame, Color.White);
+            sb.Draw(texture, position, Frame, Color.White);
         }
 
         public Boolean IsSolid()
@@ -37,28 +35,13 @@ namespace SuperMarimoBros
 
         public Rectangle BoundingRectangle()
         {
-            return new Rectangle((int)Position.X, (int)Position.Y, Frame.Width, Frame.Height);
+            return new Rectangle((int)position.X, (int)position.Y, Frame.Width, Frame.Height);
         }
 
-        public virtual void Update(GameTime gameTime)
-        {
-            
-        }
-
-        public virtual void OnHeadbutt()
+        public override void OnHeadbutt()
         {
             if (isSolid)
                 soundManager.Play(SoundManager.Sound.blockhit);
-        }
-
-        public virtual void OnStomp()
-        {
-
-        }
-
-        public virtual void OnSideCollision()
-        {
-
         }
     }
 }

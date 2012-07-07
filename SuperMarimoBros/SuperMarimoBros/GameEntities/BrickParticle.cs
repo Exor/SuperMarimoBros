@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SuperMarimoBros
 {
-    class BrickParticle : GameEntity
+    class BrickParticle : GameObjectWithGravity
     {
 
         public BrickParticle(Texture2D texture, Vector2 initialVelocity, Vector2 initialPosition)

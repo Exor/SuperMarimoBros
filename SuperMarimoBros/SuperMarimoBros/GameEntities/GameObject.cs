@@ -7,17 +7,12 @@ using Microsoft.Xna.Framework;
 
 namespace SuperMarimoBros
 {
-    internal class GameEntity
+    class GameObject
     {
         internal Texture2D texture;
         internal Sprite sprite;
         internal Vector2 position;
-        internal Vector2 velocity;
         internal SpriteEffects effects;
-        internal float friction = 170f;
-        internal float gravity = 500f;
-        internal float terminalVelocity = 120f;
-
         internal bool shouldRemove = false;
 
         public virtual void Load(Texture2D texture, Rectangle frame, Vector2 position)
@@ -34,27 +29,7 @@ namespace SuperMarimoBros
 
         public virtual void Update(GameTime gameTime)
         {
-            float elapsedGameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            CalculateHorizontalVelocity(elapsedGameTime);
-            CalculateVerticalVelocity(elapsedGameTime);
-            CalculatePosition(elapsedGameTime);
-        }
 
-
-        internal virtual void CalculatePosition(float elapsedGameTime)
-        {
-            position.X = position.X + (velocity.X * elapsedGameTime);
-            position.Y = position.Y + (velocity.Y * elapsedGameTime);
-        }
-
-        internal virtual void CalculateHorizontalVelocity(float elapsedGameTime)
-        {
-
-        }
-
-        internal virtual void CalculateVerticalVelocity(float elapsedGameTime)
-        {
-            velocity.Y = velocity.Y + gravity * elapsedGameTime;
         }
 
         public virtual void OnHeadbutt()
@@ -72,6 +47,6 @@ namespace SuperMarimoBros
         public void Remove()
         {
             shouldRemove = true;
-        }        
+        }   
     }
 }

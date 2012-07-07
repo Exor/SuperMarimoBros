@@ -30,12 +30,21 @@ namespace SuperMarimoBros
         Marimo marimo;
         Texture2D marioGraphics;
         Texture2D coinBlock;
+        Texture2D coinBlockAnimation;
+
+        World world;
+
+        SpriteFont font;
+        String left;
+        String right;
 
         public SuperMariomoBros()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 256;
             graphics.PreferredBackBufferHeight = 240;
+
+            
 
 #if DEBUG
             this.graphics.SynchronizeWithVerticalRetrace = false;
@@ -55,6 +64,10 @@ namespace SuperMarimoBros
             tileManager = new TileManager();
             animations = new AnimationHandler();
             marimo = new Marimo();
+            world = new World(tileManager, marimo);
+
+            world.AddGameObject(marimo);
+
             base.Initialize();
         }
 
@@ -105,14 +118,17 @@ namespace SuperMarimoBros
 
             soundManager.Play(SoundManager.Music.overworld);
 
+            font = Content.Load<SpriteFont>("myFont");
+
             marimo.Load(Content.Load<Texture2D>("Graphics/mariospritesheet"), new Vector2(32,192), animations, input, soundManager);
             marioGraphics = Content.Load<Texture2D>("Graphics/smbtiles");
             coinBlock = Content.Load<Texture2D>("Graphics/coinblock");
+            coinBlockAnimation = Content.Load<Texture2D>("Graphics/coinblockanimation");
 
             StreamReader streamReader = new StreamReader("Levels/levelOneOne.txt");
             string level = streamReader.ReadToEnd();
             streamReader.Close();
-            tileManager.CreateTiles(level, marioGraphics, soundManager, animations, coinBlock);
+            tileManager.CreateTiles(level, marioGraphics, soundManager, animations, coinBlock, coinBlockAnimation, world);
             
         }
 
@@ -134,8 +150,10 @@ namespace SuperMarimoBros
                 soundManager.Play(SoundManager.Music.overworldfast);
 
 
-            tileManager.Update(gameTime);
-            marimo.Update(gameTime);
+            //tileManager.Update(gameTime);
+
+            world.Update(gameTime);
+
             animations.Update(gameTime);
             
             CollisionDetection();
@@ -163,6 +181,9 @@ namespace SuperMarimoBros
 
             if (!tileManager.SolidTileExistsAt(bottomLeftPlusOne) && !tileManager.SolidTileExistsAt(bottomRightPlusOne))
                 marimo.ShouldFall();
+
+            left = tileManager.SolidTileExistsAt(bottomLeftPlusOne).ToString();
+            right = tileManager.SolidTileExistsAt(bottomRightPlusOne).ToString();
 
         }
 
@@ -205,10 +226,16 @@ namespace SuperMarimoBros
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+           
+            //tileManager.Draw(spriteBatch);
+            
 
-            tileManager.Draw(spriteBatch);
+            world.Draw(spriteBatch);
+
             animations.Draw(spriteBatch);
-            marimo.Draw(spriteBatch);
+
+            spriteBatch.DrawString(font, "left: " + left, new Vector2(0, 0), Color.White);
+            spriteBatch.DrawString(font, "right: " + right, new Vector2(0, 10), Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);

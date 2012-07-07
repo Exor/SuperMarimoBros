@@ -109,11 +109,13 @@ namespace SuperMarimoBros
         public bool IsLooping
         {
             get { return isLooping; }
+            set { isLooping = value; }
         }
 
         public bool IsPlaying
         {
             get { return isPlaying; }
+            set { isPlaying = value; }
         }
 
         public Vector2 Position

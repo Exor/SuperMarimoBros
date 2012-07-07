@@ -11,10 +11,9 @@ namespace SuperMarimoBros
 {
     class TileManager
     {
-        SpriteBatch spriteBatch;
         List<Rectangle> tilePositions;
         List<Tile> tiles;
-
+        World world;
         Boolean[] isTileSolid;
 
         public TileManager ()
@@ -160,8 +159,9 @@ namespace SuperMarimoBros
             };
         }
 
-        public void CreateTiles(string level, Texture2D texture, SoundManager sm, AnimationHandler ah, Texture2D questionBlockTexture)
+        public void CreateTiles(string level, Texture2D texture, SoundManager sm, AnimationHandler ah, Texture2D questionBlockTexture, Texture2D coinBlockAnimation, World world)
         {
+            this.world = world;
             Vector2 position = new Vector2(0, 0);
 
             string[] levelComponents = level.Replace(System.Environment.NewLine, "").Split(',');
@@ -175,8 +175,8 @@ namespace SuperMarimoBros
                     case 6:
                         tiles.Add(new Brick(texture, tilePositions[x], position, isTileSolid[x], sm));
                         break;
-                    case 7:
-                        tiles.Add(new QuestionBlock(texture, tilePositions[x], position, isTileSolid[x], sm, ah, questionBlockTexture));
+                    case 7: // create coin block
+                        tiles.Add(new QuestionBlock(texture, tilePositions[x], position, isTileSolid[x], sm, ah, questionBlockTexture, coinBlockAnimation));
                         break;
                     default:
                         tiles.Add(new Tile(texture, tilePositions[x], position, isTileSolid[x], sm));
@@ -194,17 +194,14 @@ namespace SuperMarimoBros
 
         public Boolean SolidTileExistsAt(Point p)
         {
-            int x = p.X / 16;
-            int y = p.Y / 16;
-            int tile = x * 15 + y;
-            if (tile > 0 && tile < tiles.Count)
-                return tiles[tile].IsSolid();
-            return false;
+            return ReturnTileAt(p).isSolid;
         }
 
         public Tile ReturnTileAt(Point p)
         {
-            int x = p.X / 16;
+            int xOffset = -(int)tiles[0].position.X;
+
+            int x = (xOffset + p.X) / 16;
             int y = p.Y / 16;
             int tile = x * 15 + y;
             if (tile > 0 && tile < tiles.Count)
@@ -216,6 +213,12 @@ namespace SuperMarimoBros
         {
             foreach (Tile t in tiles)
                 t.Update(gameTime);
+        }
+
+        public void UpdatePosition(float amount)
+        {
+            foreach (Tile t in tiles)
+                t.position.X -= amount;
         }
 
         public void Draw(SpriteBatch spriteBatch)

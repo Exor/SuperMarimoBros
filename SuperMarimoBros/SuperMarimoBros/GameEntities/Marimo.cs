@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace SuperMarimoBros
 {
-    class Marimo : GameEntity
+    class Marimo : GameObjectWithGravity
     {
         InputHandler input;
         SoundManager sound;
@@ -28,7 +28,7 @@ namespace SuperMarimoBros
         Sprite Sliding;
         Sprite Dying;
 
-
+        bool isBig;
 
         State CurrentState;
 
@@ -126,7 +126,7 @@ namespace SuperMarimoBros
                 ChangeState(State.Sliding);
             else if (input.IsButtonPressed(Keys.LeftShift))
                 ChangeState(State.Running);
-            else if (velocity.X >= -maximumWalkSpeed && velocity.X <= maximumWalkSpeed)
+            else
                 ChangeState(State.Walking);
         }
 
@@ -168,7 +168,7 @@ namespace SuperMarimoBros
                 velocity.X = velocity.X + friction * elapsedGameTime;
                 if (CurrentState == State.Walking)
                     velocity.X = MathHelper.Clamp(velocity.X, -maximumWalkSpeed, 0);
-                if (CurrentState == State.Running)
+                else if (CurrentState == State.Running)
                     velocity.X = MathHelper.Clamp(velocity.X, -maximumRunSpeed, 0);
                 if (CurrentState == State.Falling || CurrentState == State.Jumping)
                     velocity.X = MathHelper.Clamp(velocity.X, -maximumRunSpeed, 0);
@@ -227,9 +227,9 @@ namespace SuperMarimoBros
 
         public void OnStomp(int y)
         {
-            ChangeState(State.Standing);
             position.Y = y;
             velocity.Y = 0;
+            CalculateState();
         }
 
         public void OnSideCollision(int x)
@@ -242,6 +242,11 @@ namespace SuperMarimoBros
         {
             if (CurrentState != State.Jumping)
                 ChangeState(State.Falling);
+        }
+
+        public bool IsBig
+        {
+            get { return isBig; }
         }
     }
 }
