@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using XnaLibrary;
+using SuperMarimoBros;
 using System.IO;
 
 namespace SuperMarimoBros
@@ -22,15 +22,13 @@ namespace SuperMarimoBros
         SpriteBatch spriteBatch;
 
         FPS fps;
-        AnimationHandler animations;
-        InputHandler input;
+        Animations animations;
+        Textures textures;
+        Input input;
         TileManager tileManager;
-        SoundManager soundManager;
+        Sounds soundManager;
 
         Marimo marimo;
-        Texture2D marioGraphics;
-        Texture2D coinBlock;
-        Texture2D coinBlockAnimation;
 
         World world;
 
@@ -58,15 +56,12 @@ namespace SuperMarimoBros
         {
             fps = new FPS(this);
             this.Components.Add(fps);
-            input = new InputHandler(this);
+            input = new Input(this);
             this.Components.Add(input);
-            soundManager = new SoundManager();
+            soundManager = new Sounds();
             tileManager = new TileManager();
-            animations = new AnimationHandler();
-            marimo = new Marimo();
-            world = new World(tileManager, marimo);
-
-            world.AddGameObject(marimo);
+            animations = new Animations();
+            textures = new Textures();
 
             base.Initialize();
         }
@@ -75,60 +70,22 @@ namespace SuperMarimoBros
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/blockbreak"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/blockhit"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/boom"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/bowserfall"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/bridgebreak"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/bulletbill"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/coin"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/fire"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/fireball"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/jump"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/jumpbig"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/mushroomappear"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/mushroomeat"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/oneup"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/pause"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/pipe"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/scorering"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/shot"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/shrink"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/stomp"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/swim"));
-            soundManager.AddSound(Content.Load<SoundEffect>("SoundFX/vine"));
+            soundManager.LoadSounds(Content);
+            textures.LoadTextures(Content);
 
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/castle-fast"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/castle"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/castleend"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/death"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/gameover"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/intermission"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/levelend"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/lowtime"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/overworld-fast"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/overworld"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/princessmusic"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/starmusic-fast"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/starmusic"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/underground-fast"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/underground"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/underwater-fast"));
-            soundManager.AddMusic(Content.Load<SoundEffect>("Music/underwater"));
+            marimo = new Marimo(new Vector2(32, 192), input);
+            world = new World(tileManager, marimo);
 
-            soundManager.Play(SoundManager.Music.overworld);
+            world.AddGameObject(marimo);
+
+            Sounds.Play(Sounds.Music.overworld);
 
             font = Content.Load<SpriteFont>("myFont");
-
-            marimo.Load(Content.Load<Texture2D>("Graphics/mariospritesheet"), new Vector2(32,192), animations, input, soundManager);
-            marioGraphics = Content.Load<Texture2D>("Graphics/smbtiles");
-            coinBlock = Content.Load<Texture2D>("Graphics/coinblock");
-            coinBlockAnimation = Content.Load<Texture2D>("Graphics/coinblockanimation");
 
             StreamReader streamReader = new StreamReader("Levels/levelOneOne.txt");
             string level = streamReader.ReadToEnd();
             streamReader.Close();
-            tileManager.CreateTiles(level, marioGraphics, soundManager, animations, coinBlock, coinBlockAnimation, world);
+            tileManager.CreateTiles(level, world);
             
         }
 
@@ -147,7 +104,7 @@ namespace SuperMarimoBros
             if (input.IsButtonPressed(Keys.Escape))
                 this.Exit();
             if (input.WasButtonPressed(Keys.D1))
-                soundManager.Play(SoundManager.Music.overworldfast);
+                Sounds.Play(Sounds.Music.overworldfast);
 
 
             //tileManager.Update(gameTime);
@@ -212,7 +169,7 @@ namespace SuperMarimoBros
                 if (mario.Y > tile.Y)
                 {
                     marimo.OnHeadbutt(collision.Y + collision.Height);
-                    t.OnHeadbutt();
+                    t.OnHeadbutt(marimo.IsBig);
                 }
                 if (mario.Y < tile.Y)
                 {
@@ -225,10 +182,7 @@ namespace SuperMarimoBros
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
-           
-            //tileManager.Draw(spriteBatch);
-            
+            spriteBatch.Begin();            
 
             world.Draw(spriteBatch);
 

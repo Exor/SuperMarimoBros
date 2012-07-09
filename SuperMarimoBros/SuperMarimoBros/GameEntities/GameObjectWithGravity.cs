@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using SuperMarimoBros;
 
 namespace SuperMarimoBros
 {
@@ -13,6 +14,12 @@ namespace SuperMarimoBros
         internal float friction = 170f;
         internal float gravity = 500f;
         internal float terminalVelocity = 200f;
+
+        public GameObjectWithGravity(Texture2D texture, Rectangle frame, Vector2 position)
+            : base(texture, frame, position)
+        {
+            
+        }
 
         public override void Draw(SpriteBatch spriteBatch)
         {

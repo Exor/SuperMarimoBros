@@ -4,28 +4,27 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using XnaLibrary;
+using SuperMarimoBros;
 
 namespace SuperMarimoBros.Tiles
 {
     class Brick : Tile
     {
-        List<GameObjectWithGravity> brickDebris;
         bool wasBumped = false;
         float bumpSpeed = 75f;
         float bumpAmount = 6; //pixels
         float originalPosition;
 
-        public Brick(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid, SoundManager sm) 
-            : base(texture, frame, position, solid, sm)
+        public Brick(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid) 
+            : base(texture, frame, position, solid)
         {
-            brickDebris = new List<GameObjectWithGravity>();
+            bumpAmount = position.Y - bumpAmount;
             originalPosition = position.Y;
         }
 
-        public void OnHeadbutt(bool isBigMario)
+        public override void OnHeadbutt(bool isBigMario)
         {
-            if (isBigMario)
+            if (!isBigMario)
             {
                 wasBumped = true;
             }
@@ -36,15 +35,14 @@ namespace SuperMarimoBros.Tiles
                 Frame = new Rectangle(0, 0, 16, 16);
 
                 //create 4 particles that fly out
+                World.GameObjects.Add(new BrickParticle(texture, new Vector2(150f, -200f), position));
+                World.GameObjects.Add(new BrickParticle(texture, new Vector2(-150f, -200f), position));
+                World.GameObjects.Add(new BrickParticle(texture, new Vector2(150f, -150f), position));
+                World.GameObjects.Add(new BrickParticle(texture, new Vector2(-150f, -150f), position));
 
-                brickDebris.Add(new BrickParticle(texture, new Vector2(150f, -200f), position));
-                brickDebris.Add(new BrickParticle(texture, new Vector2(-150f, -200f), position));
-                brickDebris.Add(new BrickParticle(texture, new Vector2(150f, -150f), position));
-                brickDebris.Add(new BrickParticle(texture, new Vector2(-150f, -150f), position));
-
-                soundManager.Play(XnaLibrary.SoundManager.Sound.blockbreak);
+                Sounds.Play(SuperMarimoBros.Sounds.SoundFx.blockbreak);
             }
-            base.OnHeadbutt();
+            base.OnHeadbutt(isBigMario);
         }
 
         public override void Update(GameTime gameTime)
@@ -57,18 +55,11 @@ namespace SuperMarimoBros.Tiles
             else if (position.Y < originalPosition)
                 position.Y += bumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            //deal with debris
-            brickDebris.RemoveAll(x => x.shouldRemove == true);
-            foreach (GameObjectWithGravity debris in brickDebris)
-                debris.Update(gameTime);
-
             base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            foreach (GameObjectWithGravity debris in brickDebris)
-                debris.Draw(sb);
             base.Draw(sb);
         }
     }

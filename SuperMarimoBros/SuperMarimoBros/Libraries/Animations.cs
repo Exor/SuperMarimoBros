@@ -14,16 +14,16 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace SuperMarimoBros
 {
-    class AnimationHandler
+    class Animations
     {
-        List<Animation> animations;
+        static List<Animation> animations;
 
-        public AnimationHandler()
+        public Animations()
         {
             animations = new List<Animation>();
         }
 
-        public void AddAnimation(Animation animation)
+        public static void AddAnimation(Animation animation)
         {
             animations.Add(animation);
         }
@@ -66,7 +66,7 @@ namespace SuperMarimoBros
             }
         }
 
-        public void DisposeOf(Animation animation)
+        public static void DisposeOf(Animation animation)
         {
             animations.Remove(animation);
         }

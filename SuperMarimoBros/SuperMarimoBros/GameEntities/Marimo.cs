@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using XnaLibrary;
+using SuperMarimoBros;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 
@@ -12,8 +12,7 @@ namespace SuperMarimoBros
 {
     class Marimo : GameObjectWithGravity
     {
-        InputHandler input;
-        SoundManager sound;
+        Input input;
 
         float maximumRunSpeed = 170f;
         float maximumWalkSpeed = 120f;
@@ -43,25 +42,28 @@ namespace SuperMarimoBros
         Dying
         };
 
-        public void Load(Texture2D texture, Vector2 position, AnimationHandler animations, InputHandler input, SoundManager soundManager)
+        public Marimo(Vector2 position, Input inputHandler)
+            : base(Textures.GetTexture(Textures.Texture.marioSpriteSheet), new Rectangle(), position)
         {
+            input = inputHandler;
 
-            
-            this.texture = texture;
-            this.position = position;
+            Load();
+        }
 
-            sound = soundManager;
-            this.input = input;
+        public void Load()
+        {
+            isBig = false;
+
             Running = new Animation(texture, new Point(0, 17), new Point(16, 16), 4, 0.08f, 4);
             Walking = new Animation(texture, new Point(0, 17), new Point(16, 16), 4, 0.15f, 4);
 
-            animations.AddAnimation(Running);
-            animations.AddAnimation(Walking);
+            Animations.AddAnimation(Running);
+            Animations.AddAnimation(Walking);
 
-            Standing = new Sprite(texture, new Point(0, 0), new Point(16, 16));
-            Sliding = new Sprite(texture, new Point(17, 0), new Point(16, 16));
-            Jumping = new Sprite(texture, new Point(40, 0), new Point(16, 16));
-            Dying = new Sprite(texture, new Point(49, 0), new Point(16, 16));
+            Standing = new Sprite(texture, new Rectangle(0, 0, 16, 16));
+            Sliding = new Sprite(texture, new Rectangle(17, 0, 16, 16));
+            Jumping = new Sprite(texture, new Rectangle(40, 0, 16, 16));
+            Dying = new Sprite(texture, new Rectangle(49, 0, 16, 16));
             velocity = Vector2.Zero;
             CurrentState = State.Standing;
         }
@@ -135,7 +137,7 @@ namespace SuperMarimoBros
             if (input.WasButtonPressed(Keys.Up) && CurrentState != State.Jumping && CurrentState != State.Falling)
             {
                 velocity.Y = -launchVelocity;
-                sound.Play(SoundManager.Sound.jump);
+                Sounds.Play(Sounds.SoundFx.jump);
             }
         }
 
@@ -217,7 +219,6 @@ namespace SuperMarimoBros
         {
             return new Rectangle((int)position.X, (int)position.Y, 16, 16);
         }
-
 
         public void OnHeadbutt(int y)
         {

@@ -4,20 +4,24 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using SuperMarimoBros;
 
 namespace SuperMarimoBros
 {
-    class GameObject
+    public class GameObject
     {
         internal Texture2D texture;
         internal Sprite sprite;
         internal Vector2 position;
         internal SpriteEffects effects;
         internal bool shouldRemove = false;
+        internal Rectangle frame;
 
-        public virtual void Load(Texture2D texture, Rectangle frame, Vector2 position)
+        public GameObject(Texture2D texture, Rectangle frame, Vector2 position)
         {
-            sprite = new Sprite(texture, new Point(frame.X, frame.Y), new Point(frame.Width, frame.Height));
+            this.texture = texture;
+            this.frame = frame;
+            sprite = new Sprite(texture, frame);
             this.position = position;
             effects = SpriteEffects.None;
         }
@@ -32,7 +36,7 @@ namespace SuperMarimoBros
 
         }
 
-        public virtual void OnHeadbutt()
+        public virtual void OnHeadbutt(bool isBigMario)
         {
         }
 

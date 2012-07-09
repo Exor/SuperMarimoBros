@@ -9,7 +9,7 @@ namespace SuperMarimoBros
 {
     class World
     {
-        List<GameObject> gameObjects;
+        static List<GameObject> gameObjects;
         TileManager tileManager;
         Camera camera;
 
@@ -29,6 +29,7 @@ namespace SuperMarimoBros
         {
             camera.Update(gameTime);
             tileManager.Update(gameTime);
+            gameObjects.RemoveAll(x => x.shouldRemove == true);
             foreach (GameObject g in gameObjects)
             {
                 g.Update(gameTime);
@@ -45,6 +46,11 @@ namespace SuperMarimoBros
             {
                 g.Draw(spriteBatch);
             }   
+        }
+
+        public static List<GameObject> GameObjects
+        {
+            get { return gameObjects; }
         }
     }
 }

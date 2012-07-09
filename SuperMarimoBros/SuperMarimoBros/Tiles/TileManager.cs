@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SuperMarimoBros.Tiles;
-using XnaLibrary;
+using SuperMarimoBros;
 
 namespace SuperMarimoBros
 {
@@ -159,10 +159,13 @@ namespace SuperMarimoBros
             };
         }
 
-        public void CreateTiles(string level, Texture2D texture, SoundManager sm, AnimationHandler ah, Texture2D questionBlockTexture, Texture2D coinBlockAnimation, World world)
+        public void CreateTiles(string level, World world)
         {
+            Texture2D tileTexture = Textures.GetTexture(Textures.Texture.smbTiles);
+
             this.world = world;
             Vector2 position = new Vector2(0, 0);
+
 
             string[] levelComponents = level.Replace(System.Environment.NewLine, "").Split(',');
 
@@ -173,13 +176,16 @@ namespace SuperMarimoBros
                 switch (x)
                 {
                     case 6:
-                        tiles.Add(new Brick(texture, tilePositions[x], position, isTileSolid[x], sm));
+                        tiles.Add(new Brick(tileTexture, tilePositions[x], position, isTileSolid[x]));
                         break;
-                    case 7: // create coin block
-                        tiles.Add(new QuestionBlock(texture, tilePositions[x], position, isTileSolid[x], sm, ah, questionBlockTexture, coinBlockAnimation));
+                    case 701: // create coin block
+                        tiles.Add(new QuestionBlock(tileTexture, tilePositions[7], position, isTileSolid[7], Textures.GetTexture(Textures.Texture.coinBlockAnimation), Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), QuestionBlock.Contains.Coin));
+                        break;
+                    case 702: // create mushroom block
+                        tiles.Add(new QuestionBlock(tileTexture, tilePositions[7], position, isTileSolid[7], Textures.GetTexture(Textures.Texture.coinBlockAnimation), Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), QuestionBlock.Contains.Mushroom));
                         break;
                     default:
-                        tiles.Add(new Tile(texture, tilePositions[x], position, isTileSolid[x], sm));
+                        tiles.Add(new Tile(tileTexture, tilePositions[x], position, isTileSolid[x]));
                         break;
                 }
 

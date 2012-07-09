@@ -4,13 +4,21 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using XnaLibrary;
+using SuperMarimoBros;
+using SuperMarimoBros.GameEntities;
 
 namespace SuperMarimoBros.Tiles
 {
     class QuestionBlock : Tile
     {
-        AnimationHandler animationHandler;
+        public enum Contains
+        {
+            Coin,
+            Mushroom
+        };
+
+        Contains item;
+
         Animation blockAnimation;
         Animation coinAnimation;
         float animationSpeed = .15f;
@@ -21,42 +29,55 @@ namespace SuperMarimoBros.Tiles
         float originalPosition;
         bool isRegularBlock = false;
 
-        public QuestionBlock(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid, SoundManager sm, AnimationHandler ah, Texture2D questionBlockTexture, Texture2D coinBlockAnimation)
-            : base(texture, frame, position, solid, sm)
+        public QuestionBlock(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid, Texture2D questionBlockTexture, Texture2D coinBlockAnimation, Contains contains)
+            : base(texture, frame, position, solid)
         {
-            animationHandler = ah;
+            item = contains;
             blockAnimation = new Animation(questionBlockTexture, new Point(0, 0), new Point(16, 16), 6, animationSpeed, 0);
             blockAnimation.Position = position;
             blockAnimation.Play();
-            animationHandler.AddAnimation(blockAnimation);
+            Animations.AddAnimation(blockAnimation);
 
-            coinAnimation = new Animation(coinBlockAnimation, new Point(0, 0), new Point(8, 64), 30, coinAnimationSpeed, 0);
-            coinAnimation.Position = new Vector2(position.X + 4, position.Y - 48);
-            coinAnimation.IsLooping = false;
-            animationHandler.AddAnimation(coinAnimation);
+            if (item == Contains.Coin)
+            {
+                coinAnimation = new Animation(coinBlockAnimation, new Point(0, 0), new Point(8, 64), 30, coinAnimationSpeed, 0);
+                coinAnimation.Position = new Vector2(position.X + 4, position.Y - 48);
+                coinAnimation.IsLooping = false;
+                Animations.AddAnimation(coinAnimation);
+            }
 
             bumpAmount = position.Y - bumpAmount;
             originalPosition = position.Y;
         }
 
-        public override void OnHeadbutt()
+        public override void OnHeadbutt(bool isBigMario)
         {
             if (!isRegularBlock)
             {
-                coinAnimation.Play();
-                animationHandler.DisposeOf(blockAnimation);
+                if (item == Contains.Coin)
+                {
+                    coinAnimation.Play();
+                    Sounds.Play(Sounds.SoundFx.coin);
+                }
+                if (item == Contains.Mushroom)
+                {
+                    //spawn mushroom
+                    World.GameObjects.Add(new Mushroom(position));
+                }
+                Animations.DisposeOf(blockAnimation);
                 Frame = new Rectangle(34, 85, 16, 16);
                 wasBumped = true;
                 isRegularBlock = true;
-                soundManager.Play(SoundManager.Sound.coin);
+                
             }
-            base.OnHeadbutt();
+            base.OnHeadbutt(isBigMario);
         }
 
         public override void Update(GameTime gameTime)
         {
             blockAnimation.Position = position;
-            coinAnimation.Position = new Vector2(position.X + 4, position.Y - 48);
+            if (item == Contains.Coin)
+                coinAnimation.Position = new Vector2(position.X + 4, position.Y - 48);
 
             if (wasBumped && position.Y >= bumpAmount)
                 position.Y -= bumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -64,9 +85,6 @@ namespace SuperMarimoBros.Tiles
                 wasBumped = false;
             else if (position.Y < originalPosition)
                 position.Y += bumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                
-                
 
             base.Update(gameTime);
         }

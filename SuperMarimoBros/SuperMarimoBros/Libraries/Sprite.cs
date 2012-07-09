@@ -10,21 +10,19 @@ namespace SuperMarimoBros
     class Sprite
     {
         Texture2D SpriteSheet;
-        Point SpriteLocation;
-        Point SpriteSize;
+        Rectangle Frame;
 
-        public Sprite(Texture2D spriteSheet, Point spriteLocation, Point spriteSize)
+        public Sprite(Texture2D spriteSheet, Rectangle frame)
         {
             SpriteSheet = spriteSheet;
-            SpriteLocation = spriteLocation;
-            SpriteSize = spriteSize;
+            Frame = frame;
         }
 
         public void Draw(SpriteBatch sb, Vector2 position, SpriteEffects effects)
         {
             sb.Draw(SpriteSheet,
                 position,
-                new Rectangle(SpriteLocation.X, SpriteLocation.Y, SpriteSize.X, SpriteSize.Y),
+                Frame,
                 Color.White,
                 0f, //Rotation
                 Vector2.Zero,

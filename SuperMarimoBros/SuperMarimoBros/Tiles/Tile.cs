@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using XnaLibrary;
+using SuperMarimoBros;
 
 namespace SuperMarimoBros
 {
@@ -12,15 +12,12 @@ namespace SuperMarimoBros
     {
         internal Rectangle Frame;
         internal Boolean isSolid;
-        internal SoundManager soundManager;
 
-        public Tile(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid, SoundManager sm)
+        public Tile(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid)
+            : base(texture, frame, position)
         {
-            this.texture = texture;
-            this.position = position;
             Frame = frame;
             isSolid = solid;
-            soundManager = sm;
         }
 
         public override void Draw(SpriteBatch sb)
@@ -38,10 +35,10 @@ namespace SuperMarimoBros
             return new Rectangle((int)position.X, (int)position.Y, Frame.Width, Frame.Height);
         }
 
-        public override void OnHeadbutt()
+        public override void OnHeadbutt(bool isBigMario)
         {
             if (isSolid)
-                soundManager.Play(SoundManager.Sound.blockhit);
+                Sounds.Play(Sounds.SoundFx.blockhit);
         }
     }
 }

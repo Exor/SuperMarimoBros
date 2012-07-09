@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SuperMarimoBros;
 
 namespace SuperMarimoBros
 {
@@ -11,12 +12,11 @@ namespace SuperMarimoBros
     {
 
         public BrickParticle(Texture2D texture, Vector2 initialVelocity, Vector2 initialPosition)
+            : base(texture, new Rectangle(0, 102, 8, 8), initialPosition)
         {
             velocity = initialVelocity;
-            if (velocity.X < 1)
-                base.Load(texture, new Rectangle(0, 102, 8, 8), initialPosition);
-            else
-                base.Load(texture, new Rectangle(8, 102, 8, 8), initialPosition);
+            if (velocity.X > 1)
+                frame = new Rectangle(8, 102, 8, 8);
         }
 
         internal override void CalculateHorizontalVelocity(float elapsedGameTime)
