@@ -19,6 +19,7 @@ namespace SuperMarimoBros.GameEntities
         {
             initialPosition = position;
             velocity.X = 50f;
+            Sounds.Play(Sounds.SoundFx.mushroomappear);
         }
 
         public override void Update(GameTime gameTime)

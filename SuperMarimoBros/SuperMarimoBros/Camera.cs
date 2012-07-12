@@ -18,10 +18,13 @@ namespace SuperMarimoBros
 
         public void Update(GameTime gameTime)
         {
+
             if (focus.position.X >= 100)
                 position.X = focus.position.X - 100;
             else if (focus.position.X <= 10)
                 position.X = focus.position.X - 10;
+            else
+                position.X = 0;
         }
 
         public Vector2 Position

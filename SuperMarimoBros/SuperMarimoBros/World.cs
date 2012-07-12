@@ -12,12 +12,14 @@ namespace SuperMarimoBros
         static List<GameObject> gameObjects;
         TileManager tileManager;
         Camera camera;
+        Marimo marimo;
 
-        public World(TileManager tm, GameObject cameraFocus)
+        public World(TileManager tm, Marimo marimo)
         {
+            this.marimo = marimo;
             tileManager = tm;
             gameObjects = new List<GameObject>();
-            camera = new Camera(cameraFocus);
+            camera = new Camera(marimo);
         }
 
         public void AddGameObject(GameObject g)
@@ -29,6 +31,8 @@ namespace SuperMarimoBros
         {
             camera.Update(gameTime);
             tileManager.Update(gameTime);
+            marimo.Update(gameTime);
+            marimo.position.X -= camera.Position.X;
             gameObjects.RemoveAll(x => x.shouldRemove == true);
             foreach (GameObject g in gameObjects)
             {
@@ -45,7 +49,8 @@ namespace SuperMarimoBros
             foreach (GameObject g in gameObjects)
             {
                 g.Draw(spriteBatch);
-            }   
+            }
+            marimo.Draw(spriteBatch);
         }
 
         public static List<GameObject> GameObjects

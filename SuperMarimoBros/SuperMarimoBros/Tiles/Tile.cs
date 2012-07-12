@@ -30,14 +30,9 @@ namespace SuperMarimoBros
             return isSolid;
         }
 
-        public Rectangle BoundingRectangle()
+        public override void  OnHeadbutt(GameObject headbutter, GameObject headbuttee)
         {
-            return new Rectangle((int)position.X, (int)position.Y, Frame.Width, Frame.Height);
-        }
-
-        public override void OnHeadbutt(bool isBigMario)
-        {
-            if (isSolid)
+            if (headbutter.GetType().Name == "Marimo" && isSolid)
                 Sounds.Play(Sounds.SoundFx.blockhit);
         }
     }

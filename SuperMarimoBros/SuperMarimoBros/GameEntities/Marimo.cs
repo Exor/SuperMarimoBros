@@ -27,7 +27,7 @@ namespace SuperMarimoBros
         Sprite Sliding;
         Sprite Dying;
 
-        bool isBig;
+        static bool isBig;
 
         State CurrentState;
 
@@ -46,7 +46,7 @@ namespace SuperMarimoBros
             : base(Textures.GetTexture(Textures.Texture.marioSpriteSheet), new Rectangle(), position)
         {
             input = inputHandler;
-
+            frame = new Rectangle(0, 0, 16, 16);
             Load();
         }
 
@@ -102,11 +102,14 @@ namespace SuperMarimoBros
         {
             float elapsedGameTime = (float)gt.ElapsedGameTime.TotalSeconds;
 
+            
             CalculateHorizontalVelocity(elapsedGameTime);
             CalculateVerticalVelocity(elapsedGameTime);
             CalculatePosition(elapsedGameTime);
-
+            CollisionDetection();
             CalculateState();
+            if (isFalling == true)
+                ShouldFall();
             
             //reset mario to the top of the screen if he falls off
             if (position.Y > 240)
@@ -211,41 +214,27 @@ namespace SuperMarimoBros
                 Running.Stop();
                 CurrentState = newState;
             }
-            
-            
         }
 
-        public Rectangle BoundingRectangle()
+        internal override void OnStomp(int y)
         {
-            return new Rectangle((int)position.X, (int)position.Y, 16, 16);
-        }
-
-        public void OnHeadbutt(int y)
-        {
-            position.Y = y;
-            velocity.Y = 0;
-        }
-
-        public void OnStomp(int y)
-        {
-            position.Y = y;
-            velocity.Y = 0;
             CalculateState();
+            base.OnStomp(y);
         }
 
-        public void OnSideCollision(int x)
+        internal override void OnSideCollision(int x)
         {
-            position.X = x;
             velocity.X = 0;
+            position.X = x;
         }
 
-        public void ShouldFall()
+        private void ShouldFall()
         {
             if (CurrentState != State.Jumping)
                 ChangeState(State.Falling);
         }
 
-        public bool IsBig
+        public static bool IsBig
         {
             get { return isBig; }
         }

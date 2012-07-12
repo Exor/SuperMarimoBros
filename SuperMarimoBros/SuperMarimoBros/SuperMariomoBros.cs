@@ -33,8 +33,7 @@ namespace SuperMarimoBros
         World world;
 
         SpriteFont font;
-        String left;
-        String right;
+        static string debugMessage = "";
 
         public SuperMariomoBros()
         {
@@ -76,8 +75,6 @@ namespace SuperMarimoBros
             marimo = new Marimo(new Vector2(32, 192), input);
             world = new World(tileManager, marimo);
 
-            world.AddGameObject(marimo);
-
             Sounds.Play(Sounds.Music.overworld);
 
             font = Content.Load<SpriteFont>("myFont");
@@ -106,77 +103,11 @@ namespace SuperMarimoBros
             if (input.WasButtonPressed(Keys.D1))
                 Sounds.Play(Sounds.Music.overworldfast);
 
-
-            //tileManager.Update(gameTime);
-
             world.Update(gameTime);
 
             animations.Update(gameTime);
-            
-            CollisionDetection();
 
             base.Update(gameTime);
-        }
-
-        private void CollisionDetection()
-        {
-            Point bottomLeft = new Point(marimo.BoundingRectangle().Left, marimo.BoundingRectangle().Bottom);
-            Point bottomLeftPlusOne = new Point(marimo.BoundingRectangle().Left, marimo.BoundingRectangle().Bottom + 1);
-            Point bottomRight = new Point(marimo.BoundingRectangle().Right, marimo.BoundingRectangle().Bottom);
-            Point bottomRightPlusOne = new Point(marimo.BoundingRectangle().Right, marimo.BoundingRectangle().Bottom + 1);
-            Point topLeft = new Point(marimo.BoundingRectangle().Left, marimo.BoundingRectangle().Top);
-            Point topRight = new Point(marimo.BoundingRectangle().Right, marimo.BoundingRectangle().Top);
-
-            if (tileManager.SolidTileExistsAt(bottomLeft))
-                CollidesWithTile(tileManager.ReturnTileAt(bottomLeft));
-            if (tileManager.SolidTileExistsAt(bottomRight))
-                CollidesWithTile(tileManager.ReturnTileAt(bottomRight));
-            if (tileManager.SolidTileExistsAt(topLeft))
-                CollidesWithTile(tileManager.ReturnTileAt(topLeft));
-            if (tileManager.SolidTileExistsAt(topRight))
-                CollidesWithTile(tileManager.ReturnTileAt(topRight));
-
-            if (!tileManager.SolidTileExistsAt(bottomLeftPlusOne) && !tileManager.SolidTileExistsAt(bottomRightPlusOne))
-                marimo.ShouldFall();
-
-            left = tileManager.SolidTileExistsAt(bottomLeftPlusOne).ToString();
-            right = tileManager.SolidTileExistsAt(bottomRightPlusOne).ToString();
-
-        }
-
-        private void CollidesWithTile(Tile t)
-        {
-            Rectangle mario = marimo.BoundingRectangle();
-            Rectangle tile = t.BoundingRectangle();
-            Rectangle collision = Rectangle.Intersect(mario, tile);
-            if (collision.Width < collision.Height)
-            {
-                if (mario.X > tile.X)
-                {
-                    marimo.OnSideCollision(collision.X + collision.Width);
-                    t.OnSideCollision();
-                }
-
-                if (mario.X < tile.X)
-                {
-                    marimo.OnSideCollision(collision.X - mario.Width + collision.Width);
-                    t.OnSideCollision();
-                }
-                
-            }
-            else if (collision.Width > collision.Height)
-            {
-                if (mario.Y > tile.Y)
-                {
-                    marimo.OnHeadbutt(collision.Y + collision.Height);
-                    t.OnHeadbutt(marimo.IsBig);
-                }
-                if (mario.Y < tile.Y)
-                {
-                    marimo.OnStomp(collision.Y - mario.Height);
-                    t.OnStomp();
-                }
-            }
         }
 
         protected override void Draw(GameTime gameTime)
@@ -188,11 +119,15 @@ namespace SuperMarimoBros
 
             animations.Draw(spriteBatch);
 
-            spriteBatch.DrawString(font, "left: " + left, new Vector2(0, 0), Color.White);
-            spriteBatch.DrawString(font, "right: " + right, new Vector2(0, 10), Color.White);
+            spriteBatch.DrawString(font, debugMessage, new Vector2(0, 0), Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public static void AddDebugMessage(string message)
+        {
+            debugMessage = message;
         }
     }
 }

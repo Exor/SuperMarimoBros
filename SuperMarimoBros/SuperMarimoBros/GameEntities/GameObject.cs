@@ -36,21 +36,26 @@ namespace SuperMarimoBros
 
         }
 
-        public virtual void OnHeadbutt(bool isBigMario)
+        public virtual void OnHeadbutt(GameObject headbutter, GameObject headbuttee)
         {
         }
 
-        public virtual void OnStomp()
+        public virtual void OnStomp(GameObject stomper, GameObject stompee)
         {
         }
 
-        public virtual void OnSideCollision()
+        public virtual void OnSideCollision(GameObject left, GameObject right)
         {
         }
 
         public void Remove()
         {
             shouldRemove = true;
-        }   
+        }
+
+        public Rectangle BoundingRectangle()
+        {
+            return new Rectangle((int)position.X, (int)position.Y, frame.Width, frame.Height);
+        }
     }
 }

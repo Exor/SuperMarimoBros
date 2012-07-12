@@ -22,9 +22,9 @@ namespace SuperMarimoBros.Tiles
             originalPosition = position.Y;
         }
 
-        public override void OnHeadbutt(bool isBigMario)
+        public override void OnHeadbutt(GameObject headbutter, GameObject headbuttee)
         {
-            if (!isBigMario)
+            if (!Marimo.IsBig)
             {
                 wasBumped = true;
             }
@@ -42,7 +42,7 @@ namespace SuperMarimoBros.Tiles
 
                 Sounds.Play(SuperMarimoBros.Sounds.SoundFx.blockbreak);
             }
-            base.OnHeadbutt(isBigMario);
+            base.OnHeadbutt(headbutter, headbuttee);
         }
 
         public override void Update(GameTime gameTime)

@@ -12,7 +12,7 @@ namespace SuperMarimoBros
     class TileManager
     {
         List<Rectangle> tilePositions;
-        List<Tile> tiles;
+        static List<Tile> tiles;
         World world;
         Boolean[] isTileSolid;
 
@@ -198,12 +198,12 @@ namespace SuperMarimoBros
             }
         }
 
-        public Boolean SolidTileExistsAt(Point p)
+        public static Boolean SolidTileExistsAt(Point p)
         {
             return ReturnTileAt(p).isSolid;
         }
 
-        public Tile ReturnTileAt(Point p)
+        public static Tile ReturnTileAt(Point p)
         {
             int xOffset = -(int)tiles[0].position.X;
 

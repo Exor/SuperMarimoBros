@@ -50,7 +50,7 @@ namespace SuperMarimoBros.Tiles
             originalPosition = position.Y;
         }
 
-        public override void OnHeadbutt(bool isBigMario)
+        public override void OnHeadbutt(GameObject headbutter, GameObject headbuttee)
         {
             if (!isRegularBlock)
             {
@@ -70,7 +70,7 @@ namespace SuperMarimoBros.Tiles
                 isRegularBlock = true;
                 
             }
-            base.OnHeadbutt(isBigMario);
+            base.OnHeadbutt(headbutter, headbuttee);
         }
 
         public override void Update(GameTime gameTime)
