@@ -16,6 +16,7 @@ namespace SuperMarimoBros
         internal SpriteEffects effects;
         internal bool shouldRemove = false;
         internal Rectangle frame;
+        internal bool isFalling = false;
 
         public GameObject(Texture2D texture, Rectangle frame, Vector2 position)
         {
@@ -36,15 +37,15 @@ namespace SuperMarimoBros
 
         }
 
-        public virtual void OnHeadbutt(GameObject headbutter, GameObject headbuttee)
+        public virtual void OnHeadbutt(GameObject touchedObject)
         {
         }
 
-        public virtual void OnStomp(GameObject stomper, GameObject stompee)
+        public virtual void OnStomp(GameObject touchedObject)
         {
         }
 
-        public virtual void OnSideCollision(GameObject left, GameObject right)
+        public virtual void OnSideCollision(GameObject touchedObject)
         {
         }
 
@@ -56,6 +57,24 @@ namespace SuperMarimoBros
         public Rectangle BoundingRectangle()
         {
             return new Rectangle((int)position.X, (int)position.Y, frame.Width, frame.Height);
+        }
+
+        internal bool IsTrue()
+        {
+            return true;
+        }
+
+        public virtual void OnSideCollision(GameObject t, int p)
+        {
+        }
+
+        public virtual void OnHeadbutt(GameObject t, int p)
+        {
+        }
+
+        public virtual void OnStomp(GameObject t, int p)
+        {
+            
         }
     }
 }

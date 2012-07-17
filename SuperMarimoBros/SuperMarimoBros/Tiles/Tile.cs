@@ -8,7 +8,7 @@ using SuperMarimoBros;
 
 namespace SuperMarimoBros
 {
-    class Tile : GameObject
+    public class Tile : GameObject
     {
         internal Rectangle Frame;
         internal Boolean isSolid;
@@ -30,9 +30,9 @@ namespace SuperMarimoBros
             return isSolid;
         }
 
-        public override void  OnHeadbutt(GameObject headbutter, GameObject headbuttee)
+        public override void OnHeadbutt(GameObject touchedObject)
         {
-            if (headbutter.GetType().Name == "Marimo" && isSolid)
+            if (touchedObject.GetType().Name == "Marimo" && isSolid)
                 Sounds.Play(Sounds.SoundFx.blockhit);
         }
     }

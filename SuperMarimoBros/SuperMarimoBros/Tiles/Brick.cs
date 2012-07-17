@@ -22,7 +22,7 @@ namespace SuperMarimoBros.Tiles
             originalPosition = position.Y;
         }
 
-        public override void OnHeadbutt(GameObject headbutter, GameObject headbuttee)
+        public override void OnHeadbutt(GameObject touchedObject)
         {
             if (!Marimo.IsBig)
             {
@@ -35,14 +35,14 @@ namespace SuperMarimoBros.Tiles
                 Frame = new Rectangle(0, 0, 16, 16);
 
                 //create 4 particles that fly out
-                World.GameObjects.Add(new BrickParticle(texture, new Vector2(150f, -200f), position));
-                World.GameObjects.Add(new BrickParticle(texture, new Vector2(-150f, -200f), position));
-                World.GameObjects.Add(new BrickParticle(texture, new Vector2(150f, -150f), position));
-                World.GameObjects.Add(new BrickParticle(texture, new Vector2(-150f, -150f), position));
+                World.AddGameObject(new BrickParticle(texture, new Vector2(150f, -200f), position));
+                World.AddGameObject(new BrickParticle(texture, new Vector2(-150f, -200f), position));
+                World.AddGameObject(new BrickParticle(texture, new Vector2(150f, -150f), position));
+                World.AddGameObject(new BrickParticle(texture, new Vector2(-150f, -150f), position));
 
                 Sounds.Play(SuperMarimoBros.Sounds.SoundFx.blockbreak);
             }
-            base.OnHeadbutt(headbutter, headbuttee);
+            base.OnHeadbutt(touchedObject);
         }
 
         public override void Update(GameTime gameTime)

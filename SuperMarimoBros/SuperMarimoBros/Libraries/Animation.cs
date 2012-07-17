@@ -68,6 +68,7 @@ namespace SuperMarimoBros
         public Point FramePosition
         {
             get { return framePosition; }
+            set { framePosition = value; }
         }
 
         public Texture2D Texture
@@ -93,6 +94,7 @@ namespace SuperMarimoBros
         public int HeightOfFrames
         {
             get { return heightOfFrames; }
+            set { heightOfFrames = value; }
         }
 
         public int TotalNumberOfFrames

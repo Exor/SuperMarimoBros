@@ -34,6 +34,32 @@ namespace SuperMarimoBros.GameEntities
             {
                 base.Update(gameTime);
             }
+            if (position.Y >= 256)
+                this.Remove();
+        }
+
+        public override void OnHeadbutt(GameObject touchedObject)
+        {
+            isMario(touchedObject);
+            base.OnHeadbutt(touchedObject);
+        }
+
+        public override void OnSideCollision(GameObject touchedObject)
+        {
+            isMario(touchedObject);
+            base.OnSideCollision(touchedObject);
+        }
+
+        public override void OnStomp(GameObject touchedObject)
+        {
+            isMario(touchedObject);
+            base.OnStomp(touchedObject);
+        }
+
+        private void isMario(GameObject touchedObject)
+        {
+            if (touchedObject.GetType().Name == "Marimo")
+                this.Remove();
         }
     }
 }

@@ -54,8 +54,8 @@ namespace SuperMarimoBros
         {
             isBig = false;
 
-            Running = new Animation(texture, new Point(0, 17), new Point(16, 16), 4, 0.08f, 4);
-            Walking = new Animation(texture, new Point(0, 17), new Point(16, 16), 4, 0.15f, 4);
+            Running = new Animation(texture, new Point(81, 0), new Point(16, 16), 4, 0.08f, 4);
+            Walking = new Animation(texture, new Point(81, 0), new Point(16, 16), 4, 0.15f, 4);
 
             Animations.AddAnimation(Running);
             Animations.AddAnimation(Walking);
@@ -102,15 +102,17 @@ namespace SuperMarimoBros
         {
             float elapsedGameTime = (float)gt.ElapsedGameTime.TotalSeconds;
 
+            //if (isFalling == true)
+            //    ShouldFall();
             
             CalculateHorizontalVelocity(elapsedGameTime);
             CalculateVerticalVelocity(elapsedGameTime);
             CalculatePosition(elapsedGameTime);
-            CollisionDetection();
+            //CollisionDetection();
             CalculateState();
-            if (isFalling == true)
-                ShouldFall();
-            
+
+            SuperMariomoBros.AddDebugMessage("current state: " + CurrentState.ToString());
+
             //reset mario to the top of the screen if he falls off
             if (position.Y > 240)
                 position.Y = 0;
@@ -120,8 +122,8 @@ namespace SuperMarimoBros
 
         private void CalculateState()
         {
-            if (velocity.Y > 0)
-                ChangeState(State.Falling);
+            if (isFalling == true)
+                ShouldFall();
             else if (velocity.Y < 0)
                 ChangeState(State.Jumping);
             else if (velocity.X == 0)
@@ -142,6 +144,8 @@ namespace SuperMarimoBros
                 velocity.Y = -launchVelocity;
                 Sounds.Play(Sounds.SoundFx.jump);
             }
+            else if (CurrentState != State.Jumping && CurrentState != State.Falling)
+                velocity.Y = 0f;
         }
 
         private void CalculateSpriteEffects()
@@ -216,16 +220,42 @@ namespace SuperMarimoBros
             }
         }
 
-        internal override void OnStomp(int y)
+        public override void OnStomp(GameObject touchedObject, int y)
         {
             CalculateState();
-            base.OnStomp(y);
+            base.OnStomp(touchedObject, y);
         }
 
-        internal override void OnSideCollision(int x)
+        public override void OnHeadbutt(GameObject touchedObject, int y)
+        {
+            base.OnHeadbutt(touchedObject, y);
+        }
+
+        public override void OnSideCollision(GameObject touchedObject, int x)
         {
             velocity.X = 0;
             position.X = x;
+        }
+
+        public override void OnSideCollision(GameObject touchedObject)
+        {
+            IsMushroom(touchedObject);
+
+            base.OnSideCollision(touchedObject);
+        }
+
+        public override void OnHeadbutt(GameObject touchedObject)
+        {
+            IsMushroom(touchedObject);
+
+            base.OnHeadbutt(touchedObject);
+        }
+
+        public override void OnStomp(GameObject touchedObject)
+        {
+            IsMushroom(touchedObject);
+
+            base.OnStomp(touchedObject);
         }
 
         private void ShouldFall()
@@ -237,6 +267,23 @@ namespace SuperMarimoBros
         public static bool IsBig
         {
             get { return isBig; }
+        }
+
+        private void IsMushroom(GameObject o)
+        {
+            if (o.GetType().Name == "Mushroom")
+            {
+                Standing.Frame = new Rectangle(0, 19, 16, 32);
+                Jumping.Frame = new Rectangle(41, 19, 16, 32);
+                Sliding.Frame = new Rectangle(21, 19, 16, 32);
+                Running.FramePosition = new Point(81, 19);
+                Running.HeightOfFrames = 32;
+                Walking.FramePosition = new Point(81, 19);
+                Walking.HeightOfFrames = 32;
+
+                isBig = true;
+                Sounds.Play(Sounds.SoundFx.mushroomeat);
+            }
         }
     }
 }

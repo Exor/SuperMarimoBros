@@ -50,7 +50,7 @@ namespace SuperMarimoBros.Tiles
             originalPosition = position.Y;
         }
 
-        public override void OnHeadbutt(GameObject headbutter, GameObject headbuttee)
+        public override void OnHeadbutt(GameObject touchedObject)
         {
             if (!isRegularBlock)
             {
@@ -62,7 +62,7 @@ namespace SuperMarimoBros.Tiles
                 if (item == Contains.Mushroom)
                 {
                     //spawn mushroom
-                    World.GameObjects.Add(new Mushroom(position));
+                    World.AddGameObject(new Mushroom(position));
                 }
                 Animations.DisposeOf(blockAnimation);
                 Frame = new Rectangle(34, 85, 16, 16);
@@ -70,7 +70,7 @@ namespace SuperMarimoBros.Tiles
                 isRegularBlock = true;
                 
             }
-            base.OnHeadbutt(headbutter, headbuttee);
+            base.OnHeadbutt(touchedObject);
         }
 
         public override void Update(GameTime gameTime)
