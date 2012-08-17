@@ -14,7 +14,8 @@ namespace SuperMarimoBros.Tiles
         public enum Contains
         {
             Coin,
-            Mushroom
+            Mushroom,
+            Star
         };
 
         Contains item;
@@ -61,8 +62,11 @@ namespace SuperMarimoBros.Tiles
                 }
                 if (item == Contains.Mushroom)
                 {
-                    //spawn mushroom
-                    World.AddGameObject(new Mushroom(position));
+                    //spawn either mushroom or fire flower
+                    if (Marimo.IsBig)
+                        World.AddGameObject(new FireFlower(position));
+                    else
+                        World.AddGameObject(new Mushroom(position));
                 }
                 Animations.DisposeOf(blockAnimation);
                 Frame = new Rectangle(34, 85, 16, 16);

@@ -65,15 +65,15 @@ namespace SuperMarimoBros
             return true;
         }
 
-        public virtual void OnSideCollision(GameObject t, int p)
+        public virtual void OnSideCollision(Tile t, int overlap)
         {
         }
 
-        public virtual void OnHeadbutt(GameObject t, int p)
+        public virtual void OnHeadbutt(Tile t, int overlap)
         {
         }
 
-        public virtual void OnStomp(GameObject t, int p)
+        public virtual void OnStomp(Tile t, int overlap)
         {
             
         }

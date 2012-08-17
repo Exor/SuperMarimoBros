@@ -127,7 +127,7 @@ namespace SuperMarimoBros
             CalculateState();
             ResetFlags();
 
-            SuperMariomoBros.AddDebugMessage("current state: " + CurrentState.ToString());
+            //SuperMariomoBros.AddDebugMessage("current state: " + CurrentState.ToString());
 
             //reset mario to the top of the screen if he falls off
             if (position.Y > 240)
@@ -297,17 +297,17 @@ namespace SuperMarimoBros
             }
         }
 
-        public override void OnStomp(GameObject touchedObject, int y)
+        public override void OnStomp(Tile touchedObject, int y)
         {
             base.OnStomp(touchedObject, y);
         }
 
-        public override void OnHeadbutt(GameObject touchedObject, int y)
+        public override void OnHeadbutt(Tile touchedObject, int y)
         {
             base.OnHeadbutt(touchedObject, y);
         }
 
-        public override void OnSideCollision(GameObject touchedObject, int x)
+        public override void OnSideCollision(Tile touchedObject, int x)
         {
             velocity.X = 0;
             position.X = x;

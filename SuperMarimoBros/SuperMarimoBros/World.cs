@@ -97,7 +97,7 @@ namespace SuperMarimoBros
             if (TileManager.SolidTileExistsAt(topRight))
                 CollidesWithTile(g, TileManager.ReturnTileAt(topRight));
 
-            if (TileManager.SolidTileExistsAt(bottomLeft) || TileManager.SolidTileExistsAt(bottomRight))
+            if (TileManager.SolidTileExistsAt(new Point(bottomLeft.X + 2, bottomLeft.Y)) || TileManager.SolidTileExistsAt(new Point(bottomRight.X - 2,bottomRight.Y)))
                 g.isOnSolidTile = true;
             else
                 g.isOnSolidTile= false;
@@ -129,32 +129,37 @@ namespace SuperMarimoBros
         {
             Rectangle gameObject = g.BoundingRectangle();
             Rectangle tile = t.BoundingRectangle();
-            Rectangle collision = Rectangle.Intersect(gameObject, tile);
-            if (collision.Width < collision.Height)
+            Rectangle overlap = Rectangle.Intersect(gameObject, tile);
+
+            SuperMariomoBros.AddDebugMessage("Tile.x: " + tile.Left + " Mario.x: " + gameObject.Right);
+
+            if (overlap.Width < overlap.Height)
             {
+                
+
                 if (gameObject.X > tile.X)
                 {
-                    g.OnSideCollision(t, collision.X + collision.Width);
+                    g.OnSideCollision(t, overlap.X + overlap.Width);
                     t.OnSideCollision(g);
                 }
 
                 if (gameObject.X < tile.X)
                 {
-                    g.OnSideCollision(t, collision.X - gameObject.Width + collision.Width);
+                    g.OnSideCollision(t, overlap.X - gameObject.Width + overlap.Width);
                     t.OnSideCollision(g);
                 }
 
             }
-            else if (collision.Width > collision.Height)
+            else if (overlap.Width > overlap.Height)
             {
                 if (gameObject.Y > tile.Y)
                 {
-                    g.OnHeadbutt(t, collision.Y + collision.Height);
+                    g.OnHeadbutt(t, overlap.Y + overlap.Height);
                     t.OnHeadbutt(g);
                 }
                 if (gameObject.Y < tile.Y)
                 {
-                    g.OnStomp(t, collision.Y - gameObject.Height);
+                    g.OnStomp(t, overlap.Y - gameObject.Height);
                     t.OnStomp(g);
                 }
             }

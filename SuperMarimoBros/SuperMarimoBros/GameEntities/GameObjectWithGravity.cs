@@ -52,21 +52,21 @@ namespace SuperMarimoBros
                 velocity.Y = velocity.Y + gravity * elapsedGameTime;
         }
 
-        public override void OnSideCollision(GameObject touchedObject, int x)
+        public override void OnSideCollision(Tile touchedObject, int x)
         {
             position.X = x;
             velocity.X = -velocity.X;
             base.OnSideCollision(touchedObject);
         }
 
-        public override void OnHeadbutt(GameObject touchedObject, int y)
+        public override void OnHeadbutt(Tile touchedObject, int y)
         {
             position.Y = y;
             velocity.Y = 0;
             base.OnHeadbutt(touchedObject);
         }
 
-        public override void OnStomp(GameObject touchedObject, int y)
+        public override void OnStomp(Tile touchedObject, int y)
         {
             position.Y = y;
             velocity.Y = 0;
