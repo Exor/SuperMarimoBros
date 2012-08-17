@@ -55,7 +55,7 @@ namespace SuperMarimoBros
                 if (g.runCollisionDetection)
                     CollisionDetection(g);
                 else
-                    g.isFalling = true;
+                    g.isOnSolidTile = false;
             }
             
             isUpdating = false;
@@ -97,10 +97,10 @@ namespace SuperMarimoBros
             if (TileManager.SolidTileExistsAt(topRight))
                 CollidesWithTile(g, TileManager.ReturnTileAt(topRight));
 
-            if (!TileManager.SolidTileExistsAt(bottomLeft) && !TileManager.SolidTileExistsAt(bottomRight))
-                g.isFalling = true;
+            if (TileManager.SolidTileExistsAt(bottomLeft) || TileManager.SolidTileExistsAt(bottomRight))
+                g.isOnSolidTile = true;
             else
-                g.isFalling = false;
+                g.isOnSolidTile= false;
 
             //check for object collisions
             foreach (GameObject o in GameObjects)

@@ -14,7 +14,6 @@ namespace SuperMarimoBros
         internal float friction = 170f;
         internal float gravity = 500f;
         internal float terminalVelocity = 200f;
-        
 
         public GameObjectWithGravity(Texture2D texture, Rectangle frame, Vector2 position)
             : base(texture, frame, position)
@@ -49,7 +48,7 @@ namespace SuperMarimoBros
 
         internal virtual void CalculateVerticalVelocity(float elapsedGameTime)
         {
-            if (isFalling)
+            if (!isOnSolidTile)
                 velocity.Y = velocity.Y + gravity * elapsedGameTime;
         }
 

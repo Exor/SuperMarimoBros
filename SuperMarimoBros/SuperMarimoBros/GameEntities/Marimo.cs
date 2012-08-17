@@ -27,8 +27,17 @@ namespace SuperMarimoBros
         Sprite Jumping;
         Sprite Sliding;
         Sprite Dying;
+        Sprite Crouching;
 
-        static bool isBig;
+        static bool isBig = true;
+        static bool isFireMario;
+
+        bool shouldMoveRight;
+        bool shouldMoveLeft;
+        bool shouldRun;
+        bool shouldCrouch;
+        bool shouldJump;
+        bool shouldFire;
 
         State CurrentState;
 
@@ -40,7 +49,8 @@ namespace SuperMarimoBros
         Jumping,
         Falling,
         Sliding,
-        Dying
+        Dying,
+        Crouching
         };
 
         public Marimo(Vector2 position, Input inputHandler)
@@ -66,6 +76,8 @@ namespace SuperMarimoBros
             Sliding = new Sprite(texture, new Rectangle(17, 0, 16, 16));
             Jumping = new Sprite(texture, new Rectangle(40, 0, 16, 16));
             Dying = new Sprite(texture, new Rectangle(49, 0, 16, 16));
+            Crouching = new Sprite(texture, new Rectangle(61, 29, 16, 22));
+
             velocity = Vector2.Zero;
             CurrentState = State.Standing;
         }
@@ -97,6 +109,9 @@ namespace SuperMarimoBros
                 case State.Dying:
                     Dying.Draw(sb, position, effects);
                     break;
+                case State.Crouching:
+                    Crouching.Draw(sb, new Vector2(position.X, position.Y - 6), effects);
+                    break;
             }
         }
 
@@ -104,50 +119,120 @@ namespace SuperMarimoBros
         {
             float elapsedGameTime = (float)gt.ElapsedGameTime.TotalSeconds;
 
-            //if (isFalling == true)
-            //    ShouldFall();
-            
+            DealWithControllerInput();
             CalculateHorizontalVelocity(elapsedGameTime);
             CalculateVerticalVelocity(elapsedGameTime);
             CalculatePosition(elapsedGameTime);
-            //CollisionDetection();
+            CalculateSpriteEffects();
             CalculateState();
+            ResetFlags();
 
-            //SuperMariomoBros.AddDebugMessage("current state: " + CurrentState.ToString());
+            SuperMariomoBros.AddDebugMessage("current state: " + CurrentState.ToString());
 
             //reset mario to the top of the screen if he falls off
             if (position.Y > 240)
                 position.Y = 0;
-
-            CalculateSpriteEffects();
         }
 
-        private void CalculateState()
+        private void DealWithControllerInput()
         {
-            if (isFalling == true)
-                ShouldFall();
-            else if (velocity.Y < 0)
-                ChangeState(State.Jumping);
-            else if (velocity.X == 0)
-                ChangeState(State.Standing);
-            else if (velocity.X > 0 && input.IsButtonPressed(Keys.Left)
-                    || velocity.X < 0 && input.IsButtonPressed(Keys.Right))
-                ChangeState(State.Sliding);
-            else if (input.IsButtonPressed(Keys.LeftShift))
-                ChangeState(State.Running);
-            else
-                ChangeState(State.Walking);
+            if(input.IsButtonPressed(Keys.Right))
+            {
+                //either move right
+                shouldMoveRight = true;
+            }
+
+            else if (input.IsButtonPressed(Keys.Left))
+            {
+                //or move left
+                shouldMoveLeft = true;
+            }
+
+            if (input.IsButtonPressed(Keys.O))
+            {
+                shouldRun = true;
+            }
+
+            if (input.WasButtonPressed(Keys.Up))
+            {
+                //initiate jump
+                shouldJump = true;
+            }
+
+            if (input.IsButtonPressed(Keys.Down) && isBig)
+            {
+                //initiate crouch only if big
+                shouldCrouch = true;
+            }
+
+            if (input.WasButtonPressed(Keys.A) && isFireMario)
+            {
+                //initiate fireball projectile only if mario has fire power
+                shouldFire = true;
+            }
+        }
+
+        internal override void CalculateHorizontalVelocity(float elapsedGameTime)
+        {
+            //add acceleration if the player has a button down
+            if (shouldMoveRight)
+            {
+                velocity.X += acceleration * elapsedGameTime;
+            }
+            if (shouldMoveLeft)
+            {
+                velocity.X -= acceleration * elapsedGameTime;
+            }
+
+            //calculate friction and clamp the velocity
+            if (velocity.X > 0)
+            {
+                velocity.X = velocity.X - friction * elapsedGameTime;
+                if (shouldRun)
+                    velocity.X = MathHelper.Clamp(velocity.X, 0, maximumRunSpeed);
+                else
+                    velocity.X = MathHelper.Clamp(velocity.X, 0, maximumWalkSpeed);
+            }
+
+            if (velocity.X < 0)
+            {
+                velocity.X = velocity.X + friction * elapsedGameTime;
+                if (shouldRun)
+                    velocity.X = MathHelper.Clamp(velocity.X, -maximumRunSpeed, 0);
+                else
+                    velocity.X = MathHelper.Clamp(velocity.X, -maximumWalkSpeed, 0);
+            }
         }
 
         internal override void CalculateVerticalVelocity(float elapsedGameTime)
         {
-            if (input.WasButtonPressed(Keys.Up) && CurrentState != State.Jumping && CurrentState != State.Falling)
+            if (isOnSolidTile)
             {
-                velocity.Y = -launchVelocity;
-                Sounds.Play(Sounds.SoundFx.jump);
+                if (shouldJump && isOnSolidTile)
+                {
+                    velocity.Y = -launchVelocity;
+                    Sounds.Play(Sounds.SoundFx.jump);
+                }
+                else
+                {
+                    velocity.Y = 0f;
+                }
             }
-            else if (CurrentState != State.Jumping && CurrentState != State.Falling)
-                velocity.Y = 0f;
+            else //in the air
+            {
+                velocity.Y += gravity * elapsedGameTime;
+
+                if (velocity.Y > 0) //moving down
+                {
+                    velocity.Y = MathHelper.Clamp(velocity.Y, 0, terminalVelocity);
+                }
+            }
+        }
+
+        internal override void CalculatePosition(float elapsedGameTime)
+        {
+            position.X = position.X + (velocity.X * elapsedGameTime);
+            position.Y = position.Y + (velocity.Y * elapsedGameTime);
         }
 
         private void CalculateSpriteEffects()
@@ -161,54 +246,32 @@ namespace SuperMarimoBros
             Running.Effects = effects;
         }
 
-        internal override void CalculatePosition(float elapsedGameTime)
+        private void CalculateState()
         {
-            if (velocity.X > 0)
-            {
-                velocity.X = velocity.X - friction * elapsedGameTime;
-                if (CurrentState == State.Walking)
-                    velocity.X = MathHelper.Clamp(velocity.X, 0, maximumWalkSpeed);
-                else if (CurrentState == State.Running)
-                    velocity.X = MathHelper.Clamp(velocity.X, 0, maximumRunSpeed);
-                if (CurrentState == State.Falling || CurrentState == State.Jumping)
-                    velocity.X = MathHelper.Clamp(velocity.X, 0, maximumRunSpeed);
-
-            }
-            else if (velocity.X < 0)
-            {
-                velocity.X = velocity.X + friction * elapsedGameTime;
-                if (CurrentState == State.Walking)
-                    velocity.X = MathHelper.Clamp(velocity.X, -maximumWalkSpeed, 0);
-                else if (CurrentState == State.Running)
-                    velocity.X = MathHelper.Clamp(velocity.X, -maximumRunSpeed, 0);
-                if (CurrentState == State.Falling || CurrentState == State.Jumping)
-                    velocity.X = MathHelper.Clamp(velocity.X, -maximumRunSpeed, 0);
-
-            }
-            if (CurrentState == State.Jumping)
-            {
-                velocity.Y = velocity.Y + gravity * elapsedGameTime;
-            }
-            else if (CurrentState == State.Falling)
-            {
-                velocity.Y = velocity.Y + gravity * elapsedGameTime;
-                velocity.Y = MathHelper.Clamp(velocity.Y, 0, terminalVelocity);
-            }
-
-            position.X = position.X + (velocity.X * elapsedGameTime);
-            position.Y = position.Y + (velocity.Y * elapsedGameTime);
+            if (isBig && shouldCrouch)
+                ChangeState(State.Crouching);
+            else if (velocity.Y > 0)
+                ChangeState(State.Falling);
+            else if (velocity.Y < 0)
+                ChangeState(State.Jumping);
+            else if (velocity.X == 0)
+                ChangeState(State.Standing);
+            else if ((velocity.X > 0 && shouldMoveLeft) || (velocity.X < 0 && shouldMoveRight))
+                ChangeState(State.Sliding);
+            else if (velocity.X > maximumWalkSpeed || velocity.X < -maximumWalkSpeed)
+                ChangeState(State.Running);
+            else
+                ChangeState(State.Walking);
         }
 
-        internal override void CalculateHorizontalVelocity(float elapsedGameTime)
+        private void ResetFlags()
         {
-            if (input.IsButtonPressed(Keys.Right))
-            {
-                velocity.X += acceleration * elapsedGameTime;
-            }
-            if (input.IsButtonPressed(Keys.Left))
-            {
-                velocity.X -= acceleration * elapsedGameTime;
-            }
+            shouldRun = false;
+            shouldMoveRight = false;
+            shouldMoveLeft = false;
+            shouldJump = false;
+            shouldFire = false;
+            shouldCrouch = false;
         }
 
         private void ChangeState(State newState)
@@ -216,6 +279,18 @@ namespace SuperMarimoBros
             State oldState = CurrentState;
             if (oldState != newState)
             {
+                if (newState == State.Crouching) //start crouching
+                {
+                    position.Y += 16;
+                    frame.Height = 16;
+                }
+
+                if (oldState == State.Crouching) //stop crouching
+                {
+                    position.Y -= 16;
+                    frame.Height = 32;
+                }
+
                 Walking.Stop();
                 Running.Stop();
                 CurrentState = newState;
@@ -224,7 +299,6 @@ namespace SuperMarimoBros
 
         public override void OnStomp(GameObject touchedObject, int y)
         {
-            CalculateState();
             base.OnStomp(touchedObject, y);
         }
 
@@ -258,12 +332,6 @@ namespace SuperMarimoBros
             IsMushroom(touchedObject);
 
             base.OnStomp(touchedObject);
-        }
-
-        private void ShouldFall()
-        {
-            if (CurrentState != State.Jumping)
-                ChangeState(State.Falling);
         }
 
         public static bool IsBig
