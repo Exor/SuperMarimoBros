@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using SuperMarimoBros;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using SuperMarimoBros.GameEntities;
 
 namespace SuperMarimoBros
 {
@@ -52,6 +53,7 @@ namespace SuperMarimoBros
 
         public void Load()
         {
+            runCollisionDetection = true;
             isBig = false;
 
             Running = new Animation(texture, new Point(81, 0), new Point(16, 16), 4, 0.08f, 4);
@@ -111,7 +113,7 @@ namespace SuperMarimoBros
             //CollisionDetection();
             CalculateState();
 
-            SuperMariomoBros.AddDebugMessage("current state: " + CurrentState.ToString());
+            //SuperMariomoBros.AddDebugMessage("current state: " + CurrentState.ToString());
 
             //reset mario to the top of the screen if he falls off
             if (position.Y > 240)
@@ -236,7 +238,7 @@ namespace SuperMarimoBros
             velocity.X = 0;
             position.X = x;
         }
-
+        
         public override void OnSideCollision(GameObject touchedObject)
         {
             IsMushroom(touchedObject);
@@ -280,7 +282,8 @@ namespace SuperMarimoBros
                 Running.HeightOfFrames = 32;
                 Walking.FramePosition = new Point(81, 19);
                 Walking.HeightOfFrames = 32;
-
+                frame.Height = 32;
+                position.Y -= 16;
                 isBig = true;
                 Sounds.Play(Sounds.SoundFx.mushroomeat);
             }

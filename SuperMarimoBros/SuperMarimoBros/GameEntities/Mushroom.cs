@@ -20,22 +20,32 @@ namespace SuperMarimoBros.GameEntities
             initialPosition = position;
             velocity.X = 50f;
             Sounds.Play(Sounds.SoundFx.mushroomappear);
+            
         }
 
         public override void Update(GameTime gameTime)
         {
             if (isSpawning)
             {
+                SuperMariomoBros.AddDebugMessage("Musroom Spawning");
                 position.Y -= spawnSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //SuperMariomoBros.AddDebugMessage(gameTime.ElapsedGameTime.TotalSeconds.ToString());
                 if (position.Y <= initialPosition.Y - 16)
+                {
                     isSpawning = false;
+                    runCollisionDetection = true;
+                }
             }
             else
             {
                 base.Update(gameTime);
+                SuperMariomoBros.AddDebugMessage("Musroom Updating");
             }
             if (position.Y >= 256)
+            {
                 this.Remove();
+                SuperMariomoBros.AddDebugMessage("Musroom Removed");
+            }
         }
 
         public override void OnHeadbutt(GameObject touchedObject)
@@ -59,7 +69,10 @@ namespace SuperMarimoBros.GameEntities
         private void isMario(GameObject touchedObject)
         {
             if (touchedObject.GetType().Name == "Marimo")
+            {
                 this.Remove();
+                SuperMariomoBros.AddDebugMessage("Musroom Touched Mario");
+            }
         }
     }
 }

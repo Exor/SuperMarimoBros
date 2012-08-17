@@ -52,7 +52,10 @@ namespace SuperMarimoBros
 
             foreach (GameObject g in gameObjects)
             {
-                CollisionDetection(g);
+                if (g.runCollisionDetection)
+                    CollisionDetection(g);
+                else
+                    g.isFalling = true;
             }
             
             isUpdating = false;
@@ -70,7 +73,6 @@ namespace SuperMarimoBros
             {
                 g.Draw(spriteBatch);
             }
-            //marimo.Draw(spriteBatch);
         }
 
         public static List<GameObject> GameObjects
