@@ -16,7 +16,7 @@ namespace SuperMarimoBros
         internal SpriteEffects effects;
         internal bool shouldRemove = false;
         internal Rectangle frame;
-        internal bool isFalling = false;
+        internal bool isOnSolidTile = false;
         internal bool runCollisionDetection = false;
 
         public GameObject(Texture2D texture, Rectangle frame, Vector2 position)
