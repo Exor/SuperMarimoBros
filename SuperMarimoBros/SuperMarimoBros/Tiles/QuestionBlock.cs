@@ -64,7 +64,7 @@ namespace SuperMarimoBros.Tiles
                 {
                     //spawn either mushroom or fire flower
                     if (Marimo.IsBig)
-                        World.AddGameObject(new FireFlower(position));
+                        World.AddGameObject(new Fireflower(position));
                     else
                         World.AddGameObject(new Mushroom(position));
                 }

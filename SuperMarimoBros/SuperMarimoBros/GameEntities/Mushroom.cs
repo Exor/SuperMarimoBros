@@ -27,9 +27,7 @@ namespace SuperMarimoBros.GameEntities
         {
             if (isSpawning)
             {
-                SuperMariomoBros.AddDebugMessage("Musroom Spawning");
                 position.Y -= spawnSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                //SuperMariomoBros.AddDebugMessage(gameTime.ElapsedGameTime.TotalSeconds.ToString());
                 if (position.Y <= initialPosition.Y - 16)
                 {
                     isSpawning = false;
@@ -39,12 +37,10 @@ namespace SuperMarimoBros.GameEntities
             else
             {
                 base.Update(gameTime);
-                SuperMariomoBros.AddDebugMessage("Musroom Updating");
             }
             if (position.Y >= 256)
             {
                 this.Remove();
-                SuperMariomoBros.AddDebugMessage("Musroom Removed");
             }
         }
 
@@ -71,7 +67,6 @@ namespace SuperMarimoBros.GameEntities
             if (touchedObject.GetType().Name == "Marimo")
             {
                 this.Remove();
-                SuperMariomoBros.AddDebugMessage("Musroom Touched Mario");
             }
         }
     }
