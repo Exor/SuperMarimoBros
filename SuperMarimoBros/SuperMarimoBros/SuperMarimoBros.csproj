@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Camera.cs" />
     <Compile Include="GameEntities\BrickParticle.cs" />
+    <Compile Include="GameEntities\Fireball.cs" />
     <Compile Include="GameEntities\FireFlower.cs" />
     <Compile Include="GameEntities\GameObject.cs" />
     <Compile Include="GameEntities\Mushroom.cs" />

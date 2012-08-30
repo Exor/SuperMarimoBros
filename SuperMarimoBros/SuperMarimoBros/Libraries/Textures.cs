@@ -17,7 +17,13 @@ namespace SuperMarimoBros
             coinBlockAnimation,
             coinFromBlockAnimation,
             entities,
-            fireflower
+            fireflower,
+            fireball,
+            goomba,
+            koopa,
+            plant,
+            spikey,
+            star
         };
 
         public Textures()
@@ -33,6 +39,12 @@ namespace SuperMarimoBros
             loadedTextures.Add(Content.Load<Texture2D>("Graphics/coinblockanimation"));
             loadedTextures.Add(Content.Load<Texture2D>("Graphics/entities"));
             loadedTextures.Add(Content.Load<Texture2D>("Graphics/flower"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/fireball"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/goomba"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/koopa"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/plant"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/spikey"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/star"));
             
         }
 

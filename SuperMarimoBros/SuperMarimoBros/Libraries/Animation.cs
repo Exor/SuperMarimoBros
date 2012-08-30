@@ -43,14 +43,14 @@ namespace SuperMarimoBros
 
         float elapsedTime;
 
-        public Animation(Texture2D texture, Point framePosition, Point frameSize, int numberOfFrames, float timeBetweenFrameTransitions, int frameBuffer)
+        public Animation(Texture2D texture, Rectangle initialFrame, int numberOfFrames, float timeBetweenFrameTransitions, int frameBuffer)
         {
             this.texture = texture;
             this.timeBetweenFrameTransitions = timeBetweenFrameTransitions;
             totalNumberOfFrames = numberOfFrames;
-            widthOfFrames = frameSize.X;
-            heightOfFrames = frameSize.Y;
-            this.framePosition = framePosition;
+            widthOfFrames = initialFrame.Width;
+            heightOfFrames = initialFrame.Height;
+            framePosition = new Point(initialFrame.X, initialFrame.Y);
             this.frameBuffer = frameBuffer;
 
             isLooping = true;

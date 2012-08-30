@@ -68,8 +68,8 @@ namespace SuperMarimoBros
             runCollisionDetection = true;
             isBig = false;
 
-            Running = new Animation(texture, new Point(81, 0), new Point(16, 16), 4, 0.08f, 4);
-            Walking = new Animation(texture, new Point(81, 0), new Point(16, 16), 4, 0.15f, 4);
+            Running = new Animation(texture, new Rectangle(81,0,16,16), 4, 0.08f, 4);
+            Walking = new Animation(texture, new Rectangle(81,0,16,16), 4, 0.15f, 4);
 
             Animations.AddAnimation(Running);
             Animations.AddAnimation(Walking);
@@ -83,6 +83,11 @@ namespace SuperMarimoBros
 
             velocity = Vector2.Zero;
             CurrentState = State.Standing;
+
+#if DEBUG
+            BecomeBigMario();
+            BecomeFireMario();
+#endif
         }
 
         public override void Draw(SpriteBatch sb)
@@ -346,8 +351,15 @@ namespace SuperMarimoBros
 
         internal override void OnTouch(GameObject touchedObject)
         {
-            IsMushroom(touchedObject);
-            IsFireflower(touchedObject);
+            if (touchedObject.GetType().Name == "Mushroom")
+            {
+                BecomeBigMario();
+            }
+            else if (touchedObject.GetType().Name == "Fireflower")
+            {
+                BecomeFireMario();
+            }
+
             base.OnTouch(touchedObject);
         }
 
@@ -356,37 +368,31 @@ namespace SuperMarimoBros
             get { return isBig; }
         }
 
-        private void IsMushroom(GameObject o)
+        private void BecomeBigMario()
         {
-            if (o.GetType().Name == "Mushroom")
-            {
-                Standing.Frame = new Rectangle(0, 19, 16, 32);
-                Jumping.Frame = new Rectangle(41, 19, 16, 32);
-                Sliding.Frame = new Rectangle(21, 19, 16, 32);
-                Running.FramePosition = new Point(81, 19);
-                Running.HeightOfFrames = 32;
-                Walking.FramePosition = new Point(81, 19);
-                Walking.HeightOfFrames = 32;
-                frame.Height = 32;
-                position.Y -= 16;
-                isBig = true;
-                Sounds.Play(Sounds.SoundFx.mushroomeat);
-            }
+            Standing.Frame = new Rectangle(0, 19, 16, 32);
+            Jumping.Frame = new Rectangle(41, 19, 16, 32);
+            Sliding.Frame = new Rectangle(21, 19, 16, 32);
+            Running.FramePosition = new Point(81, 19);
+            Running.HeightOfFrames = 32;
+            Walking.FramePosition = new Point(81, 19);
+            Walking.HeightOfFrames = 32;
+            frame.Height = 32;
+            position.Y -= 16;
+            isBig = true;
+            Sounds.Play(Sounds.SoundFx.mushroomeat);
         }
 
-        private void IsFireflower(GameObject o)
+        private void BecomeFireMario()
         {
-            if (o.GetType().Name == "Fireflower")
-            {
-                Standing.Frame = new Rectangle(0, 53, 16, 32);
-                Jumping.Frame = new Rectangle(41, 53, 16, 32);
-                Sliding.Frame = new Rectangle(21, 53, 16, 32);
-                Running.FramePosition = new Point(81, 53);
-                Walking.FramePosition = new Point(81, 53);
-                Crouching.Frame = new Rectangle(61, 63, 16, 22);
-                isFireMario = true;
-                Sounds.Play(Sounds.SoundFx.mushroomeat);
-            }
+            Standing.Frame = new Rectangle(0, 53, 16, 32);
+            Jumping.Frame = new Rectangle(41, 53, 16, 32);
+            Sliding.Frame = new Rectangle(21, 53, 16, 32);
+            Running.FramePosition = new Point(81, 53);
+            Walking.FramePosition = new Point(81, 53);
+            Crouching.Frame = new Rectangle(61, 63, 16, 22);
+            isFireMario = true;
+            Sounds.Play(Sounds.SoundFx.mushroomeat);
         }
     }
 }

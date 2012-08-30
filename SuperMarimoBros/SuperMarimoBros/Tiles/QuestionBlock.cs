@@ -34,14 +34,14 @@ namespace SuperMarimoBros.Tiles
             : base(texture, frame, position, solid)
         {
             item = contains;
-            blockAnimation = new Animation(questionBlockTexture, new Point(0, 0), new Point(16, 16), 6, animationSpeed, 0);
+            blockAnimation = new Animation(questionBlockTexture, new Rectangle(0,0,16,16), 6, animationSpeed, 0);
             blockAnimation.Position = position;
             blockAnimation.Play();
             Animations.AddAnimation(blockAnimation);
 
             if (item == Contains.Coin)
             {
-                coinAnimation = new Animation(coinBlockAnimation, new Point(0, 0), new Point(8, 64), 30, coinAnimationSpeed, 0);
+                coinAnimation = new Animation(coinBlockAnimation, new Rectangle(0,0,8,64), 30, coinAnimationSpeed, 0);
                 coinAnimation.Position = new Vector2(position.X + 4, position.Y - 48);
                 coinAnimation.IsLooping = false;
                 Animations.AddAnimation(coinAnimation);

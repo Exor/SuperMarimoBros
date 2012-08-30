@@ -18,7 +18,7 @@ namespace SuperMarimoBros.GameEntities
         {
             initialPosition = position;
             Sounds.Play(Sounds.SoundFx.mushroomappear);
-            fireFlower = new Animation(Textures.GetTexture(Textures.Texture.fireflower), new Point(0, 0), new Point(16, 16), 4, 0.1f, 0);
+            fireFlower = new Animation(Textures.GetTexture(Textures.Texture.fireflower), new Rectangle(0,0,16,16), 4, 0.1f, 0);
             Animations.AddAnimation(fireFlower);
             fireFlower.IsLooping = true;
             fireFlower.Play();
