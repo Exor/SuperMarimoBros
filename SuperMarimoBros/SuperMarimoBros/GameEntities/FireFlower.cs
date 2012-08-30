@@ -26,23 +26,28 @@ namespace SuperMarimoBros.GameEntities
 
         public override void Update(GameTime gameTime)
         {
-            if (isSpawning)
+            if (isSpawning) //spawn routine
             {
                 position.Y -= spawnSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                fireFlower.Position = position;
-
                 if (position.Y <= initialPosition.Y - 16)
                 {
                     isSpawning = false;
                     runCollisionDetection = true;
                 }
             }
+
+            fireFlower.Position = position;
             base.Update(gameTime);
         }
 
-        public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        internal override void OnTouch(GameObject touchedObject)
         {
-            base.Draw(spriteBatch);
+            if (touchedObject.GetType().Name == "Marimo")
+            {
+                Animations.DisposeOf(fireFlower);
+                this.Remove();
+            }
+            base.OnTouch(touchedObject);
         }
     }
 }

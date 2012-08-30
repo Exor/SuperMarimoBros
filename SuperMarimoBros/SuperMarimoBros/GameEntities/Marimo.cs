@@ -28,6 +28,7 @@ namespace SuperMarimoBros
         Sprite Sliding;
         Sprite Dying;
         Sprite Crouching;
+        Sprite Firing;
 
         static bool isBig = true;
         static bool isFireMario;
@@ -50,7 +51,8 @@ namespace SuperMarimoBros
         Falling,
         Sliding,
         Dying,
-        Crouching
+        Crouching,
+        Firing
         };
 
         public Marimo(Vector2 position, Input inputHandler)
@@ -77,6 +79,7 @@ namespace SuperMarimoBros
             Jumping = new Sprite(texture, new Rectangle(40, 0, 16, 16));
             Dying = new Sprite(texture, new Rectangle(49, 0, 16, 16));
             Crouching = new Sprite(texture, new Rectangle(61, 29, 16, 22));
+            Firing = new Sprite(texture, new Rectangle(163, 55, 16, 32));
 
             velocity = Vector2.Zero;
             CurrentState = State.Standing;
@@ -112,6 +115,9 @@ namespace SuperMarimoBros
                 case State.Crouching:
                     Crouching.Draw(sb, new Vector2(position.X, position.Y - 6), effects);
                     break;
+                case State.Firing:
+                    Firing.Draw(sb, position, effects);
+                    break;
             }
         }
 
@@ -124,6 +130,7 @@ namespace SuperMarimoBros
             CalculateVerticalVelocity(elapsedGameTime);
             CalculatePosition(elapsedGameTime);
             CalculateSpriteEffects();
+            FireAFireball();
             CalculateState();
             ResetFlags();
 
@@ -246,6 +253,15 @@ namespace SuperMarimoBros
             Running.Effects = effects;
         }
 
+        private void FireAFireball()
+        {
+            if (shouldFire)
+            {
+                World.AddGameObject(new Fireball(position));
+                Sounds.Play(Sounds.SoundFx.fire);
+            }
+        }
+
         private void CalculateState()
         {
             if (isBig && shouldCrouch)
@@ -315,23 +331,24 @@ namespace SuperMarimoBros
         
         public override void OnSideCollision(GameObject touchedObject)
         {
-            IsMushroom(touchedObject);
-
             base.OnSideCollision(touchedObject);
         }
 
         public override void OnHeadbutt(GameObject touchedObject)
         {
-            IsMushroom(touchedObject);
-
             base.OnHeadbutt(touchedObject);
         }
 
         public override void OnStomp(GameObject touchedObject)
         {
-            IsMushroom(touchedObject);
-
             base.OnStomp(touchedObject);
+        }
+
+        internal override void OnTouch(GameObject touchedObject)
+        {
+            IsMushroom(touchedObject);
+            IsFireflower(touchedObject);
+            base.OnTouch(touchedObject);
         }
 
         public static bool IsBig
@@ -353,6 +370,21 @@ namespace SuperMarimoBros
                 frame.Height = 32;
                 position.Y -= 16;
                 isBig = true;
+                Sounds.Play(Sounds.SoundFx.mushroomeat);
+            }
+        }
+
+        private void IsFireflower(GameObject o)
+        {
+            if (o.GetType().Name == "Fireflower")
+            {
+                Standing.Frame = new Rectangle(0, 53, 16, 32);
+                Jumping.Frame = new Rectangle(41, 53, 16, 32);
+                Sliding.Frame = new Rectangle(21, 53, 16, 32);
+                Running.FramePosition = new Point(81, 53);
+                Walking.FramePosition = new Point(81, 53);
+                Crouching.Frame = new Rectangle(61, 63, 16, 22);
+                isFireMario = true;
                 Sounds.Play(Sounds.SoundFx.mushroomeat);
             }
         }

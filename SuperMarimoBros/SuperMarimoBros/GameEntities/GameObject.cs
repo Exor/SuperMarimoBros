@@ -38,18 +38,6 @@ namespace SuperMarimoBros
 
         }
 
-        public virtual void OnHeadbutt(GameObject touchedObject)
-        {
-        }
-
-        public virtual void OnStomp(GameObject touchedObject)
-        {
-        }
-
-        public virtual void OnSideCollision(GameObject touchedObject)
-        {
-        }
-
         public void Remove()
         {
             shouldRemove = true;
@@ -76,6 +64,27 @@ namespace SuperMarimoBros
         public virtual void OnStomp(Tile t, int overlap)
         {
             
+        }
+
+        public virtual void OnHeadbutt(GameObject touchedObject)
+        {
+
+            OnTouch(touchedObject);
+        }
+
+        public virtual void OnStomp(GameObject touchedObject)
+        {
+            OnTouch(touchedObject);
+        }
+
+        public virtual void OnSideCollision(GameObject touchedObject)
+        {
+            OnTouch(touchedObject);
+        }
+
+        internal virtual void OnTouch(GameObject touchedObject)
+        {
+
         }
     }
 }
