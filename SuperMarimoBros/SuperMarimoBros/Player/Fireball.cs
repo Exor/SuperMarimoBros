@@ -27,12 +27,14 @@ namespace SuperMarimoBros.GameEntities
             explode.IsLooping = false;
             fireball.IsLooping = true;
             fireball.Play();
+            Sounds.Play(Sounds.SoundFx.fireball);
         }
 
         public override void Update(GameTime gameTime)
         {
             if (isExploding)
             {
+                explode.Position = position;
                 elpasedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (elpasedTime >= 0.3f)
                 {
@@ -57,20 +59,22 @@ namespace SuperMarimoBros.GameEntities
 
         public override void OnHeadbutt(Tile touchedObject, int y)
         {
-            fireball.Stop();
-            explode.Play();
-            isExploding = true;
-            explode.Position = position;
-            //this.Remove();
+            Explode();
         }
 
         public override void OnSideCollision(Tile touchedObject, int x)
         {
+            Explode();
+        }
+
+        private void Explode()
+        {
+            runCollisionDetection = false;
             fireball.Stop();
             explode.Play();
             isExploding = true;
             explode.Position = position;
-            //this.Remove();
+            Sounds.Play(Sounds.SoundFx.blockhit);
         }
     }
 }

@@ -21,6 +21,8 @@ namespace SuperMarimoBros
 
         float launchVelocity = 250f;
 
+        float timer = 0f;
+
         Sprite Standing;
         Animation Running;
         Animation Walking;
@@ -32,7 +34,8 @@ namespace SuperMarimoBros
 
         static bool isBig = true;
         static bool isFireMario;
-        private bool isDying;
+        bool isDying;
+        bool wasHitByEnemy;
 
         bool shouldMoveRight;
         bool shouldMoveLeft;
@@ -53,7 +56,7 @@ namespace SuperMarimoBros
         Sliding,
         Dying,
         Crouching,
-        Firing
+        Firing,
         };
 
         public Marimo(Vector2 position, Input inputHandler)
@@ -78,7 +81,7 @@ namespace SuperMarimoBros
             Standing = new Sprite(texture, new Rectangle(0, 0, 16, 16));
             Sliding = new Sprite(texture, new Rectangle(17, 0, 16, 16));
             Jumping = new Sprite(texture, new Rectangle(40, 0, 16, 16));
-            Dying = new Sprite(texture, new Rectangle(49, 0, 16, 16));
+            Dying = new Sprite(texture, new Rectangle(60, 0, 16, 16));
             Crouching = new Sprite(texture, new Rectangle(61, 29, 16, 22));
             Firing = new Sprite(texture, new Rectangle(163, 55, 16, 32));
 
@@ -131,20 +134,42 @@ namespace SuperMarimoBros
         {
             float elapsedGameTime = (float)gt.ElapsedGameTime.TotalSeconds;
 
-            DealWithControllerInput();
-            CalculateHorizontalVelocity(elapsedGameTime);
-            CalculateVerticalVelocity(elapsedGameTime);
-            CalculatePosition(elapsedGameTime);
-            CalculateSpriteEffects();
-            FireAFireball();
-            CalculateState();
-            ResetFlags();
+            if (isDying)
+            {
+                ChangeState(State.Dying);
+            }
+            else if (wasHitByEnemy)
+            {
+                velocity = Vector2.Zero;
+                runCollisionDetection = false;
+                timer += elapsedGameTime;
+                if (timer > 1)
+                {
+                    runCollisionDetection = true;
+                    wasHitByEnemy = false;
+                }
+            }
+            else
+            {
+                //Mario falls off the screen
+                if (position.Y > 250)
+                {
+                    isDying = true;
+                    CurrentState = State.Dying;
+                    Sounds.Play(Sounds.Music.death);
+                }
 
-            //SuperMariomoBros.AddDebugMessage("current state: " + CurrentState.ToString());
+                DealWithControllerInput();
+                CalculateHorizontalVelocity(elapsedGameTime);
+                CalculateVerticalVelocity(elapsedGameTime);
+                CalculatePosition(elapsedGameTime);
+                CalculateSpriteEffects();
+                FireAFireball();
+                CalculateState();
+                ResetFlags();
+            }
 
-            //reset mario to the top of the screen if he falls off
-            if (position.Y > 240)
-                position.Y = 0;
+            SuperMariomoBros.AddDebugMessage("state: " + CurrentState.ToString() + " x: " + position.X + " y: " + position.Y);
         }
 
         private void DealWithControllerInput()
@@ -267,7 +292,6 @@ namespace SuperMarimoBros
                     World.AddGameObject(new Fireball(position, 1));
                 else //shoot left
                     World.AddGameObject(new Fireball(position, -1));
-                Sounds.Play(Sounds.SoundFx.fire);
             }
         }
 
@@ -361,6 +385,7 @@ namespace SuperMarimoBros
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
             {
                 velocity.Y = -100f;
+                Sounds.Play(Sounds.SoundFx.stomp);
             }
             base.OnStomp(touchedObject);
         }
@@ -369,10 +394,12 @@ namespace SuperMarimoBros
         {
             if (touchedObject.GetType().Name == "Mushroom")
             {
+                Sounds.Play(Sounds.SoundFx.mushroomeat);
                 BecomeBigMario();
             }
             else if (touchedObject.GetType().Name == "Fireflower")
             {
+                Sounds.Play(Sounds.SoundFx.mushroomeat);
                 BecomeFireMario();
             }
 
@@ -381,10 +408,12 @@ namespace SuperMarimoBros
 
         private void OnHitEnemy()
         {
-            if (isFireMario)
-                BecomeBigMario();
-            if (isBig)
+            if (isFireMario || isBig)
+            {
+                ChangeState(State.Standing);
+                Sounds.Play(Sounds.SoundFx.shrink);
                 BecomeSmallMario();
+            }
             else
                 isDying = true;
         }
@@ -396,6 +425,7 @@ namespace SuperMarimoBros
 
         private void BecomeSmallMario()
         {
+            wasHitByEnemy = true;
             Standing.Frame = new Rectangle(0, 0, 16, 16);
             Jumping.Frame = new Rectangle(40, 0, 16, 16);
             Sliding.Frame = new Rectangle(17, 0, 16, 16);
@@ -405,8 +435,8 @@ namespace SuperMarimoBros
             Walking.HeightOfFrames = 16;
             frame.Height = 16;
             position.Y += 16;
+            isFireMario = false;
             isBig = false;
-            Sounds.Play(Sounds.SoundFx.mushroomeat);
         }
 
         private void BecomeBigMario()
@@ -421,7 +451,6 @@ namespace SuperMarimoBros
             frame.Height = 32;
             position.Y -= 16;
             isBig = true;
-            Sounds.Play(Sounds.SoundFx.mushroomeat);
         }
 
         private void BecomeFireMario()
@@ -433,7 +462,6 @@ namespace SuperMarimoBros
             Walking.FramePosition = new Point(81, 53);
             Crouching.Frame = new Rectangle(61, 63, 16, 22);
             isFireMario = true;
-            Sounds.Play(Sounds.SoundFx.mushroomeat);
         }
     }
 }

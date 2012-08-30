@@ -131,8 +131,6 @@ namespace SuperMarimoBros
             Rectangle tile = t.BoundingRectangle();
             Rectangle overlap = Rectangle.Intersect(gameObject, tile);
 
-            SuperMariomoBros.AddDebugMessage("Tile.x: " + tile.Left + " Mario.x: " + gameObject.Right);
-
             if (overlap.Width < overlap.Height)
             {
                 

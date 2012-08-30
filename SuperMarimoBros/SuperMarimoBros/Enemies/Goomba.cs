@@ -75,6 +75,7 @@ namespace SuperMarimoBros.Enemies
                 velocity.X = 0;
                 velocity.Y = -150f;
                 effects = SpriteEffects.FlipVertically;
+                Sounds.Play(Sounds.SoundFx.stomp);
             }
             base.OnTouch(touchedObject);
         }
