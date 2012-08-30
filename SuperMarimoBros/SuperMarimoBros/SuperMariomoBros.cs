@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SuperMarimoBros;
 using System.IO;
+using SuperMarimoBros.Enemies;
 
 namespace SuperMarimoBros
 {
@@ -83,7 +84,8 @@ namespace SuperMarimoBros
             string level = streamReader.ReadToEnd();
             streamReader.Close();
             tileManager.CreateTiles(level, world);
-            
+
+            World.AddGameObject(new Goomba(new Vector2(100, 0)));
         }
 
         /// <summary>

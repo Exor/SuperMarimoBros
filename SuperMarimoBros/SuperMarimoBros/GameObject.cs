@@ -18,6 +18,7 @@ namespace SuperMarimoBros
         internal Rectangle frame;
         internal bool isOnSolidTile = false;
         internal bool runCollisionDetection = false;
+        internal bool isAnimation = false;
 
         public GameObject(Texture2D texture, Rectangle frame, Vector2 position)
         {
@@ -30,7 +31,8 @@ namespace SuperMarimoBros
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            sprite.Draw(spriteBatch, position, effects);
+            if (!isAnimation)
+                sprite.Draw(spriteBatch, position, effects);
         }
 
         public virtual void Update(GameTime gameTime)

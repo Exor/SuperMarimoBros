@@ -108,18 +108,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
-    <Compile Include="GameEntities\BrickParticle.cs" />
-    <Compile Include="GameEntities\Fireball.cs" />
-    <Compile Include="GameEntities\FireFlower.cs" />
-    <Compile Include="GameEntities\GameObject.cs" />
-    <Compile Include="GameEntities\Mushroom.cs" />
+    <Compile Include="Enemies\Goomba.cs" />
+    <Compile Include="Tiles\BrickParticle.cs" />
+    <Compile Include="Enemies\Enemy.cs" />
+    <Compile Include="Player\Fireball.cs" />
+    <Compile Include="PowerUps\FireFlower.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="PowerUps\Mushroom.cs" />
     <Compile Include="Libraries\FPS.cs" />
     <Compile Include="Libraries\Input.cs" />
     <Compile Include="Libraries\Sounds.cs" />
     <Compile Include="Libraries\Animation.cs" />
     <Compile Include="Libraries\Animations.cs" />
-    <Compile Include="GameEntities\GameObjectWithGravity.cs" />
-    <Compile Include="GameEntities\Marimo.cs" />
+    <Compile Include="GameObjectWithGravity.cs" />
+    <Compile Include="Player\Marimo.cs" />
     <Compile Include="Libraries\Textures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

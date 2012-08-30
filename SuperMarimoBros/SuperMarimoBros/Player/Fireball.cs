@@ -13,15 +13,16 @@ namespace SuperMarimoBros.GameEntities
         bool isExploding = false;
         float elpasedTime = 0f;
 
-        public Fireball(Vector2 initialPosition)
-            : base(Textures.GetTexture(Textures.Texture.fireball), new Rectangle(0,0,8,8), new Vector2(initialPosition.X + 16, initialPosition.Y))
+        public Fireball(Vector2 initialPosition, int direction)
+            : base(Textures.GetTexture(Textures.Texture.fireball), new Rectangle(0,0,8,8), new Vector2(initialPosition.X + 5, initialPosition.Y))
         {
             fireball = new Animation(Textures.GetTexture(Textures.Texture.fireball), new Rectangle(0, 0, 8, 8), 4, 0.05f, 0);
             explode = new Animation(Textures.GetTexture(Textures.Texture.fireball), new Rectangle(32, 0, 16, 16), 3, 0.1f, 0);
             Animations.AddAnimation(fireball);
             Animations.AddAnimation(explode);
-            
-            velocity.X = 170f;
+            isAnimation = true;
+            position.X += 11 * direction;
+            velocity.X = 170f * direction;
             runCollisionDetection = true;
             explode.IsLooping = false;
             fireball.IsLooping = true;
@@ -33,7 +34,7 @@ namespace SuperMarimoBros.GameEntities
             if (isExploding)
             {
                 elpasedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (elpasedTime >= 0.5f)
+                if (elpasedTime >= 0.3f)
                 {
                     Animations.DisposeOf(fireball);
                     Animations.DisposeOf(explode);

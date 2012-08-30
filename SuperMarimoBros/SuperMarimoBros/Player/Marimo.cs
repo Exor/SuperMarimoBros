@@ -32,6 +32,7 @@ namespace SuperMarimoBros
 
         static bool isBig = true;
         static bool isFireMario;
+        private bool isDying;
 
         bool shouldMoveRight;
         bool shouldMoveLeft;
@@ -262,7 +263,10 @@ namespace SuperMarimoBros
         {
             if (shouldFire)
             {
-                World.AddGameObject(new Fireball(position));
+                if (effects == SpriteEffects.None) //shoot right
+                    World.AddGameObject(new Fireball(position, 1));
+                else //shoot left
+                    World.AddGameObject(new Fireball(position, -1));
                 Sounds.Play(Sounds.SoundFx.fire);
             }
         }
@@ -336,16 +340,28 @@ namespace SuperMarimoBros
         
         public override void OnSideCollision(GameObject touchedObject)
         {
+            if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
+            {
+                OnHitEnemy();
+            }
             base.OnSideCollision(touchedObject);
         }
 
         public override void OnHeadbutt(GameObject touchedObject)
         {
+            if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
+            {
+                OnHitEnemy();
+            }
             base.OnHeadbutt(touchedObject);
         }
 
         public override void OnStomp(GameObject touchedObject)
         {
+            if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
+            {
+                velocity.Y = -100f;
+            }
             base.OnStomp(touchedObject);
         }
 
@@ -363,9 +379,34 @@ namespace SuperMarimoBros
             base.OnTouch(touchedObject);
         }
 
+        private void OnHitEnemy()
+        {
+            if (isFireMario)
+                BecomeBigMario();
+            if (isBig)
+                BecomeSmallMario();
+            else
+                isDying = true;
+        }
+
         public static bool IsBig
         {
             get { return isBig; }
+        }
+
+        private void BecomeSmallMario()
+        {
+            Standing.Frame = new Rectangle(0, 0, 16, 16);
+            Jumping.Frame = new Rectangle(40, 0, 16, 16);
+            Sliding.Frame = new Rectangle(17, 0, 16, 16);
+            Running.FramePosition = new Point(81, 0);
+            Running.HeightOfFrames = 16;
+            Walking.FramePosition = new Point(81, 0);
+            Walking.HeightOfFrames = 16;
+            frame.Height = 16;
+            position.Y += 16;
+            isBig = false;
+            Sounds.Play(Sounds.SoundFx.mushroomeat);
         }
 
         private void BecomeBigMario()
