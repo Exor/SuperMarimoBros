@@ -7,9 +7,8 @@ using Microsoft.Xna.Framework;
 using SuperMarimoBros;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
-using SuperMarimoBros.GameEntities;
 
-namespace SuperMarimoBros
+namespace SuperMarimoBros.Player
 {
     class Marimo : GameObjectWithGravity
     {

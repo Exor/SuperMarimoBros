@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace SuperMarimoBros.GameEntities
+namespace SuperMarimoBros.Player
 {
     class Fireball : GameObjectWithGravity
     {

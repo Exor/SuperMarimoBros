@@ -8,34 +8,22 @@ using SuperMarimoBros;
 
 namespace SuperMarimoBros
 {
-    public class Tile
+    public class BackgroundTile
     {
         private Rectangle Frame;
-        private Boolean isSolid;
         public Vector2 position;
         private Texture2D texture;
 
-        public Tile(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid)
+        public BackgroundTile(Rectangle frame, Vector2 position)
         {
-            this.texture = texture;
+            this.position = position;
+            texture = Textures.GetTexture(Textures.Texture.smbTiles);
             Frame = frame;
-            isSolid = solid;
         }
 
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(texture, position, Frame, Color.White);
-        }
-
-        public Boolean IsSolid()
-        {
-            return isSolid;
-        }
-
-        public void OnHeadbutt(GameObject touchedObject)
-        {
-            if (touchedObject.GetType().Name == "Marimo" && isSolid)
-                Sounds.Play(Sounds.SoundFx.blockhit);
         }
     }
 }

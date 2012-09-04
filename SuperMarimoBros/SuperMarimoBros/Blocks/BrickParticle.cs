@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SuperMarimoBros;
 
-namespace SuperMarimoBros
+namespace SuperMarimoBros.Blocks
 {
     class BrickParticle : GameObjectWithGravity
     {

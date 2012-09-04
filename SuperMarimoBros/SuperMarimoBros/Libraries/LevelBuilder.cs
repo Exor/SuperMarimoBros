@@ -4,21 +4,21 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SuperMarimoBros.Tiles;
 using SuperMarimoBros;
+using SuperMarimoBros.Blocks;
 
 namespace SuperMarimoBros
 {
-    class TileManager
+    class LevelBuilder
     {
         List<Rectangle> tilePositions;
-        static List<Tile> tiles;
+        static List<BackgroundTile> tiles;
         World world;
         Boolean[] isTileSolid;
 
-        public TileManager ()
+        public LevelBuilder ()
         {
-            tiles = new List<Tile>();
+            tiles = new List<BackgroundTile>();
             tilePositions = new List<Rectangle>();
             for (int y = 0; y < 86; y += 17)
                 for (int x = 0; x < 360; x += 17)
@@ -185,7 +185,7 @@ namespace SuperMarimoBros
                         World.AddGameObject(new QuestionBlock(tileTexture, tilePositions[7], position, isTileSolid[7], Textures.GetTexture(Textures.Texture.coinBlockAnimation), Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), QuestionBlock.Contains.Mushroom));
                         break;
                     default:
-                        tiles.Add(new Tile(tileTexture, tilePositions[x], position, isTileSolid[x]));
+                        tiles.Add(new BackgroundTile(tilePositions[x], position));
                         break;
                 }
 
@@ -203,7 +203,7 @@ namespace SuperMarimoBros
             return false;
         }
 
-        public static Tile ReturnTileAt(Point p)
+        public static BackgroundTile ReturnTileAt(Point p)
         {
             int xOffset = -(int)tiles[0].position.X;
 
@@ -217,13 +217,13 @@ namespace SuperMarimoBros
 
         public void UpdatePosition(float amount)
         {
-            foreach (Tile t in tiles)
+            foreach (BackgroundTile t in tiles)
                 t.position.X -= amount;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Tile t in tiles)
+            foreach (BackgroundTile t in tiles)
                 t.Draw(spriteBatch);
         }
     }

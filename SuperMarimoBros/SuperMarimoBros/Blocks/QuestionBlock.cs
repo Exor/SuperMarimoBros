@@ -5,9 +5,10 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using SuperMarimoBros;
-using SuperMarimoBros.GameEntities;
+using SuperMarimoBros.Player;
+using SuperMarimoBros.PowerUps;
 
-namespace SuperMarimoBros.Tiles
+namespace SuperMarimoBros.Blocks
 {
     class QuestionBlock : GameObject
     {
@@ -79,6 +80,7 @@ namespace SuperMarimoBros.Tiles
         public override void Update(GameTime gameTime)
         {
             blockAnimation.Position = position;
+            blockAnimation.Update(gameTime);
             if (item == Contains.Coin)
                 coinAnimation.Position = new Vector2(position.X + 4, position.Y - 48);
 

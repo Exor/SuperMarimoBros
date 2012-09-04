@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SuperMarimoBros.Player;
 
 namespace SuperMarimoBros
 {
@@ -11,12 +12,12 @@ namespace SuperMarimoBros
     {
         static List<GameObject> gameObjects;
         static List<GameObject> gameObjectsToAdd;
-        TileManager tileManager;
+        LevelBuilder tileManager;
         Camera camera;
         Marimo marimo;
         static bool isUpdating;
 
-        public World(TileManager tm, Marimo marimo)
+        public World(LevelBuilder tm, Marimo marimo)
         {
             this.marimo = marimo;
             tileManager = tm;
@@ -97,7 +98,7 @@ namespace SuperMarimoBros
             //if (TileManager.SolidTileExistsAt(topRight))
             //    CollidesWithTile(g, TileManager.ReturnTileAt(topRight));
 
-            if (TileManager.SolidTileExistsAt(new Point(bottomLeft.X + 2, bottomLeft.Y)) || TileManager.SolidTileExistsAt(new Point(bottomRight.X - 2,bottomRight.Y)))
+            if (LevelBuilder.SolidTileExistsAt(new Point(bottomLeft.X + 2, bottomLeft.Y)) || LevelBuilder.SolidTileExistsAt(new Point(bottomRight.X - 2,bottomRight.Y)))
                 g.isOnSolidTile = true;
             else
                 g.isOnSolidTile= false;

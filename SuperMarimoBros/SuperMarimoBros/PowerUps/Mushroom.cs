@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using SuperMarimoBros;
 
-namespace SuperMarimoBros.GameEntities
+namespace SuperMarimoBros.PowerUps
 {
     class Mushroom : GameObjectWithGravity
     {

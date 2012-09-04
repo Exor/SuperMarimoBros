@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using SuperMarimoBros;
 using System.IO;
 using SuperMarimoBros.Enemies;
+using SuperMarimoBros.Player;
 
 namespace SuperMarimoBros
 {
@@ -25,7 +26,7 @@ namespace SuperMarimoBros
         FPS fps;
         Textures textures;
         Input input;
-        TileManager tileManager;
+        LevelBuilder levelBuilder;
         Sounds soundManager;
 
         Marimo marimo;
@@ -58,7 +59,7 @@ namespace SuperMarimoBros
             input = new Input(this);
             this.Components.Add(input);
             soundManager = new Sounds();
-            tileManager = new TileManager();
+            levelBuilder = new LevelBuilder();
             textures = new Textures();
 
             base.Initialize();
@@ -72,7 +73,7 @@ namespace SuperMarimoBros
             textures.LoadTextures(Content);
 
             marimo = new Marimo(new Vector2(32, 192), input);
-            world = new World(tileManager, marimo);
+            world = new World(levelBuilder, marimo);
 
             Sounds.Play(Sounds.Music.overworld);
 
@@ -81,9 +82,7 @@ namespace SuperMarimoBros
             StreamReader streamReader = new StreamReader("Levels/levelOneOne.txt");
             string level = streamReader.ReadToEnd();
             streamReader.Close();
-            tileManager.CreateTiles(level, world);
-
-            World.AddGameObject(new Goomba(new Vector2(100, 0)));
+            levelBuilder.CreateTiles(level, world);
         }
 
         /// <summary>
