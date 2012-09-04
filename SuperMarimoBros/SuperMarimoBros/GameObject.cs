@@ -8,69 +8,28 @@ using SuperMarimoBros;
 
 namespace SuperMarimoBros
 {
-    public class GameObject
+    public abstract class GameObject
     {
-        internal Texture2D texture;
-        internal Sprite sprite;
         internal Vector2 position;
         internal SpriteEffects effects;
         internal bool shouldRemove = false;
-        internal Rectangle frame;
-        internal bool isOnSolidTile = false;
         internal bool runCollisionDetection = false;
-        internal bool isAnimation = false;
+        internal bool isOnSolidTile = false;
 
-        public GameObject(Texture2D texture, Rectangle frame, Vector2 position)
+        public GameObject(Vector2 position)
         {
-            this.texture = texture;
-            this.frame = frame;
-            sprite = new Sprite(texture, frame);
             this.position = position;
             effects = SpriteEffects.None;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            if (!isAnimation)
-                sprite.Draw(spriteBatch, position, effects);
-        }
+        public abstract void Draw(SpriteBatch spriteBatch);
 
-        public virtual void Update(GameTime gameTime)
-        {
+        public abstract void Update(GameTime gameTime);
 
-        }
-
-        public void Remove()
-        {
-            shouldRemove = true;
-        }
-
-        public Rectangle BoundingRectangle()
-        {
-            return new Rectangle((int)position.X, (int)position.Y, frame.Width, frame.Height);
-        }
-
-        internal bool IsTrue()
-        {
-            return true;
-        }
-
-        public virtual void OnSideCollision(Tile t, int overlap)
-        {
-        }
-
-        public virtual void OnHeadbutt(Tile t, int overlap)
-        {
-        }
-
-        public virtual void OnStomp(Tile t, int overlap)
-        {
-            
-        }
+        public abstract Rectangle BoundingRectangle();
 
         public virtual void OnHeadbutt(GameObject touchedObject)
         {
-
             OnTouch(touchedObject);
         }
 

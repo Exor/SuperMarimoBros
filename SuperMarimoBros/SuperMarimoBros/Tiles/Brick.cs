@@ -8,16 +8,18 @@ using SuperMarimoBros;
 
 namespace SuperMarimoBros.Tiles
 {
-    class Brick : Tile
+    class Brick : GameObject
     {
         bool wasBumped = false;
         float bumpSpeed = 75f;
         float bumpAmount = 6; //pixels
         float originalPosition;
+        Sprite brick;
 
-        public Brick(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid) 
-            : base(texture, frame, position, solid)
+        public Brick(Vector2 position) 
+            : base(position)
         {
+            brick = new Sprite(Textures.GetTexture(Textures.Texture.smbTiles), new Rectangle(102, 0, 16, 16));
             bumpAmount = position.Y - bumpAmount;
             originalPosition = position.Y;
         }
@@ -31,14 +33,13 @@ namespace SuperMarimoBros.Tiles
             else
             {
                 //convert the tile to a blank tile
-                isSolid = false;
-                Frame = new Rectangle(0, 0, 16, 16);
+                shouldRemove = true;
 
                 //create 4 particles that fly out
-                World.AddGameObject(new BrickParticle(texture, new Vector2(150f, -200f), position));
-                World.AddGameObject(new BrickParticle(texture, new Vector2(-150f, -200f), position));
-                World.AddGameObject(new BrickParticle(texture, new Vector2(150f, -150f), position));
-                World.AddGameObject(new BrickParticle(texture, new Vector2(-150f, -150f), position));
+                World.AddGameObject(new BrickParticle(new Vector2(150f, -200f), position));
+                World.AddGameObject(new BrickParticle(new Vector2(-150f, -200f), position));
+                World.AddGameObject(new BrickParticle(new Vector2(150f, -150f), position));
+                World.AddGameObject(new BrickParticle(new Vector2(-150f, -150f), position));
 
                 Sounds.Play(SuperMarimoBros.Sounds.SoundFx.blockbreak);
             }
@@ -54,13 +55,16 @@ namespace SuperMarimoBros.Tiles
                 wasBumped = false;
             else if (position.Y < originalPosition)
                 position.Y += bumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            base.Draw(sb);
+            brick.Draw(sb, position, effects);
+        }
+
+        public override Rectangle BoundingRectangle()
+        {
+            return brick.Frame;
         }
     }
 }

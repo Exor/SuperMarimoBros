@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace SuperMarimoBros.Enemies
 {
-    class Enemy : GameObjectWithGravity
+    abstract class Enemy : GameObjectWithGravity
     {
-        public Enemy(Texture2D texture, Rectangle frame, Vector2 position)
-            : base(texture, frame, position)
+        public Enemy(Vector2 position)
+            : base(position)
         {
 
         }

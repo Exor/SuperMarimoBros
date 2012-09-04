@@ -176,13 +176,13 @@ namespace SuperMarimoBros
                 switch (x)
                 {
                     case 6:
-                        tiles.Add(new Brick(tileTexture, tilePositions[x], position, isTileSolid[x]));
+                        World.AddGameObject(new Brick(position));
                         break;
                     case 701: // create coin block
-                        tiles.Add(new QuestionBlock(tileTexture, tilePositions[7], position, isTileSolid[7], Textures.GetTexture(Textures.Texture.coinBlockAnimation), Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), QuestionBlock.Contains.Coin));
+                        World.AddGameObject(new QuestionBlock(tileTexture, tilePositions[7], position, isTileSolid[7], Textures.GetTexture(Textures.Texture.coinBlockAnimation), Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), QuestionBlock.Contains.Coin));
                         break;
                     case 702: // create mushroom block
-                        tiles.Add(new QuestionBlock(tileTexture, tilePositions[7], position, isTileSolid[7], Textures.GetTexture(Textures.Texture.coinBlockAnimation), Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), QuestionBlock.Contains.Mushroom));
+                        World.AddGameObject(new QuestionBlock(tileTexture, tilePositions[7], position, isTileSolid[7], Textures.GetTexture(Textures.Texture.coinBlockAnimation), Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), QuestionBlock.Contains.Mushroom));
                         break;
                     default:
                         tiles.Add(new Tile(tileTexture, tilePositions[x], position, isTileSolid[x]));
@@ -200,7 +200,7 @@ namespace SuperMarimoBros
 
         public static Boolean SolidTileExistsAt(Point p)
         {
-            return ReturnTileAt(p).isSolid;
+            return false;
         }
 
         public static Tile ReturnTileAt(Point p)
@@ -213,12 +213,6 @@ namespace SuperMarimoBros
             if (tile > 0 && tile < tiles.Count)
                 return tiles[tile];
             return tiles[0];
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            foreach (Tile t in tiles)
-                t.Update(gameTime);
         }
 
         public void UpdatePosition(float amount)

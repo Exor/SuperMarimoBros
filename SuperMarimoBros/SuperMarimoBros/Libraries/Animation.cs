@@ -30,7 +30,7 @@ namespace SuperMarimoBros
         bool isLooping;
         bool isPlaying;
 
-        Rectangle? currentFrame;
+        Rectangle currentFrame;
 
         Point framePosition;
 
@@ -63,6 +63,38 @@ namespace SuperMarimoBros
             spriteEffects = SpriteEffects.None;
             scale = Vector2.One;
             layer = 0f;
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (IsPlaying)
+                spriteBatch.Draw(Texture, Position, CurrentFrame, Color.White, Rotation, Vector2.Zero, Scale, Effects, Layer);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (IsPlaying)
+            {
+                ElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (ElapsedTime > TimeBetweenFrameTransitions)
+                {
+                    ElapsedTime -= TimeBetweenFrameTransitions;
+                    if (IsLooping)
+                    {
+                        CurrentFrameNumber = (CurrentFrameNumber + 1) % TotalNumberOfFrames;
+                    }
+                    else
+                    {
+                        if (CurrentFrameNumber < TotalNumberOfFrames - 1)
+                            CurrentFrameNumber = (CurrentFrameNumber + 1) % TotalNumberOfFrames;
+                        else
+                            IsPlaying = false;
+                    }
+                }
+            }
+            CurrentFrame = new Rectangle
+                (FramePosition.X + CurrentFrameNumber * (WidthOfFrames + FrameBuffer), FramePosition.Y, WidthOfFrames, HeightOfFrames);
         }
 
         public Point FramePosition
@@ -126,7 +158,7 @@ namespace SuperMarimoBros
             set { position = value; }
         }
 
-        public Rectangle? CurrentFrame
+        public Rectangle CurrentFrame
         {
             get { return currentFrame; }
             set { currentFrame = value; }

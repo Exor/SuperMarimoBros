@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace SuperMarimoBros.Enemies
 {
     class Koopa : Enemy
     {
         float walkingSpeed = 20f;
-        bool wasStomped = false;
-        bool wasHitByFireball = false;
         float timeBetweenAnimation = 0.3f;
         float timeToDie = 1f;
         float elapsedGameTime;
@@ -19,9 +18,26 @@ namespace SuperMarimoBros.Enemies
             hopping,
             flying,
             walking,
+            hitByFireball,
             shell
         };
 
+        public Koopa(Vector2 initialPosition)
+            : base(initialPosition)
+        {
+
+        }
+
+        public override Rectangle BoundingRectangle()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        {
+            throw new NotImplementedException();
+        }
         
+
     }
 }

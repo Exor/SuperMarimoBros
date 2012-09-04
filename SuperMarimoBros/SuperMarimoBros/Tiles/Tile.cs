@@ -8,19 +8,21 @@ using SuperMarimoBros;
 
 namespace SuperMarimoBros
 {
-    public class Tile : GameObject
+    public class Tile
     {
-        internal Rectangle Frame;
-        internal Boolean isSolid;
+        private Rectangle Frame;
+        private Boolean isSolid;
+        public Vector2 position;
+        private Texture2D texture;
 
         public Tile(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid)
-            : base(texture, frame, position)
         {
+            this.texture = texture;
             Frame = frame;
             isSolid = solid;
         }
 
-        public override void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb)
         {
             sb.Draw(texture, position, Frame, Color.White);
         }
@@ -30,7 +32,7 @@ namespace SuperMarimoBros
             return isSolid;
         }
 
-        public override void OnHeadbutt(GameObject touchedObject)
+        public void OnHeadbutt(GameObject touchedObject)
         {
             if (touchedObject.GetType().Name == "Marimo" && isSolid)
                 Sounds.Play(Sounds.SoundFx.blockhit);

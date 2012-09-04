@@ -10,6 +10,7 @@ namespace SuperMarimoBros.Enemies
     class Goomba : Enemy
     {
         Sprite death;
+        Sprite goomba;
         float walkingSpeed = 20f;
         bool wasStomped = false;
         bool wasHitByFireball = false;
@@ -18,9 +19,10 @@ namespace SuperMarimoBros.Enemies
         float elapsedGameTime;
 
         public Goomba(Vector2 initialPosition)
-            : base(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(0, 0, 16, 16), initialPosition)
+            : base(initialPosition)
         {
             death = new Sprite(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(16, 0, 16, 16));
+            goomba = new Sprite(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(0, 0, 16, 16));
             velocity.X = walkingSpeed;
             runCollisionDetection = true;
         }
@@ -31,12 +33,12 @@ namespace SuperMarimoBros.Enemies
             if (wasStomped)
             {
                 if (elapsedGameTime >= timeToDie)
-                    this.Remove();
+                    shouldRemove = true;
             }
             else if (wasHitByFireball)
             {
                 if (position.X >= 245)
-                    this.Remove();
+                    shouldRemove = true;
                 base.Update(gameTime);
             }
             else
@@ -56,7 +58,7 @@ namespace SuperMarimoBros.Enemies
             if (wasStomped)
                 death.Draw(spriteBatch, position, effects);
             else
-                base.Draw(spriteBatch);
+                goomba.Draw(spriteBatch, position, effects);
         }
 
         public override void OnHeadbutt(GameObject touchedObject)
@@ -66,7 +68,6 @@ namespace SuperMarimoBros.Enemies
                 wasStomped = true;
                 runCollisionDetection = false;
             }
-            base.OnHeadbutt(touchedObject);
         }
 
         internal override void OnTouch(GameObject touchedObject)
@@ -80,7 +81,6 @@ namespace SuperMarimoBros.Enemies
                 effects = SpriteEffects.FlipVertically;
                 Sounds.Play(Sounds.SoundFx.stomp);
             }
-            base.OnTouch(touchedObject);
         }
 
         private void Flip()
@@ -91,7 +91,13 @@ namespace SuperMarimoBros.Enemies
                 effects = SpriteEffects.None;
         }
 
-
+        public override Rectangle BoundingRectangle()
+        {
+            if (wasStomped)
+                return death.Frame;
+            else
+                return goomba.Frame;
+        }
 
     }
 }

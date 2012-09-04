@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Camera.cs" />
     <Compile Include="Enemies\Goomba.cs" />
+    <Compile Include="Enemies\Koopa.cs" />
     <Compile Include="Tiles\BrickParticle.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Player\Fireball.cs" />
@@ -119,7 +120,6 @@
     <Compile Include="Libraries\Input.cs" />
     <Compile Include="Libraries\Sounds.cs" />
     <Compile Include="Libraries\Animation.cs" />
-    <Compile Include="Libraries\Animations.cs" />
     <Compile Include="GameObjectWithGravity.cs" />
     <Compile Include="Player\Marimo.cs" />
     <Compile Include="Libraries\Textures.cs" />

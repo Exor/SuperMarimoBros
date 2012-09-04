@@ -60,23 +60,21 @@ namespace SuperMarimoBros
         };
 
         public Marimo(Vector2 position, Input inputHandler)
-            : base(Textures.GetTexture(Textures.Texture.marioSpriteSheet), new Rectangle(), position)
+            : base(position)
         {
             input = inputHandler;
-            frame = new Rectangle(0, 0, 16, 16);
             Load();
         }
 
         public void Load()
         {
+            Texture2D texture = Textures.GetTexture(Textures.Texture.marioSpriteSheet);
+
             runCollisionDetection = true;
             isBig = false;
 
             Running = new Animation(texture, new Rectangle(81,0,16,16), 4, 0.08f, 4);
             Walking = new Animation(texture, new Rectangle(81,0,16,16), 4, 0.15f, 4);
-
-            Animations.AddAnimation(Running);
-            Animations.AddAnimation(Walking);
 
             Standing = new Sprite(texture, new Rectangle(0, 0, 16, 16));
             Sliding = new Sprite(texture, new Rectangle(17, 0, 16, 16));
@@ -154,9 +152,10 @@ namespace SuperMarimoBros
                 //Mario falls off the screen
                 if (position.Y > 250)
                 {
-                    isDying = true;
-                    CurrentState = State.Dying;
-                    Sounds.Play(Sounds.Music.death);
+                    position.Y = -32;
+                    //isDying = true;
+                    //CurrentState = State.Dying;
+                    //Sounds.Play(Sounds.Music.death);
                 }
 
                 DealWithControllerInput();
@@ -210,7 +209,7 @@ namespace SuperMarimoBros
             }
         }
 
-        internal override void CalculateHorizontalVelocity(float elapsedGameTime)
+        private void CalculateHorizontalVelocity(float elapsedGameTime)
         {
             //add acceleration if the player has a button down
             if (shouldMoveRight)
@@ -242,7 +241,7 @@ namespace SuperMarimoBros
             }
         }
 
-        internal override void CalculateVerticalVelocity(float elapsedGameTime)
+        private void CalculateVerticalVelocity(float elapsedGameTime)
         {
             if (isOnSolidTile)
             {
@@ -267,7 +266,7 @@ namespace SuperMarimoBros
             }
         }
 
-        internal override void CalculatePosition(float elapsedGameTime)
+        private void CalculatePosition(float elapsedGameTime)
         {
             position.X = position.X + (velocity.X * elapsedGameTime);
             position.Y = position.Y + (velocity.Y * elapsedGameTime);
@@ -331,13 +330,11 @@ namespace SuperMarimoBros
                 if (newState == State.Crouching) //start crouching
                 {
                     position.Y += 16;
-                    frame.Height = 16;
                 }
 
                 if (oldState == State.Crouching) //stop crouching
                 {
                     position.Y -= 16;
-                    frame.Height = 32;
                 }
 
                 Walking.Stop();
@@ -346,21 +343,48 @@ namespace SuperMarimoBros
             }
         }
 
-        public override void OnStomp(Tile touchedObject, int y)
+        public override Rectangle BoundingRectangle()
         {
-            base.OnStomp(touchedObject, y);
+            switch (CurrentState)
+            {
+                case State.Standing:
+                    return Standing.Frame;
+                case State.Walking:
+                    return Walking.CurrentFrame;
+                case State.Running:
+                    return Running.CurrentFrame;
+                case State.Jumping:
+                    return Jumping.Frame;
+                case State.Falling:
+                    return Jumping.Frame;
+                case State.Sliding:
+                    return Sliding.Frame;
+                case State.Dying:
+                    return Dying.Frame;
+                case State.Crouching:
+                    return Crouching.Frame;
+                case State.Firing:
+                    return Firing.Frame;
+                default:
+                    return Rectangle.Empty;
+            }
         }
 
-        public override void OnHeadbutt(Tile touchedObject, int y)
-        {
-            base.OnHeadbutt(touchedObject, y);
-        }
+        //public override void OnStomp(Tile touchedObject, int y)
+        //{
+        //    base.OnStomp(touchedObject, y);
+        //}
 
-        public override void OnSideCollision(Tile touchedObject, int x)
-        {
-            velocity.X = 0;
-            position.X = x;
-        }
+        //public override void OnHeadbutt(Tile touchedObject, int y)
+        //{
+        //    base.OnHeadbutt(touchedObject, y);
+        //}
+
+        //public override void OnSideCollision(Tile touchedObject, int x)
+        //{
+        //    velocity.X = 0;
+        //    position.X = x;
+        //}
         
         public override void OnSideCollision(GameObject touchedObject)
         {
@@ -433,7 +457,6 @@ namespace SuperMarimoBros
             Running.HeightOfFrames = 16;
             Walking.FramePosition = new Point(81, 0);
             Walking.HeightOfFrames = 16;
-            frame.Height = 16;
             position.Y += 16;
             isFireMario = false;
             isBig = false;
@@ -448,7 +471,6 @@ namespace SuperMarimoBros
             Running.HeightOfFrames = 32;
             Walking.FramePosition = new Point(81, 19);
             Walking.HeightOfFrames = 32;
-            frame.Height = 32;
             position.Y -= 16;
             isBig = true;
         }

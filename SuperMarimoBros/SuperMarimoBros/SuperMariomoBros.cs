@@ -23,7 +23,6 @@ namespace SuperMarimoBros
         SpriteBatch spriteBatch;
 
         FPS fps;
-        Animations animations;
         Textures textures;
         Input input;
         TileManager tileManager;
@@ -60,7 +59,6 @@ namespace SuperMarimoBros
             this.Components.Add(input);
             soundManager = new Sounds();
             tileManager = new TileManager();
-            animations = new Animations();
             textures = new Textures();
 
             base.Initialize();
@@ -107,8 +105,6 @@ namespace SuperMarimoBros
 
             world.Update(gameTime);
 
-            animations.Update(gameTime);
-
             base.Update(gameTime);
         }
 
@@ -118,8 +114,6 @@ namespace SuperMarimoBros
             spriteBatch.Begin();            
 
             world.Draw(spriteBatch);
-
-            animations.Draw(spriteBatch);
 
             spriteBatch.DrawString(font, debugMessage, new Vector2(0, 0), Color.White);
 

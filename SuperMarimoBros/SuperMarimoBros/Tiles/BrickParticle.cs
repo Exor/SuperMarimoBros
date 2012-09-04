@@ -10,39 +10,49 @@ namespace SuperMarimoBros
 {
     class BrickParticle : GameObjectWithGravity
     {
+        Sprite brickParticle;
 
-        public BrickParticle(Texture2D texture, Vector2 initialVelocity, Vector2 initialPosition)
-            : base(texture, new Rectangle(0, 102, 8, 8), initialPosition)
+        public BrickParticle(Vector2 initialVelocity, Vector2 initialPosition)
+            : base(initialPosition)
         {
+            brickParticle = new Sprite(Textures.GetTexture(Textures.Texture.smbTiles), new Rectangle(0, 102, 8, 8));
             velocity = initialVelocity;
-            if (velocity.X > 1)
-                frame = new Rectangle(8, 102, 8, 8);
         }
 
-        internal override void CalculateHorizontalVelocity(float elapsedGameTime)
+        private void CalculateHorizontalVelocity(float elapsedGameTime)
         {
             if (velocity.X > 0)
             {
                 velocity.X = velocity.X - friction * elapsedGameTime;
                 if (velocity.X < 0)
                     velocity.X = 0;
+                effects = SpriteEffects.FlipHorizontally;
             }
             else if (velocity.X < 0)
             {
                 velocity.X = velocity.X + friction * elapsedGameTime;
                 if (velocity.X > 0)
                     velocity.X = 0;
+                effects = SpriteEffects.None;
             }
-            
-
-            base.CalculateHorizontalVelocity(elapsedGameTime);
         }
 
         public override void Update(GameTime gameTime)
         {
+            CalculateHorizontalVelocity((float)gameTime.ElapsedGameTime.TotalSeconds);
             if (position.Y > 256)
-                Remove();
+                shouldRemove = true;
             base.Update(gameTime);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            brickParticle.Draw(spriteBatch, position, effects);
+        }
+
+        public override Rectangle BoundingRectangle()
+        {
+            return brickParticle.Frame;
         }
     }
 }

@@ -14,13 +14,11 @@ namespace SuperMarimoBros.GameEntities
         Animation fireFlower;
 
         public Fireflower(Vector2 position)
-            : base(Textures.GetTexture(Textures.Texture.fireflower), new Rectangle(0,0,16,16), position)
+            : base(position)
         {
             initialPosition = position;
             Sounds.Play(Sounds.SoundFx.mushroomappear);
             fireFlower = new Animation(Textures.GetTexture(Textures.Texture.fireflower), new Rectangle(0,0,16,16), 4, 0.1f, 0);
-            Animations.AddAnimation(fireFlower);
-            isAnimation = true;
             fireFlower.IsLooping = true;
             fireFlower.Play();
         }
@@ -38,17 +36,24 @@ namespace SuperMarimoBros.GameEntities
             }
 
             fireFlower.Position = position;
-            base.Update(gameTime);
+        }
+
+        public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        {
+            fireFlower.Draw(spriteBatch);
         }
 
         internal override void OnTouch(GameObject touchedObject)
         {
             if (touchedObject.GetType().Name == "Marimo")
             {
-                Animations.DisposeOf(fireFlower);
-                this.Remove();
+                shouldRemove = true;
             }
-            base.OnTouch(touchedObject);
+        }
+
+        public override Rectangle BoundingRectangle()
+        {
+            return fireFlower.CurrentFrame;
         }
     }
 }

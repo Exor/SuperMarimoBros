@@ -10,13 +10,15 @@ namespace SuperMarimoBros.GameEntities
 {
     class Mushroom : GameObjectWithGravity
     {
+        Sprite mushroom;
         float spawnSpeed = 20f;
         bool isSpawning = true;
         Vector2 initialPosition;
 
         public Mushroom(Vector2 position)
-            :base(Textures.GetTexture(Textures.Texture.entities), new Rectangle(17,0,16,16), position)
+            :base(position)
         {
+            mushroom = new Sprite(Textures.GetTexture(Textures.Texture.entities), new Rectangle(17, 0, 16, 16));
             initialPosition = position;
             velocity.X = 50f;
             Sounds.Play(Sounds.SoundFx.mushroomappear);
@@ -40,15 +42,25 @@ namespace SuperMarimoBros.GameEntities
             }
             if (position.Y >= 256)
             {
-                this.Remove();
+                shouldRemove = true;
             }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            mushroom.Draw(spriteBatch, position, effects);
+        }
+
+        public override Rectangle BoundingRectangle()
+        {
+            return mushroom.Frame;
         }
 
         internal override void OnTouch(GameObject touchedObject)
         {
             if (touchedObject.GetType().Name == "Marimo")
             {
-                this.Remove();
+                shouldRemove = true;
             }
             base.OnTouch(touchedObject);
         }
