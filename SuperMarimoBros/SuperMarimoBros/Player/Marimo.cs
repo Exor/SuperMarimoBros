@@ -89,8 +89,8 @@ namespace SuperMarimoBros
             CurrentState = State.Standing;
 
 #if DEBUG
-            BecomeBigMario();
-            BecomeFireMario();
+            //BecomeBigMario();
+            //BecomeFireMario();
 #endif
         }
 

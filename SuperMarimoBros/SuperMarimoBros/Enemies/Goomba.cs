@@ -62,7 +62,10 @@ namespace SuperMarimoBros.Enemies
         public override void OnHeadbutt(GameObject touchedObject)
         {
             if (touchedObject.GetType().Name == "Marimo")
+            {
                 wasStomped = true;
+                runCollisionDetection = false;
+            }
             base.OnHeadbutt(touchedObject);
         }
 
