@@ -129,7 +129,7 @@
     <Compile Include="SuperMariomoBros.cs" />
     <Compile Include="Blocks\Brick.cs" />
     <Compile Include="Blocks\QuestionBlock.cs" />
-    <Compile Include="Tile.cs" />
+    <Compile Include="BackgroundTile.cs" />
     <Compile Include="Libraries\LevelBuilder.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>

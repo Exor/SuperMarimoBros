@@ -79,10 +79,7 @@ namespace SuperMarimoBros
 
             font = Content.Load<SpriteFont>("myFont");
 
-            StreamReader streamReader = new StreamReader("Levels/levelOneOne.txt");
-            string level = streamReader.ReadToEnd();
-            streamReader.Close();
-            levelBuilder.CreateTiles(level, world);
+            LevelBuilder.LoadLevelFile();
         }
 
         /// <summary>
