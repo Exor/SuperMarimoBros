@@ -32,19 +32,19 @@ namespace SuperMarimoBros.Blocks
         float originalPosition;
         bool isRegularBlock = false;
 
-        public QuestionBlock(Texture2D texture, Rectangle frame, Vector2 position, Boolean solid, Texture2D questionBlockTexture, Texture2D coinBlockAnimation, Contains contains)
+        public QuestionBlock(Vector2 position, Contains contains)
             : base(position)
         {
             item = contains;
-            blockAnimation = new Animation(questionBlockTexture, new Rectangle(0,0,16,16), 6, animationSpeed, 0);
+            blockAnimation = new Animation(Textures.GetTexture(Textures.Texture.coinBlockAnimation), new Rectangle(0,0,16,16), 6, animationSpeed, 0);
             blockAnimation.Position = position;
             blockAnimation.Play();
 
-            emptyBlock = new Sprite(texture, new Rectangle(34, 85, 16, 16));
+            emptyBlock = new Sprite(Textures.GetTexture(Textures.Texture.smbTiles), new Rectangle(34, 85, 16, 16));
 
             if (item == Contains.Coin)
             {
-                coinAnimation = new Animation(coinBlockAnimation, new Rectangle(0,0,8,64), 30, coinAnimationSpeed, 0);
+                coinAnimation = new Animation(Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), new Rectangle(0, 0, 8, 64), 30, coinAnimationSpeed, 0);
                 coinAnimation.Position = new Vector2(position.X + 4, position.Y - 48);
                 coinAnimation.IsLooping = false;
             }

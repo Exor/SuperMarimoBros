@@ -13,8 +13,6 @@ namespace SuperMarimoBros.Enemies
         float shellSpeed = 70f;
         float jumpVelocity = -170f;
         float timeBetweenAnimation = 0.3f;
-        float timeToDie = 1f;
-        float elapsedGameTime;
 
         bool wasHitByFireball;
 
@@ -22,7 +20,7 @@ namespace SuperMarimoBros.Enemies
         Animation walking;
         Animation hopping;
 
-        enum CurrentState
+        public enum CurrentState
         {
             hopping,
             flying,

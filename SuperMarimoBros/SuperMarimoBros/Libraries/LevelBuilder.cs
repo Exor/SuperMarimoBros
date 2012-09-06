@@ -12,10 +12,11 @@ namespace SuperMarimoBros
 {
     class LevelBuilder
     {
-        List<Rectangle> tilePositions;
+        static List<Rectangle> tilePositions;
         static List<BackgroundTile> tiles;
-        World world;
-        int index = -5;
+        static int index = 20;
+
+        float offset;
 
         static List<string[]> level;
 
@@ -48,46 +49,44 @@ namespace SuperMarimoBros
 
         private static void LoadGameObjects()
         {
-            throw new NotImplementedException();
+            for (int x = 0; x <= index; x++)
+            {
+                string[] row = level[x];
+
+                    LoadRow(x,row);
+                
+            }
         }
 
-        public void CreateTiles(string level, World world)
+        private static void LoadRow(int xIndex, string[] row)
         {
-            Texture2D tileTexture = Textures.GetTexture(Textures.Texture.smbTiles);
-
-            this.world = world;
-            Vector2 position = new Vector2(0, 0);
-
-
-            string[] levelComponents = level.Replace(System.Environment.NewLine, "").Split(',');
-
-            foreach (string piece in levelComponents)
+            for (int y = 0; y < 15; y++)
             {
-                int x = Convert.ToInt32(piece);
+                Vector2 position = new Vector2(xIndex * 16, y * 16);
 
-                switch (x)
+                switch (row[y])
                 {
-                    case 6:
+                    case "0":
+                        break;
+                    case "1":
+                        tiles.Add(new BackgroundTile(new Rectangle(17, 0, 16, 16), position));
+                        break;
+                    case "6":
                         World.AddGameObject(new Brick(position));
                         break;
-                    case 701: // create coin block
-                        World.AddGameObject(new QuestionBlock(tileTexture, tilePositions[7], position, isTileSolid[7], Textures.GetTexture(Textures.Texture.coinBlockAnimation), Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), QuestionBlock.Contains.Coin));
+                    case "701": // create coin block
+                        World.AddGameObject(new QuestionBlock(position, QuestionBlock.Contains.Coin));
                         break;
-                    case 702: // create mushroom block
-                        World.AddGameObject(new QuestionBlock(tileTexture, tilePositions[7], position, isTileSolid[7], Textures.GetTexture(Textures.Texture.coinBlockAnimation), Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), QuestionBlock.Contains.Mushroom));
+                    case "702": // create mushroom block
+                        World.AddGameObject(new QuestionBlock(position, QuestionBlock.Contains.Mushroom));
                         break;
-                    default:
-                        tiles.Add(new BackgroundTile(tilePositions[x], position));
-                        break;
-                }
-
-                position.Y += 16;
-                if (position.Y > 224)
-                {
-                    position.Y = 0;
-                    position.X += 16;
-                }
+                    //default:
+                    //    tiles.Add(new BackgroundTile(tilePositions[y], position));
+                    //    break;
+                };
             }
+
+
         }
 
         public static Boolean SolidTileExistsAt(Point p)
@@ -109,6 +108,14 @@ namespace SuperMarimoBros
 
         public void UpdatePosition(float amount)
         {
+            offset += amount;
+            if (offset >= 16)
+            {
+                index++;
+                LoadRow(20, level[index]);
+                offset -= 16;
+            }
+
             foreach (BackgroundTile t in tiles)
                 t.position.X -= amount;
         }

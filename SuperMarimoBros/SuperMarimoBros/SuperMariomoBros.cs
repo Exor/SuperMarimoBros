@@ -42,9 +42,9 @@ namespace SuperMarimoBros
             graphics.PreferredBackBufferWidth = 256;
             graphics.PreferredBackBufferHeight = 240;
 
-            
-
 #if DEBUG
+            graphics.PreferredBackBufferHeight = 300;
+            graphics.PreferredBackBufferWidth = 500;
             this.graphics.SynchronizeWithVerticalRetrace = false;
             this.IsFixedTimeStep = false;
 #endif
