@@ -69,7 +69,6 @@ namespace SuperMarimoBros.Player
         {
             Texture2D texture = Textures.GetTexture(Textures.Texture.marioSpriteSheet);
 
-            runCollisionDetection = true;
             isBig = false;
 
             Running = new Animation(texture, new Rectangle(81,0,16,16), 4, 0.08f, 4);
@@ -138,11 +137,9 @@ namespace SuperMarimoBros.Player
             else if (wasHitByEnemy)
             {
                 velocity = Vector2.Zero;
-                runCollisionDetection = false;
                 timer += elapsedGameTime;
                 if (timer > 1)
                 {
-                    runCollisionDetection = true;
                     wasHitByEnemy = false;
                 }
             }
@@ -347,23 +344,23 @@ namespace SuperMarimoBros.Player
             switch (CurrentState)
             {
                 case State.Standing:
-                    return Standing.Frame;
+                    return new Rectangle((int)position.X, (int)position.Y, Standing.Frame.Width, Standing.Frame.Height);
                 case State.Walking:
-                    return Walking.CurrentFrame;
+                    return new Rectangle((int)position.X, (int)position.Y, Walking.CurrentFrame.Width, Walking.CurrentFrame.Height);
                 case State.Running:
-                    return Running.CurrentFrame;
+                    return new Rectangle((int)position.X, (int)position.Y, Running.CurrentFrame.Width, Running.CurrentFrame.Height);
                 case State.Jumping:
-                    return Jumping.Frame;
+                    return new Rectangle((int)position.X, (int)position.Y, Jumping.Frame.Width, Jumping.Frame.Height);
                 case State.Falling:
-                    return Jumping.Frame;
+                    return new Rectangle((int)position.X, (int)position.Y, Jumping.Frame.Width, Jumping.Frame.Height);
                 case State.Sliding:
-                    return Sliding.Frame;
+                    return new Rectangle((int)position.X, (int)position.Y, Sliding.Frame.Width, Sliding.Frame.Height);
                 case State.Dying:
-                    return Dying.Frame;
+                    return new Rectangle((int)position.X, (int)position.Y, Dying.Frame.Width, Dying.Frame.Height);
                 case State.Crouching:
-                    return Crouching.Frame;
+                    return new Rectangle((int)position.X, (int)position.Y, Crouching.Frame.Width, Crouching.Frame.Height);
                 case State.Firing:
-                    return Firing.Frame;
+                    return new Rectangle((int)position.X, (int)position.Y, Firing.Frame.Width, Firing.Frame.Height);
                 default:
                     return Rectangle.Empty;
             }

@@ -13,6 +13,7 @@ namespace SuperMarimoBros
         private Rectangle Frame;
         public Vector2 position;
         private Texture2D texture;
+        public bool shouldRemove;
 
         public BackgroundTile(Rectangle frame, Vector2 position)
         {

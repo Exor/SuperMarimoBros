@@ -52,7 +52,7 @@ namespace SuperMarimoBros.Blocks
 
         public override Rectangle BoundingRectangle()
         {
-            return brickParticle.Frame;
+            return new Rectangle((int)position.X, (int)position.Y, brickParticle.Frame.Width, brickParticle.Frame.Height);
         }
     }
 }

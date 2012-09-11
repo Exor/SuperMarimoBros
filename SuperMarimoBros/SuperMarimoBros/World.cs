@@ -10,56 +10,68 @@ namespace SuperMarimoBros
 {
     class World
     {
+        static List<BackgroundTile> tiles;
+        static List<BackgroundTile> tilesToAdd;
         static List<GameObject> gameObjects;
         static List<GameObject> gameObjectsToAdd;
-        LevelBuilder tileManager;
+        LevelBuilder levelBuilder;
         Camera camera;
         Marimo marimo;
-        static bool isUpdating;
+        Rectangle ScreenBoundry;
 
         public World(LevelBuilder tm, Marimo marimo)
         {
+            ScreenBoundry = new Rectangle(-80, -80, 416, 416);
             this.marimo = marimo;
-            tileManager = tm;
+            levelBuilder = tm;
             gameObjects = new List<GameObject>();
             gameObjectsToAdd = new List<GameObject>();
+            tiles = new List<BackgroundTile>();
+            tilesToAdd = new List<BackgroundTile>();
             camera = new Camera(marimo);
-            isUpdating = false;
             AddGameObject(marimo);
         }
 
         public static void AddGameObject(GameObject g)
         {
-            if (!isUpdating)
-                gameObjects.Add(g);
-            else
-                gameObjectsToAdd.Add(g);
+            gameObjectsToAdd.Add(g);
+        }
+
+        public static void AddBackgroundTile(BackgroundTile t)
+        {
+            tilesToAdd.Add(t);
         }
 
         public void Update(GameTime gameTime)
         {
-            isUpdating = true;
             camera.Update(gameTime);
-            //tileManager.Update(gameTime);
-            //marimo.Update(gameTime);
-            //marimo.position.X -= camera.Position.X;
+
+            UpdateTiles(gameTime);
+            UpdateGameObject(gameTime);
+
+            levelBuilder.UpdateLevelFrame(camera.Position.X);
+
+            //foreach (GameObject g in gameObjects)
+            //{
+            //    if (g.runCollisionDetection)
+            //        CollisionDetection(g);
+            //    else
+            //        g.isOnSolidTile = false;
+            //}                       
+        }
+
+        private void UpdateGameObject(GameTime gameTime)
+        {
             gameObjects.RemoveAll(x => x.shouldRemove == true);
             foreach (GameObject g in gameObjects)
             {
                 g.Update(gameTime);
                 g.position.X -= camera.Position.X;
+                if (IsOutsideScreenBoundries(g.BoundingRectangle()))
+                {
+                    g.shouldRemove = true;
+                }
             }
-            tileManager.UpdatePosition(camera.Position.X);
-
-            foreach (GameObject g in gameObjects)
-            {
-                if (g.runCollisionDetection)
-                    CollisionDetection(g);
-                else
-                    g.isOnSolidTile = false;
-            }
-            
-            isUpdating = false;
             foreach (GameObject g in gameObjectsToAdd)
             {
                 gameObjects.Add(g);
@@ -67,9 +79,39 @@ namespace SuperMarimoBros
             gameObjectsToAdd.RemoveAll(x => true);
         }
 
+        private void UpdateTiles(GameTime gameTime)
+        {
+            tiles.RemoveAll(x => x.shouldRemove == true);
+
+            foreach (BackgroundTile t in tiles)
+            {
+                t.position.X -= camera.Position.X;
+                if (IsOutsideScreenBoundries(new Rectangle((int)t.position.X, (int)t.position.Y, 16, 16)))
+                {
+                    t.shouldRemove = true;
+                }
+            }
+            foreach (BackgroundTile t in tilesToAdd)
+            {
+                tiles.Add(t);
+            }
+            tilesToAdd.RemoveAll(x => true);
+        }
+
+        private bool IsOutsideScreenBoundries(Rectangle frame)
+        {
+            if (ScreenBoundry.Intersects(frame))
+                return false;
+            else
+                return true;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            tileManager.Draw(spriteBatch);
+            foreach (BackgroundTile t in tiles)
+            {
+                t.Draw(spriteBatch);
+            }
             foreach (GameObject g in gameObjects)
             {
                 g.Draw(spriteBatch);
@@ -81,50 +123,50 @@ namespace SuperMarimoBros
             get { return gameObjects; }
         }
 
-        internal void CollisionDetection(GameObject g)
-        {
-            Point bottomLeft = new Point(g.BoundingRectangle().Left, g.BoundingRectangle().Bottom);
-            Point bottomRight = new Point(g.BoundingRectangle().Right, g.BoundingRectangle().Bottom);
-            Point topLeft = new Point(g.BoundingRectangle().Left, g.BoundingRectangle().Top);
-            Point topRight = new Point(g.BoundingRectangle().Right, g.BoundingRectangle().Top);
+        //internal void CollisionDetection(GameObject g)
+        //{
+        //    Point bottomLeft = new Point(g.BoundingRectangle().Left, g.BoundingRectangle().Bottom);
+        //    Point bottomRight = new Point(g.BoundingRectangle().Right, g.BoundingRectangle().Bottom);
+        //    Point topLeft = new Point(g.BoundingRectangle().Left, g.BoundingRectangle().Top);
+        //    Point topRight = new Point(g.BoundingRectangle().Right, g.BoundingRectangle().Top);
 
-            //check for tile collisions
-            //if (TileManager.SolidTileExistsAt(bottomLeft))
-            //    CollidesWithTile(g, TileManager.ReturnTileAt(bottomLeft));
-            //if (TileManager.SolidTileExistsAt(bottomRight))
-            //    CollidesWithTile(g, TileManager.ReturnTileAt(bottomRight));
-            //if (TileManager.SolidTileExistsAt(topLeft))
-            //    CollidesWithTile(g, TileManager.ReturnTileAt(topLeft));
-            //if (TileManager.SolidTileExistsAt(topRight))
-            //    CollidesWithTile(g, TileManager.ReturnTileAt(topRight));
+        //    //check for tile collisions
+        //    //if (TileManager.SolidTileExistsAt(bottomLeft))
+        //    //    CollidesWithTile(g, TileManager.ReturnTileAt(bottomLeft));
+        //    //if (TileManager.SolidTileExistsAt(bottomRight))
+        //    //    CollidesWithTile(g, TileManager.ReturnTileAt(bottomRight));
+        //    //if (TileManager.SolidTileExistsAt(topLeft))
+        //    //    CollidesWithTile(g, TileManager.ReturnTileAt(topLeft));
+        //    //if (TileManager.SolidTileExistsAt(topRight))
+        //    //    CollidesWithTile(g, TileManager.ReturnTileAt(topRight));
 
-            if (LevelBuilder.SolidTileExistsAt(new Point(bottomLeft.X + 2, bottomLeft.Y)) || LevelBuilder.SolidTileExistsAt(new Point(bottomRight.X - 2,bottomRight.Y)))
-                g.isOnSolidTile = true;
-            else
-                g.isOnSolidTile= false;
+        //    if (LevelBuilder.SolidTileExistsAt(new Point(bottomLeft.X + 2, bottomLeft.Y)) || LevelBuilder.SolidTileExistsAt(new Point(bottomRight.X - 2,bottomRight.Y)))
+        //        g.isOnSolidTile = true;
+        //    else
+        //        g.isOnSolidTile= false;
 
-            //check for object collisions
-            foreach (GameObject o in GameObjects)
-            {
-                if (o != g)
-                {
-                    if (g.BoundingRectangle().Intersects(o.BoundingRectangle()))
-                    {
-                        //the objects collided!
-                        Rectangle collision = Rectangle.Intersect(g.BoundingRectangle(), o.BoundingRectangle());
-                        if (collision.Width < collision.Height)
-                            g.OnSideCollision(o);
-                        else if (collision.Width > collision.Height)
-                        {
-                            if (g.BoundingRectangle().Y > o.BoundingRectangle().Y)
-                                g.OnHeadbutt(o);
-                            else if (g.BoundingRectangle().Y < o.BoundingRectangle().Y)
-                                g.OnStomp(o);
-                        }
-                    }
-                }
-            }
-        }
+        //    //check for object collisions
+        //    foreach (GameObject o in GameObjects)
+        //    {
+        //        if (o != g)
+        //        {
+        //            if (g.BoundingRectangle().Intersects(o.BoundingRectangle()))
+        //            {
+        //                //the objects collided!
+        //                Rectangle collision = Rectangle.Intersect(g.BoundingRectangle(), o.BoundingRectangle());
+        //                if (collision.Width < collision.Height)
+        //                    g.OnSideCollision(o);
+        //                else if (collision.Width > collision.Height)
+        //                {
+        //                    if (g.BoundingRectangle().Y > o.BoundingRectangle().Y)
+        //                        g.OnHeadbutt(o);
+        //                    else if (g.BoundingRectangle().Y < o.BoundingRectangle().Y)
+        //                        g.OnStomp(o);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         //private void CollidesWithTile(GameObject g, Tile t)
         //{

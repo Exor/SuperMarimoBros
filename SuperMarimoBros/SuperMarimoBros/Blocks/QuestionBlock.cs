@@ -94,7 +94,7 @@ namespace SuperMarimoBros.Blocks
 
         public override Rectangle BoundingRectangle()
         {
-            return blockAnimation.CurrentFrame;
+            return new Rectangle((int)position.X, (int)position.Y, blockAnimation.CurrentFrame.Width, blockAnimation.CurrentFrame.Height);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

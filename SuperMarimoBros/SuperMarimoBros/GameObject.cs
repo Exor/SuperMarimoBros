@@ -13,7 +13,6 @@ namespace SuperMarimoBros
         internal Vector2 position;
         internal SpriteEffects effects;
         internal bool shouldRemove = false;
-        internal bool runCollisionDetection = false;
         internal bool isOnSolidTile = false;
 
         public GameObject(Vector2 position)

@@ -33,7 +33,6 @@ namespace SuperMarimoBros.PowerUps
                 if (position.Y <= initialPosition.Y - 16)
                 {
                     isSpawning = false;
-                    runCollisionDetection = true;
                 }
             }
             else
@@ -53,7 +52,10 @@ namespace SuperMarimoBros.PowerUps
 
         public override Rectangle BoundingRectangle()
         {
-            return mushroom.Frame;
+            if (isSpawning)
+                return Rectangle.Empty;
+            else
+                return new Rectangle((int)position.X, (int)position.Y, mushroom.Frame.Width, mushroom.Frame.Height);
         }
 
         internal override void OnTouch(GameObject touchedObject)

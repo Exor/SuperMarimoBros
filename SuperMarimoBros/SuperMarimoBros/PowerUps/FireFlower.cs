@@ -31,7 +31,6 @@ namespace SuperMarimoBros.PowerUps
                 if (position.Y <= initialPosition.Y - 16)
                 {
                     isSpawning = false;
-                    runCollisionDetection = true;
                 }
             }
 
@@ -53,7 +52,10 @@ namespace SuperMarimoBros.PowerUps
 
         public override Rectangle BoundingRectangle()
         {
-            return fireFlower.CurrentFrame;
+            if (isSpawning)
+                return Rectangle.Empty;
+            else
+                return new Rectangle((int)position.X, (int)position.Y, fireFlower.CurrentFrame.Width, fireFlower.CurrentFrame.Height);
         }
     }
 }

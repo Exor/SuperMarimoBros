@@ -20,7 +20,6 @@ namespace SuperMarimoBros.Player
             explode = new Animation(Textures.GetTexture(Textures.Texture.fireball), new Rectangle(32, 0, 16, 16), 3, 0.1f, 0);
             position.X += 11 * direction;
             velocity.X = 170f * direction;
-            runCollisionDetection = true;
             explode.IsLooping = false;
             fireball.IsLooping = true;
             fireball.Play();
@@ -58,9 +57,9 @@ namespace SuperMarimoBros.Player
         public override Rectangle BoundingRectangle()
         {
             if (isExploding)
-                return explode.CurrentFrame;
+                return Rectangle.Empty;
             else
-                return fireball.CurrentFrame;
+                return new Rectangle((int)position.X, (int)position.Y, fireball.CurrentFrame.Width, fireball.CurrentFrame.Height);
         }
 
         //public override void OnStomp(Tile touchedObject, int y)
@@ -80,7 +79,6 @@ namespace SuperMarimoBros.Player
 
         private void Explode()
         {
-            runCollisionDetection = false;
             fireball.Stop();
             explode.Play();
             isExploding = true;

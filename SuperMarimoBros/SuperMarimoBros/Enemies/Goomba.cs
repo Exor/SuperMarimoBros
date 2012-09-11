@@ -24,7 +24,6 @@ namespace SuperMarimoBros.Enemies
             death = new Sprite(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(16, 0, 16, 16));
             goomba = new Sprite(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(0, 0, 16, 16));
             velocity.X = walkingSpeed;
-            runCollisionDetection = true;
         }
 
         public override void Update(GameTime gameTime)
@@ -66,7 +65,6 @@ namespace SuperMarimoBros.Enemies
             if (touchedObject.GetType().Name == "Marimo")
             {
                 wasStomped = true;
-                runCollisionDetection = false;
             }
         }
 
@@ -75,7 +73,6 @@ namespace SuperMarimoBros.Enemies
             if (touchedObject.GetType().Name == "Fireball")
             {
                 wasHitByFireball = true;
-                runCollisionDetection = false;
                 velocity.X = 0;
                 velocity.Y = -150f;
                 effects = SpriteEffects.FlipVertically;
@@ -93,10 +90,10 @@ namespace SuperMarimoBros.Enemies
 
         public override Rectangle BoundingRectangle()
         {
-            if (wasStomped)
-                return death.Frame;
+            if (wasStomped || wasHitByFireball)
+                return Rectangle.Empty;
             else
-                return goomba.Frame;
+                return new Rectangle((int)position.X, (int)position.Y, goomba.Frame.Width, goomba.Frame.Height);
         }
 
     }

@@ -38,7 +38,6 @@ namespace SuperMarimoBros.Enemies
             walking = new Animation(koopaTexture, new Rectangle(0, 0, 16, 24), 2, timeBetweenAnimation, 0);
             hopping = new Animation(koopaTexture, new Rectangle(48, 0, 16, 24), 2, timeBetweenAnimation, 0);
             velocity.X = -walkingSpeed;
-            runCollisionDetection = true;
 
             state = type;
         }
@@ -50,13 +49,13 @@ namespace SuperMarimoBros.Enemies
             switch (state)
             {
                 case CurrentState.walking:
-                    return walking.CurrentFrame;
+                    return new Rectangle((int)position.X, (int)position.Y, walking.CurrentFrame.Width, walking.CurrentFrame.Height);
                 case CurrentState.shell:
-                    return shell.Frame;
+                    return new Rectangle((int)position.X, (int)position.Y, shell.Frame.Width, shell.Frame.Height);
                 case CurrentState.hopping:
-                    return hopping.CurrentFrame;
+                    return new Rectangle((int)position.X, (int)position.Y, hopping.CurrentFrame.Width, hopping.CurrentFrame.Height);
                 case CurrentState.flying:
-                    return hopping.CurrentFrame;
+                    return new Rectangle((int)position.X, (int)position.Y, hopping.CurrentFrame.Width, hopping.CurrentFrame.Height);
                 default:
                     return Rectangle.Empty;
             }
@@ -129,7 +128,6 @@ namespace SuperMarimoBros.Enemies
             if (touchedObject.GetType().Name == "Fireball")
             {
                 wasHitByFireball = true;
-                runCollisionDetection = false;
                 velocity.X = 0;
                 velocity.Y = -150f;
                 effects = SpriteEffects.FlipVertically;

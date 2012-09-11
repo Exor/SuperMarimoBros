@@ -13,7 +13,7 @@ namespace SuperMarimoBros
     class LevelBuilder
     {
         static List<Rectangle> tilePositions;
-        static List<BackgroundTile> tiles;
+        
         static int index = 20;
 
         float offset;
@@ -24,7 +24,6 @@ namespace SuperMarimoBros
         {
             level = new List<string[]>();
 
-            tiles = new List<BackgroundTile>();
             tilePositions = new List<Rectangle>();
             for (int y = 0; y < 86; y += 17)
                 for (int x = 0; x < 360; x += 17)
@@ -54,7 +53,6 @@ namespace SuperMarimoBros
                 string[] row = level[x];
 
                     LoadRow(x,row);
-                
             }
         }
 
@@ -69,7 +67,7 @@ namespace SuperMarimoBros
                     case "0":
                         break;
                     case "1":
-                        tiles.Add(new BackgroundTile(new Rectangle(17, 0, 16, 16), position));
+                        World.AddBackgroundTile(new BackgroundTile(new Rectangle(17, 0, 16, 16), position));
                         break;
                     case "6":
                         World.AddGameObject(new Brick(position));
@@ -89,24 +87,24 @@ namespace SuperMarimoBros
 
         }
 
-        public static Boolean SolidTileExistsAt(Point p)
-        {
-            return false;
-        }
+        //public static Boolean SolidTileExistsAt(Point p)
+        //{
+        //    return false;
+        //}
 
-        public static BackgroundTile ReturnTileAt(Point p)
-        {
-            int xOffset = -(int)tiles[0].position.X;
+        //public static BackgroundTile ReturnTileAt(Point p)
+        //{
+        //    int xOffset = -(int)tiles[0].position.X;
 
-            int x = (xOffset + p.X) / 16;
-            int y = p.Y / 16;
-            int tile = x * 15 + y;
-            if (tile > 0 && tile < tiles.Count)
-                return tiles[tile];
-            return tiles[0];
-        }
+        //    int x = (xOffset + p.X) / 16;
+        //    int y = p.Y / 16;
+        //    int tile = x * 15 + y;
+        //    if (tile > 0 && tile < tiles.Count)
+        //        return tiles[tile];
+        //    return tiles[0];
+        //}
 
-        public void UpdatePosition(float amount)
+        public void UpdateLevelFrame(float amount)
         {
             offset += amount;
             if (offset >= 16)
@@ -115,15 +113,22 @@ namespace SuperMarimoBros
                 LoadRow(20, level[index]);
                 offset -= 16;
             }
+            else if (offset <= -16)
+            {
+                index--;
+                if (index - 25 >= 0)
+                {
+                    LoadRow(-5, level[index - 25]);
+                }
+                offset += 16;
+            }
 
-            foreach (BackgroundTile t in tiles)
-                t.position.X -= amount;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            foreach (BackgroundTile t in tiles)
-                t.Draw(spriteBatch);
-        }
+        //public void Draw(SpriteBatch spriteBatch)
+        //{
+        //    foreach (BackgroundTile t in tiles)
+        //        t.Draw(spriteBatch);
+        //}
     }
 }
