@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blocks\SolidBlock.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Enemies\Goomba.cs" />
     <Compile Include="Enemies\Koopa.cs" />

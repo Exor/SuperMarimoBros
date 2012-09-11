@@ -67,7 +67,7 @@ namespace SuperMarimoBros
                     case "0":
                         break;
                     case "1":
-                        World.AddBackgroundTile(new BackgroundTile(new Rectangle(17, 0, 16, 16), position));
+                        World.AddGameObject(new SolidBlock(new Rectangle(17, 0, 16, 16), position));
                         break;
                     case "6":
                         World.AddGameObject(new Brick(position));
@@ -78,9 +78,9 @@ namespace SuperMarimoBros
                     case "702": // create mushroom block
                         World.AddGameObject(new QuestionBlock(position, QuestionBlock.Contains.Mushroom));
                         break;
-                    //default:
-                    //    tiles.Add(new BackgroundTile(tilePositions[y], position));
-                    //    break;
+                    default:
+                        World.AddBackgroundTile(new BackgroundTile(tilePositions[Convert.ToInt32(row[y])], position));
+                        break;
                 };
             }
 

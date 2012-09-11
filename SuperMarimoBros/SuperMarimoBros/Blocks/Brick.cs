@@ -65,7 +65,7 @@ namespace SuperMarimoBros.Blocks
 
         public override Rectangle BoundingRectangle()
         {
-            return brick.Frame;
+            return new Rectangle((int)position.X, (int)position.Y, brick.Frame.Width, brick.Frame.Height);
         }
     }
 }
