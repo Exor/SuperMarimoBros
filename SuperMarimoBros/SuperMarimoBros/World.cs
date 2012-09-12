@@ -51,13 +51,47 @@ namespace SuperMarimoBros
 
             levelBuilder.UpdateLevelFrame(camera.Position.X);
 
+            RunCollisionDetection();
             //foreach (GameObject g in gameObjects)
             //{
             //    if (g.runCollisionDetection)
             //        CollisionDetection(g);
             //    else
             //        g.isOnSolidTile = false;
-            //}                       
+            //}
+        }
+
+        private void RunCollisionDetection()
+        {
+            foreach (GameObject currentObject in gameObjects)
+            {
+                string test = currentObject.GetType().BaseType.ToString();
+                if (test == "SuperMarimoBros.GameObjectWithGravity") //If the object is moving
+                {
+                    foreach (GameObject collisionObject in gameObjects)
+                    {
+                        if (collisionObject != currentObject) //All other objects
+                        {
+                            if (currentObject.BoundingRectangle().Intersects(collisionObject.BoundingRectangle()))
+                            {
+                                //2 objects collide
+
+
+                                Rectangle collision = Rectangle.Intersect(currentObject.BoundingRectangle(), collisionObject.BoundingRectangle());
+                                if (collision.Width < collision.Height)
+                                    currentObject.OnSideCollision(collisionObject);
+                                else if (collision.Width > collision.Height)
+                                {
+                                    if (currentObject.BoundingRectangle().Y > collisionObject.BoundingRectangle().Y)
+                                        currentObject.OnHeadbutt(collisionObject);
+                                    else if (currentObject.BoundingRectangle().Y < collisionObject.BoundingRectangle().Y)
+                                        currentObject.OnStomp(collisionObject);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void UpdateGameObject(GameTime gameTime)

@@ -100,10 +100,12 @@ namespace SuperMarimoBros.Player
                 case State.Walking:
                     Walking.Play();
                     Walking.Position = position;
+                    Walking.Draw(sb);
                     break;
                 case State.Running:
                     Running.Play();
                     Running.Position = position;
+                    Running.Draw(sb);
                     break;
                 case State.Jumping:
                     Jumping.Draw(sb, position, effects);
@@ -129,6 +131,9 @@ namespace SuperMarimoBros.Player
         public override void Update(GameTime gt)
         {
             float elapsedGameTime = (float)gt.ElapsedGameTime.TotalSeconds;
+
+            Walking.Update(gt);
+            Running.Update(gt);
 
             if (isDying)
             {
@@ -402,6 +407,13 @@ namespace SuperMarimoBros.Player
 
         public override void OnStomp(GameObject touchedObject)
         {
+            if (touchedObject.GetType().Namespace == "SuperMarimoBros.Blocks")
+            {
+                //position.Y = position.Y - ( (position.Y + 16) - touchedObject.position.Y );
+                //Need to do more stuff here
+                isOnSolidTile = true;
+            }
+
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
             {
                 velocity.Y = -100f;
