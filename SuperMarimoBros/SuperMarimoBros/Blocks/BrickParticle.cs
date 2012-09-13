@@ -8,7 +8,7 @@ using SuperMarimoBros;
 
 namespace SuperMarimoBros.Blocks
 {
-    class BrickParticle : GameObjectWithGravity
+    class BrickParticle : MovingGameObject
     {
         Sprite brickParticle;
 
@@ -52,7 +52,8 @@ namespace SuperMarimoBros.Blocks
 
         public override Rectangle BoundingRectangle()
         {
-            return new Rectangle((int)position.X, (int)position.Y, brickParticle.Frame.Width, brickParticle.Frame.Height);
+            //return new Rectangle((int)position.X, (int)position.Y, brickParticle.Frame.Width, brickParticle.Frame.Height);
+            return Rectangle.Empty;
         }
     }
 }

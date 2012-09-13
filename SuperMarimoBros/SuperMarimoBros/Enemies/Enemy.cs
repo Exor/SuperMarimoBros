@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace SuperMarimoBros.Enemies
 {
-    abstract class Enemy : GameObjectWithGravity
+    abstract class Enemy : MovingGameObject
     {
         public Enemy(Vector2 position)
             : base(position)

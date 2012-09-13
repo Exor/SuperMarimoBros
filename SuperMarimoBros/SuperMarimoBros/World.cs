@@ -65,9 +65,9 @@ namespace SuperMarimoBros
         {
             foreach (GameObject currentObject in gameObjects)
             {
-                string test = currentObject.GetType().BaseType.ToString();
-                if (test == "SuperMarimoBros.GameObjectWithGravity") //If the object is moving
+                if (currentObject.GetType().BaseType.ToString() == "SuperMarimoBros.MovingGameObject") //If the object is moving
                 {
+                    currentObject.isOnSolidTile = false; //Assume it isn't touching anything
                     foreach (GameObject collisionObject in gameObjects)
                     {
                         if (collisionObject != currentObject) //All other objects
@@ -79,11 +79,16 @@ namespace SuperMarimoBros
 
                                 Rectangle collision = Rectangle.Intersect(currentObject.BoundingRectangle(), collisionObject.BoundingRectangle());
                                 if (collision.Width < collision.Height)
+                                {
                                     currentObject.OnSideCollision(collisionObject);
+                                }
                                 else if (collision.Width > collision.Height)
                                 {
                                     if (currentObject.BoundingRectangle().Y > collisionObject.BoundingRectangle().Y)
+                                    {
                                         currentObject.OnHeadbutt(collisionObject);
+                                        collisionObject.OnHeadbutt(currentObject);
+                                    }
                                     else if (currentObject.BoundingRectangle().Y < collisionObject.BoundingRectangle().Y)
                                         currentObject.OnStomp(collisionObject);
                                 }

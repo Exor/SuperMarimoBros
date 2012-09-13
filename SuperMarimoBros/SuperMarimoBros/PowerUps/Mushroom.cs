@@ -8,7 +8,7 @@ using SuperMarimoBros;
 
 namespace SuperMarimoBros.PowerUps
 {
-    class Mushroom : GameObjectWithGravity
+    class Mushroom : MovingGameObject
     {
         Sprite mushroom;
         float spawnSpeed = 20f;

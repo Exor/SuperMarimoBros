@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace SuperMarimoBros.Player
 {
-    class Fireball : GameObjectWithGravity
+    class Fireball : MovingGameObject
     {
         Animation fireball;
         Animation explode;

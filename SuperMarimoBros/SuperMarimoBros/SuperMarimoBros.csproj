@@ -121,7 +121,7 @@
     <Compile Include="Libraries\Input.cs" />
     <Compile Include="Libraries\Sounds.cs" />
     <Compile Include="Libraries\Animation.cs" />
-    <Compile Include="GameObjectWithGravity.cs" />
+    <Compile Include="MovingGameObject.cs" />
     <Compile Include="Player\Marimo.cs" />
     <Compile Include="Libraries\Textures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

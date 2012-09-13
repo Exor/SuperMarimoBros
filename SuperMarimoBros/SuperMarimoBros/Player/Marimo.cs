@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace SuperMarimoBros.Player
 {
-    class Marimo : GameObjectWithGravity
+    class Marimo : MovingGameObject
     {
         Input input;
 
@@ -407,13 +407,6 @@ namespace SuperMarimoBros.Player
 
         public override void OnStomp(GameObject touchedObject)
         {
-            if (touchedObject.GetType().Namespace == "SuperMarimoBros.Blocks")
-            {
-                //position.Y = position.Y - ( (position.Y + 16) - touchedObject.position.Y );
-                //Need to do more stuff here
-                isOnSolidTile = true;
-            }
-
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
             {
                 velocity.Y = -100f;
