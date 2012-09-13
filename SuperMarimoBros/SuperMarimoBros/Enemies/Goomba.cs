@@ -28,6 +28,8 @@ namespace SuperMarimoBros.Enemies
 
         public override void Update(GameTime gameTime)
         {
+            SuperMariomoBros.AddDebugMessage("onsolidtile: " + isOnSolidTile);
+
             elapsedGameTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (wasStomped)
             {
@@ -66,6 +68,12 @@ namespace SuperMarimoBros.Enemies
             {
                 wasStomped = true;
             }
+            base.OnHeadbutt(touchedObject);
+        }
+
+        public override void OnStomp(GameObject touchedObject)
+        {
+            base.OnStomp(touchedObject);
         }
 
         internal override void OnTouch(GameObject touchedObject)

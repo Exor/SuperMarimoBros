@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SuperMarimoBros;
 using SuperMarimoBros.Blocks;
 using System.IO;
+using SuperMarimoBros.Enemies;
 
 namespace SuperMarimoBros
 {
@@ -77,6 +78,9 @@ namespace SuperMarimoBros
                         break;
                     case "702": // create mushroom block
                         World.AddGameObject(new QuestionBlock(position, QuestionBlock.Contains.Mushroom));
+                        break;
+                    case "100":
+                        World.AddGameObject(new Goomba(position));
                         break;
                     default:
                         World.AddBackgroundTile(new BackgroundTile(tilePositions[Convert.ToInt32(row[y])], position));
