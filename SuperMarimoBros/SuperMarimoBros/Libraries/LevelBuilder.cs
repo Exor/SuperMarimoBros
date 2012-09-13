@@ -82,6 +82,12 @@ namespace SuperMarimoBros
                     case "100":
                         World.AddObject(new Goomba(position));
                         break;
+                    case "101":
+                        World.AddObject(new Koopa(position, Koopa.CurrentState.walking));
+                        break;
+                    case "102":
+                        World.AddObject(new Koopa(position, Koopa.CurrentState.hopping));
+                        break;
                     default:
                         World.AddObject(new BackgroundTile(tilePositions[Convert.ToInt32(row[y])], position));
                         break;

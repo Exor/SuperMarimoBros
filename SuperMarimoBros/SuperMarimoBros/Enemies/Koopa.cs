@@ -10,7 +10,7 @@ namespace SuperMarimoBros.Enemies
     class Koopa : Enemy
     {
         float walkingSpeed = 20f;
-        float shellSpeed = 70f;
+        float shellSpeed = 170f;
         float jumpVelocity = -170f;
         float timeBetweenAnimation = 0.3f;
 
@@ -73,10 +73,22 @@ namespace SuperMarimoBros.Enemies
             }
             else if (state == CurrentState.hopping)
             {
+                hopping.Update(gameTime);
                 if (isOnSolidTile)
+                {
                     velocity.Y = jumpVelocity;
+                    isOnSolidTile = false;
+                }
             }
+            else if (state == CurrentState.walking)
+            {
+                walking.Update(gameTime);
+            }
+            else if (state == CurrentState.shell)
+            {
 
+            }
+            
             base.Update(gameTime);
         }
 
@@ -112,7 +124,7 @@ namespace SuperMarimoBros.Enemies
                         state = CurrentState.walking;
                         break;
                     case CurrentState.shell:
-                        velocity.X = shellSpeed;
+                        velocity.X = 0;
                         break;
                     case CurrentState.walking:
                         state = CurrentState.shell;
@@ -121,6 +133,19 @@ namespace SuperMarimoBros.Enemies
             }
 
             base.OnHeadbutt(touchedObject);
+        }
+
+        public override void OnSideCollision(GameObject touchedObject)
+        {
+            if (touchedObject.GetType().Name == "Marimo" && state == CurrentState.shell)
+            {
+                if (touchedObject.position.X < position.X)
+                    velocity.X = shellSpeed;
+                else
+                    velocity.X = -shellSpeed;
+            }
+
+            base.OnSideCollision(touchedObject);
         }
 
         internal override void OnTouch(GameObject touchedObject)

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using SuperMarimoBros;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using SuperMarimoBros.Enemies;
 
 namespace SuperMarimoBros.Player
 {
@@ -370,7 +371,12 @@ namespace SuperMarimoBros.Player
         {
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
             {
-                OnHitEnemy();
+                if (touchedObject.GetType().Name == "Koopa")
+                { 
+                    //Need to check if the koopa is a shell or not
+                }
+                else
+                    OnHitEnemy();
             }
             base.OnSideCollision(touchedObject);
         }

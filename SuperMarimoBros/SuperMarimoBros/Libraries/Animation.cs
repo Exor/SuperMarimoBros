@@ -51,7 +51,7 @@ namespace SuperMarimoBros
             this.frameBuffer = frameBuffer;
 
             isLooping = true;
-            isPlaying = false;
+            isPlaying = true;
 
             currentFrameNumber = 0;
             rotation = 0f;
