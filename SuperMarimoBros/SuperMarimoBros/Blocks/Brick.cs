@@ -27,22 +27,25 @@ namespace SuperMarimoBros.Blocks
 
         public override void OnStomp(GameObject touchedObject)
         {
-            if (!Marimo.IsBig)
+            if (touchedObject.GetType() == typeof(Marimo))
             {
-                wasBumped = true;
-            }
-            else
-            {
-                //convert the tile to a blank tile
-                shouldRemove = true;
+                if (!Marimo.IsBig)
+                {
+                    wasBumped = true;
+                }
+                else
+                {
+                    //convert the tile to a blank tile
+                    shouldRemove = true;
 
-                //create 4 particles that fly out
-                World.AddObject(new BrickParticle(new Vector2(150f, -200f), position));
-                World.AddObject(new BrickParticle(new Vector2(-150f, -200f), position));
-                World.AddObject(new BrickParticle(new Vector2(150f, -150f), position));
-                World.AddObject(new BrickParticle(new Vector2(-150f, -150f), position));
+                    //create 4 particles that fly out
+                    World.AddObject(new BrickParticle(new Vector2(150f, -200f), position));
+                    World.AddObject(new BrickParticle(new Vector2(-150f, -200f), position));
+                    World.AddObject(new BrickParticle(new Vector2(150f, -150f), position));
+                    World.AddObject(new BrickParticle(new Vector2(-150f, -150f), position));
 
-                Sounds.Play(SuperMarimoBros.Sounds.SoundFx.blockbreak);
+                    Sounds.Play(SuperMarimoBros.Sounds.SoundFx.blockbreak);
+                }
             }
             base.OnStomp(touchedObject);
         }

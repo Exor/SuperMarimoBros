@@ -23,12 +23,12 @@ namespace SuperMarimoBros.Enemies
         {
             death = new Sprite(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(16, 0, 16, 16));
             goomba = new Sprite(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(0, 0, 16, 16));
-            velocity.X = walkingSpeed;
+            velocity.X = -walkingSpeed;
         }
 
         public override void Update(GameTime gameTime)
         {
-            SuperMariomoBros.AddDebugMessage("onsolidtile: " + isOnSolidTile);
+            
 
             elapsedGameTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (wasStomped)
@@ -74,6 +74,13 @@ namespace SuperMarimoBros.Enemies
         public override void OnStomp(GameObject touchedObject)
         {
             base.OnStomp(touchedObject);
+        }
+
+        public override void OnSideCollision(GameObject touchedObject)
+        {
+            SuperMariomoBros.AddDebugMessage("HIT: " + touchedObject.GetType().Name.ToString());
+            velocity.X = -velocity.X;
+            base.OnSideCollision(touchedObject);
         }
 
         internal override void OnTouch(GameObject touchedObject)

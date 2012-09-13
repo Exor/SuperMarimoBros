@@ -81,7 +81,7 @@ namespace SuperMarimoBros
                 {
                     if (currentObject.BoundingRectangle().Intersects(collisionObject.BoundingRectangle()))
                     {
-                        CheckForCollisions(currentObject, collisionObject);
+                        CheckForCollisions(currentObject, collisionObject, true);
                     }
                 }
 
@@ -89,32 +89,35 @@ namespace SuperMarimoBros
                 {
                     if (collisionObject != currentObject) //All other objects
                     {
-                        CheckForCollisions(currentObject, collisionObject);
+                        CheckForCollisions(currentObject, collisionObject, false);
                     }
                 }
 
             }
         }
 
-        private void CheckForCollisions(GameObject currentObject, GameObject collisionObject)
+        private void CheckForCollisions(GameObject currentObject, GameObject collisionObject, bool both)
         {
             Rectangle collision = Rectangle.Intersect(currentObject.BoundingRectangle(), collisionObject.BoundingRectangle());
             if (collision.Width < collision.Height)
             {
                 currentObject.OnSideCollision(collisionObject);
-                collisionObject.OnSideCollision(currentObject);
+                if (both)
+                    collisionObject.OnSideCollision(currentObject);
             }
             else if (collision.Width > collision.Height)
             {
                 if (currentObject.BoundingRectangle().Y > collisionObject.BoundingRectangle().Y)
                 {
                     currentObject.OnHeadbutt(collisionObject);
-                    collisionObject.OnStomp(currentObject);
+                    if (both)
+                        collisionObject.OnStomp(currentObject);
                 }
                 else if (currentObject.BoundingRectangle().Y < collisionObject.BoundingRectangle().Y)
                 {
                     currentObject.OnStomp(collisionObject);
-                    collisionObject.OnHeadbutt(currentObject);
+                    if (both)
+                        collisionObject.OnHeadbutt(currentObject);
                 }
             }
         }

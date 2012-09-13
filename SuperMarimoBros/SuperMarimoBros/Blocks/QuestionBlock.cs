@@ -47,6 +47,7 @@ namespace SuperMarimoBros.Blocks
                 coinAnimation = new Animation(Textures.GetTexture(Textures.Texture.coinFromBlockAnimation), new Rectangle(0, 0, 8, 64), 30, coinAnimationSpeed, 0);
                 coinAnimationPosition = new Vector2(position.X + 4, position.Y - 48);
                 coinAnimation.IsLooping = false;
+                coinAnimation.IsPlaying = false;
             }
 
             bumpAmount = position.Y - bumpAmount;
@@ -55,24 +56,27 @@ namespace SuperMarimoBros.Blocks
 
         public override void OnStomp(GameObject touchedObject)
         {
-            if (!isEmpty)
+            if (touchedObject.GetType() == typeof(Marimo))
             {
-                if (item == Contains.Coin)
+                if (!isEmpty)
                 {
-                    coinAnimation.Play();
-                    Sounds.Play(Sounds.SoundFx.coin);
+                    if (item == Contains.Coin)
+                    {
+                        coinAnimation.Play();
+                        Sounds.Play(Sounds.SoundFx.coin);
+                    }
+                    if (item == Contains.Mushroom)
+                    {
+                        //spawn either mushroom or fire flower
+                        if (Marimo.IsBig)
+                            World.AddObject(new Fireflower(position));
+                        else
+                            World.AddObject(new Mushroom(position));
+                    }
+                    wasBumped = true;
+                    isEmpty = true;
+
                 }
-                if (item == Contains.Mushroom)
-                {
-                    //spawn either mushroom or fire flower
-                    if (Marimo.IsBig)
-                        World.AddObject(new Fireflower(position));
-                    else
-                        World.AddObject(new Mushroom(position));
-                }
-                wasBumped = true;
-                isEmpty = true;
-                
             }
             base.OnStomp(touchedObject);
         }

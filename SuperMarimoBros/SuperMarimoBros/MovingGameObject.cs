@@ -66,7 +66,7 @@ namespace SuperMarimoBros
         {
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Blocks")
             {
-                velocity.X = 0;
+                //velocity.X = 0;
                 if (position.X > touchedObject.position.X)//collision from the right
                 {
                     position.X = touchedObject.position.X + touchedObject.BoundingRectangle().Width;

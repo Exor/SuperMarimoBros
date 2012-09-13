@@ -373,6 +373,7 @@ namespace SuperMarimoBros.Player
             {
                 if (touchedObject.GetType().Name == "Koopa")
                 { 
+                    
                     //Need to check if the koopa is a shell or not
                 }
                 else

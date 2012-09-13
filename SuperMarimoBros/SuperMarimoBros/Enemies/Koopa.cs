@@ -31,7 +31,7 @@ namespace SuperMarimoBros.Enemies
         CurrentState state;
 
         public Koopa(Vector2 initialPosition, CurrentState type)
-            : base(initialPosition)
+            : base(new Vector2(initialPosition.X, initialPosition.Y - 8))
         {
             Texture2D koopaTexture = Textures.GetTexture(Textures.Texture.koopa);
             shell = new Sprite(koopaTexture, new Rectangle(32, 10, 16, 16));
@@ -63,6 +63,11 @@ namespace SuperMarimoBros.Enemies
 
         public override void Update(GameTime gameTime)
         {
+            if (velocity.X < 0)
+                effects = SpriteEffects.None;
+            else
+                effects = SpriteEffects.FlipHorizontally;
+
             if (state == CurrentState.flying)
             {
                 // needs implemented
@@ -121,12 +126,15 @@ namespace SuperMarimoBros.Enemies
                         state = CurrentState.walking;
                         break;
                     case CurrentState.hopping:
+                        velocity.Y = 0;
                         state = CurrentState.walking;
                         break;
                     case CurrentState.shell:
                         velocity.X = 0;
                         break;
                     case CurrentState.walking:
+                        position.Y += 8;
+                        velocity.X = 0;
                         state = CurrentState.shell;
                         break;
                 }
@@ -144,6 +152,10 @@ namespace SuperMarimoBros.Enemies
                 else
                     velocity.X = -shellSpeed;
             }
+            else
+            {
+                velocity.X = -velocity.X;
+            }
 
             base.OnSideCollision(touchedObject);
         }
@@ -160,6 +172,13 @@ namespace SuperMarimoBros.Enemies
             }
 
             base.OnTouch(touchedObject);
+        }
+
+        public bool IsShell()
+        {
+            if (state == CurrentState.shell)
+                return true;
+            return false;
         }
     }
 }
