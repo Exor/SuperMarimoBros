@@ -18,7 +18,7 @@ namespace SuperMarimoBros.Player
         float maximumWalkSpeed = 120f;
         float acceleration = 500f;
 
-        float launchVelocity = 250f;
+        float launchVelocity = 280f;
 
         float timer = 0f;
 
@@ -85,8 +85,8 @@ namespace SuperMarimoBros.Player
             CurrentState = State.Standing;
 
 #if DEBUG
-            //BecomeBigMario();
-            //BecomeFireMario();
+            BecomeBigMario();
+            BecomeFireMario();
 #endif
         }
 
@@ -99,13 +99,11 @@ namespace SuperMarimoBros.Player
                     break;
                 case State.Walking:
                     Walking.Play();
-                    Walking.Position = position;
-                    Walking.Draw(sb);
+                    Walking.Draw(sb, position, effects);
                     break;
                 case State.Running:
                     Running.Play();
-                    Running.Position = position;
-                    Running.Draw(sb);
+                    Running.Draw(sb, position, effects);
                     break;
                 case State.Jumping:
                     Jumping.Draw(sb, position, effects);
@@ -169,7 +167,7 @@ namespace SuperMarimoBros.Player
                 ResetFlags();
             }
 
-            SuperMariomoBros.AddDebugMessage("state: " + CurrentState.ToString() + " x: " + position.X + " y: " + position.Y);
+            //SuperMariomoBros.AddDebugMessage("state: " + CurrentState.ToString() + " x: " + position.X + " y: " + position.Y);
         }
 
         private void DealWithControllerInput()
@@ -279,9 +277,6 @@ namespace SuperMarimoBros.Player
                 effects = SpriteEffects.None;
             else if (velocity.X < 0)
                 effects = SpriteEffects.FlipHorizontally;
-
-            Walking.Effects = effects;
-            Running.Effects = effects;
         }
 
         private void FireAFireball()

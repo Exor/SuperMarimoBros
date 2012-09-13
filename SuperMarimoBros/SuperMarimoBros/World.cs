@@ -81,6 +81,7 @@ namespace SuperMarimoBros
                                 if (collision.Width < collision.Height)
                                 {
                                     currentObject.OnSideCollision(collisionObject);
+                                    collisionObject.OnSideCollision(currentObject);
                                 }
                                 else if (collision.Width > collision.Height)
                                 {
@@ -90,7 +91,10 @@ namespace SuperMarimoBros
                                         collisionObject.OnHeadbutt(currentObject);
                                     }
                                     else if (currentObject.BoundingRectangle().Y < collisionObject.BoundingRectangle().Y)
+                                    {
                                         currentObject.OnStomp(collisionObject);
+                                        collisionObject.OnStomp(currentObject);
+                                    }
                                 }
                             }
                         }

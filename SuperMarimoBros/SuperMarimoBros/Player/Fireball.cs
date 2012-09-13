@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SuperMarimoBros.Player
 {
@@ -21,16 +22,17 @@ namespace SuperMarimoBros.Player
             position.X += 11 * direction;
             velocity.X = 170f * direction;
             explode.IsLooping = false;
-            fireball.IsLooping = true;
+            //fireball.IsLooping = true;
             fireball.Play();
             Sounds.Play(Sounds.SoundFx.fireball);
         }
 
         public override void Update(GameTime gameTime)
         {
+            fireball.Update(gameTime);
             if (isExploding)
             {
-                explode.Position = position;
+                explode.Update(gameTime);
                 elpasedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (elpasedTime >= 0.3f)
                 {
@@ -39,19 +41,18 @@ namespace SuperMarimoBros.Player
             }
             else
             {
-                fireball.Position = position;
                 base.Update(gameTime);
             }
             
             
         }
 
-        public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (isExploding)
-                explode.Draw(spriteBatch);
+                explode.Draw(spriteBatch, position, effects);
             else
-                fireball.Draw(spriteBatch);
+                fireball.Draw(spriteBatch, position, effects);
         }
 
         public override Rectangle BoundingRectangle()
@@ -77,12 +78,40 @@ namespace SuperMarimoBros.Player
         //    Explode();
         //}
 
+        public override void OnStomp(GameObject touchedObject)
+        {
+            if (touchedObject.GetType().Namespace == "SuperMarimoBros.Blocks")
+            {
+                velocity.Y = -150f;
+            }
+
+            base.OnStomp(touchedObject);
+            isOnSolidTile = false;
+        }
+
+        public override void OnSideCollision(GameObject touchedObject)
+        {
+            if (touchedObject.GetType().Namespace == "SuperMarimoBros.Blocks")
+            {
+                Explode();
+            }
+            base.OnSideCollision(touchedObject);
+        }
+
+        public override void OnHeadbutt(GameObject touchedObject)
+        {
+            if (touchedObject.GetType().Namespace == "SuperMarimoBros.Blocks")
+            {
+                Explode();
+            }
+            base.OnHeadbutt(touchedObject);
+        }
+
         private void Explode()
         {
             fireball.Stop();
             explode.Play();
             isExploding = true;
-            explode.Position = position;
             Sounds.Play(Sounds.SoundFx.blockhit);
         }
     }

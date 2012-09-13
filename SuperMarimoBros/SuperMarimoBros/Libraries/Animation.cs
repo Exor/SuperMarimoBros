@@ -34,10 +34,7 @@ namespace SuperMarimoBros
 
         Point framePosition;
 
-        Vector2 position;
-
         float rotation;
-        SpriteEffects spriteEffects;
         Vector2 scale;
         float layer;
 
@@ -57,18 +54,15 @@ namespace SuperMarimoBros
             isPlaying = false;
 
             currentFrameNumber = 0;
-
-            position = Vector2.Zero;
             rotation = 0f;
-            spriteEffects = SpriteEffects.None;
             scale = Vector2.One;
             layer = 0f;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, SpriteEffects effects)
         {
             if (IsPlaying)
-                spriteBatch.Draw(Texture, Position, CurrentFrame, Color.White, Rotation, Vector2.Zero, Scale, Effects, Layer);
+                spriteBatch.Draw(Texture, position, CurrentFrame, Color.White, Rotation, Vector2.Zero, Scale, effects, Layer);
         }
 
         public void Update(GameTime gameTime)
@@ -152,12 +146,6 @@ namespace SuperMarimoBros
             set { isPlaying = value; }
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
         public Rectangle CurrentFrame
         {
             get { return currentFrame; }
@@ -168,12 +156,6 @@ namespace SuperMarimoBros
         {
             get { return rotation; }
             set { rotation = value; }
-        }
-
-        public SpriteEffects Effects
-        {
-            get { return spriteEffects; }
-            set { spriteEffects = value; }
         }
 
         public Vector2 Scale

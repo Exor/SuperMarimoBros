@@ -85,16 +85,16 @@ namespace SuperMarimoBros.Enemies
             switch (state)
             {
                 case CurrentState.walking:
-                    walking.Draw(spriteBatch);
+                    walking.Draw(spriteBatch, position, effects);
                     break;
                 case CurrentState.shell:
                     shell.Draw(spriteBatch, position, effects);
                     break;
                 case CurrentState.hopping:
-                    hopping.Draw(spriteBatch);
+                    hopping.Draw(spriteBatch, position, effects);
                     break;
                 case CurrentState.flying:
-                    hopping.Draw(spriteBatch);
+                    hopping.Draw(spriteBatch, position, effects);
                     break;
             }
         }

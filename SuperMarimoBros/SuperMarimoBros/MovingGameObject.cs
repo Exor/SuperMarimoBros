@@ -39,6 +39,8 @@ namespace SuperMarimoBros
         {
             if (!isOnSolidTile)
                 velocity.Y = velocity.Y + gravity * elapsedGameTime;
+            else
+                velocity.Y = 0;
         }
 
         public override void OnStomp(GameObject touchedObject)

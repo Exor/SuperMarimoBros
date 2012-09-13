@@ -25,6 +25,7 @@ namespace SuperMarimoBros.PowerUps
 
         public override void Update(GameTime gameTime)
         {
+            fireFlower.Update(gameTime);
             if (isSpawning) //spawn routine
             {
                 position.Y -= spawnSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -33,13 +34,11 @@ namespace SuperMarimoBros.PowerUps
                     isSpawning = false;
                 }
             }
-
-            fireFlower.Position = position;
         }
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            fireFlower.Draw(spriteBatch);
+            fireFlower.Draw(spriteBatch, position, effects);
         }
 
         internal override void OnTouch(GameObject touchedObject)

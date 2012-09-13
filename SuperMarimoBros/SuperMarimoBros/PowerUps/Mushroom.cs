@@ -64,7 +64,7 @@ namespace SuperMarimoBros.PowerUps
             {
                 shouldRemove = true;
             }
-            base.OnTouch(touchedObject);
+            //base.OnTouch(touchedObject);
         }
     }
 }
