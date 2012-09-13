@@ -53,7 +53,7 @@ namespace SuperMarimoBros.Blocks
             originalPosition = position.Y;
         }
 
-        public override void OnHeadbutt(GameObject touchedObject)
+        public override void OnStomp(GameObject touchedObject)
         {
             if (!isEmpty)
             {
@@ -74,7 +74,7 @@ namespace SuperMarimoBros.Blocks
                 isEmpty = true;
                 
             }
-            base.OnHeadbutt(touchedObject);
+            base.OnStomp(touchedObject);
         }
 
         public override void Update(GameTime gameTime)

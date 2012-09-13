@@ -81,6 +81,7 @@ namespace SuperMarimoBros.Enemies
             if (touchedObject.GetType().Name == "Fireball")
             {
                 wasHitByFireball = true;
+                isOnSolidTile = false;
                 velocity.X = 0;
                 velocity.Y = -150f;
                 effects = SpriteEffects.FlipVertically;

@@ -107,6 +107,15 @@ namespace SuperMarimoBros.Player
             base.OnHeadbutt(touchedObject);
         }
 
+        internal override void OnTouch(GameObject touchedObject)
+        {
+            if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
+            {
+                Explode();
+            }
+            base.OnTouch(touchedObject);
+        }
+
         private void Explode()
         {
             fireball.Stop();

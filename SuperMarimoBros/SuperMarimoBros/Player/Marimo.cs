@@ -85,8 +85,8 @@ namespace SuperMarimoBros.Player
             CurrentState = State.Standing;
 
 #if DEBUG
-            BecomeBigMario();
-            BecomeFireMario();
+            //BecomeBigMario();
+            //BecomeFireMario();
 #endif
         }
 
@@ -356,7 +356,7 @@ namespace SuperMarimoBros.Player
                 case State.Sliding:
                     return new Rectangle((int)position.X, (int)position.Y, Sliding.Frame.Width, Sliding.Frame.Height);
                 case State.Dying:
-                    return new Rectangle((int)position.X, (int)position.Y, Dying.Frame.Width, Dying.Frame.Height);
+                    return Rectangle.Empty;
                 case State.Crouching:
                     return new Rectangle((int)position.X, (int)position.Y, Crouching.Frame.Width, Crouching.Frame.Height);
                 case State.Firing:
@@ -365,22 +365,6 @@ namespace SuperMarimoBros.Player
                     return Rectangle.Empty;
             }
         }
-
-        //public override void OnStomp(Tile touchedObject, int y)
-        //{
-        //    base.OnStomp(touchedObject, y);
-        //}
-
-        //public override void OnHeadbutt(Tile touchedObject, int y)
-        //{
-        //    base.OnHeadbutt(touchedObject, y);
-        //}
-
-        //public override void OnSideCollision(Tile touchedObject, int x)
-        //{
-        //    velocity.X = 0;
-        //    position.X = x;
-        //}
         
         public override void OnSideCollision(GameObject touchedObject)
         {
@@ -402,12 +386,13 @@ namespace SuperMarimoBros.Player
 
         public override void OnStomp(GameObject touchedObject)
         {
+            base.OnStomp(touchedObject);
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
             {
                 velocity.Y = -100f;
                 Sounds.Play(Sounds.SoundFx.stomp);
             }
-            base.OnStomp(touchedObject);
+            
         }
 
         internal override void OnTouch(GameObject touchedObject)

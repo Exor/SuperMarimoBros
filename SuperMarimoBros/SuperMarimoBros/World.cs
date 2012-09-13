@@ -109,12 +109,12 @@ namespace SuperMarimoBros
                 if (currentObject.BoundingRectangle().Y > collisionObject.BoundingRectangle().Y)
                 {
                     currentObject.OnHeadbutt(collisionObject);
-                    collisionObject.OnHeadbutt(currentObject);
+                    collisionObject.OnStomp(currentObject);
                 }
                 else if (currentObject.BoundingRectangle().Y < collisionObject.BoundingRectangle().Y)
                 {
                     currentObject.OnStomp(collisionObject);
-                    collisionObject.OnStomp(currentObject);
+                    collisionObject.OnHeadbutt(currentObject);
                 }
             }
         }

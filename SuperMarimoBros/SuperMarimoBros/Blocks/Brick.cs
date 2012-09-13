@@ -25,7 +25,7 @@ namespace SuperMarimoBros.Blocks
             originalPosition = position.Y;
         }
 
-        public override void OnHeadbutt(GameObject touchedObject)
+        public override void OnStomp(GameObject touchedObject)
         {
             if (!Marimo.IsBig)
             {
@@ -44,7 +44,7 @@ namespace SuperMarimoBros.Blocks
 
                 Sounds.Play(SuperMarimoBros.Sounds.SoundFx.blockbreak);
             }
-            base.OnHeadbutt(touchedObject);
+            base.OnStomp(touchedObject);
         }
 
         public override void Update(GameTime gameTime)
