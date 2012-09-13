@@ -284,9 +284,9 @@ namespace SuperMarimoBros.Player
             if (shouldFire)
             {
                 if (effects == SpriteEffects.None) //shoot right
-                    World.AddGameObject(new Fireball(position, 1));
+                    World.AddObject(new Fireball(position, 1));
                 else //shoot left
-                    World.AddGameObject(new Fireball(position, -1));
+                    World.AddObject(new Fireball(position, -1));
             }
         }
 

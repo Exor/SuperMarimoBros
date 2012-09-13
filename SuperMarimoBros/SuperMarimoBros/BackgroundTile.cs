@@ -26,5 +26,10 @@ namespace SuperMarimoBros
         {
             sb.Draw(texture, position, Frame, Color.White);
         }
+
+        public Rectangle BoundingRectangle()
+        {
+            return new Rectangle((int)position.X, (int)position.Y, 16, 16);
+        }
     }
 }

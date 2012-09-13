@@ -68,22 +68,22 @@ namespace SuperMarimoBros
                     case "0":
                         break;
                     case "1":
-                        World.AddGameObject(new SolidBlock(new Rectangle(17, 0, 16, 16), position));
+                        World.AddObject(new SolidBlock(new Rectangle(17, 0, 16, 16), position));
                         break;
                     case "6":
-                        World.AddGameObject(new Brick(position));
+                        World.AddObject(new Brick(position));
                         break;
                     case "701": // create coin block
-                        World.AddGameObject(new QuestionBlock(position, QuestionBlock.Contains.Coin));
+                        World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.Coin));
                         break;
                     case "702": // create mushroom block
-                        World.AddGameObject(new QuestionBlock(position, QuestionBlock.Contains.Mushroom));
+                        World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.Mushroom));
                         break;
                     case "100":
-                        World.AddGameObject(new Goomba(position));
+                        World.AddObject(new Goomba(position));
                         break;
                     default:
-                        World.AddBackgroundTile(new BackgroundTile(tilePositions[Convert.ToInt32(row[y])], position));
+                        World.AddObject(new BackgroundTile(tilePositions[Convert.ToInt32(row[y])], position));
                         break;
                 };
             }

@@ -66,9 +66,9 @@ namespace SuperMarimoBros.Blocks
                 {
                     //spawn either mushroom or fire flower
                     if (Marimo.IsBig)
-                        World.AddGameObject(new Fireflower(position));
+                        World.AddObject(new Fireflower(position));
                     else
-                        World.AddGameObject(new Mushroom(position));
+                        World.AddObject(new Mushroom(position));
                 }
                 wasBumped = true;
                 isEmpty = true;

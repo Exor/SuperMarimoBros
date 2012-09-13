@@ -37,10 +37,10 @@ namespace SuperMarimoBros.Blocks
                 shouldRemove = true;
 
                 //create 4 particles that fly out
-                World.AddGameObject(new BrickParticle(new Vector2(150f, -200f), position));
-                World.AddGameObject(new BrickParticle(new Vector2(-150f, -200f), position));
-                World.AddGameObject(new BrickParticle(new Vector2(150f, -150f), position));
-                World.AddGameObject(new BrickParticle(new Vector2(-150f, -150f), position));
+                World.AddObject(new BrickParticle(new Vector2(150f, -200f), position));
+                World.AddObject(new BrickParticle(new Vector2(-150f, -200f), position));
+                World.AddObject(new BrickParticle(new Vector2(150f, -150f), position));
+                World.AddObject(new BrickParticle(new Vector2(-150f, -150f), position));
 
                 Sounds.Play(SuperMarimoBros.Sounds.SoundFx.blockbreak);
             }
