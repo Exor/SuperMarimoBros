@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SuperMarimoBros.Screens;
 
 namespace SuperMarimoBros.Enemies
 {
@@ -78,7 +79,7 @@ namespace SuperMarimoBros.Enemies
 
         public override void OnSideCollision(GameObject touchedObject)
         {
-            SuperMariomoBros.AddDebugMessage("HIT: " + touchedObject.GetType().Name.ToString());
+            GameplayScreen.AddDebugMessage("HIT: " + touchedObject.GetType().Name.ToString());
             velocity.X = -velocity.X;
             base.OnSideCollision(touchedObject);
         }

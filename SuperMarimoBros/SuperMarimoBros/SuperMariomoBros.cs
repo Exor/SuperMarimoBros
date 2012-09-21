@@ -12,6 +12,7 @@ using SuperMarimoBros;
 using System.IO;
 using SuperMarimoBros.Enemies;
 using SuperMarimoBros.Player;
+using SuperMarimoBros.Screens;
 
 namespace SuperMarimoBros
 {
@@ -24,17 +25,8 @@ namespace SuperMarimoBros
         SpriteBatch spriteBatch;
 
         FPS fps;
-        Textures textures;
-        Input input;
-        LevelBuilder levelBuilder;
-        Sounds soundManager;
 
-        Marimo marimo;
-
-        World world;
-
-        SpriteFont font;
-        static string debugMessage = "";
+        ScreenManager screenManager;
 
         public SuperMariomoBros()
         {
@@ -56,11 +48,10 @@ namespace SuperMarimoBros
         {
             fps = new FPS(this);
             this.Components.Add(fps);
-            input = new Input(this);
-            this.Components.Add(input);
-            soundManager = new Sounds();
-            levelBuilder = new LevelBuilder();
-            textures = new Textures();
+            screenManager = new ScreenManager(this);
+            this.Components.Add(screenManager);
+
+            screenManager.AddScreen(new MenuScreen(), null);
 
             base.Initialize();
         }
@@ -69,23 +60,8 @@ namespace SuperMarimoBros
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            soundManager.LoadSounds(Content);
-            textures.LoadTextures(Content);
-
-            marimo = new Marimo(new Vector2(32, 192), input);
-            world = new World(levelBuilder, marimo);
-
-            Sounds.Play(Sounds.Music.overworld);
-
-            font = Content.Load<SpriteFont>("myFont");
-
-            LevelBuilder.LoadLevelFile();
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
@@ -93,13 +69,7 @@ namespace SuperMarimoBros
 
 
         protected override void Update(GameTime gameTime)
-        {
-            if (input.IsButtonPressed(Keys.Escape))
-                this.Exit();
-            if (input.WasButtonPressed(Keys.D1))
-                Sounds.Play(Sounds.Music.overworldfast);
-
-            world.Update(gameTime);
+        {            
 
             base.Update(gameTime);
         }
@@ -107,19 +77,9 @@ namespace SuperMarimoBros
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();            
 
-            world.Draw(spriteBatch);
-
-            spriteBatch.DrawString(font, debugMessage, new Vector2(0, 0), Color.White);
-
-            spriteBatch.End();
             base.Draw(gameTime);
         }
 
-        public static void AddDebugMessage(string message)
-        {
-            debugMessage = message;
-        }
     }
 }

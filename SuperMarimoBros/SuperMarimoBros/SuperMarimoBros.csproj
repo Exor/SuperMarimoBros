@@ -108,31 +108,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blocks\SolidBlock.cs" />
-    <Compile Include="Camera.cs" />
+    <Compile Include="Libraries\Camera.cs" />
     <Compile Include="Enemies\Goomba.cs" />
     <Compile Include="Enemies\Koopa.cs" />
     <Compile Include="Blocks\BrickParticle.cs" />
     <Compile Include="Enemies\Enemy.cs" />
+    <Compile Include="Libraries\GameScreen.cs" />
+    <Compile Include="Libraries\ScreenManager.cs" />
     <Compile Include="Player\Fireball.cs" />
     <Compile Include="PowerUps\FireFlower.cs" />
-    <Compile Include="GameObject.cs" />
+    <Compile Include="Libraries\GameObject.cs" />
     <Compile Include="PowerUps\Mushroom.cs" />
     <Compile Include="Libraries\FPS.cs" />
     <Compile Include="Libraries\Input.cs" />
     <Compile Include="Libraries\Sounds.cs" />
     <Compile Include="Libraries\Animation.cs" />
-    <Compile Include="MovingGameObject.cs" />
+    <Compile Include="Libraries\MovingGameObject.cs" />
     <Compile Include="Player\Marimo.cs" />
     <Compile Include="Libraries\Textures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Libraries\Sprite.cs" />
+    <Compile Include="Screens\GameplayScreen.cs" />
+    <Compile Include="Screens\MenuScreen.cs" />
     <Compile Include="SuperMariomoBros.cs" />
     <Compile Include="Blocks\Brick.cs" />
     <Compile Include="Blocks\QuestionBlock.cs" />
-    <Compile Include="BackgroundTile.cs" />
+    <Compile Include="Libraries\BackgroundTile.cs" />
     <Compile Include="Libraries\LevelBuilder.cs" />
-    <Compile Include="World.cs" />
+    <Compile Include="Libraries\World.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

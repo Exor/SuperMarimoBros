@@ -14,29 +14,21 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace SuperMarimoBros
 {
-    public class Input : Microsoft.Xna.Framework.GameComponent
+    public class Input
     {
         private KeyboardState newState;
         private KeyboardState oldState;
 
         public Input(Game game)
-            : base(game)
-        {
-
-        }
-
-        public override void Initialize()
         {
             newState = new KeyboardState();
             oldState = newState;
-            base.Initialize();
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update()
         {
             oldState = newState;
             newState = Keyboard.GetState();
-            base.Update(gameTime);
         }
 
         public bool IsButtonPressed(Keys key)
