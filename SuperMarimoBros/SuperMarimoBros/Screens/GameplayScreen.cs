@@ -58,6 +58,7 @@ namespace SuperMarimoBros.Screens
         public override void UnloadContent()
         {
             content.Unload();
+            
             base.UnloadContent();
         }
 

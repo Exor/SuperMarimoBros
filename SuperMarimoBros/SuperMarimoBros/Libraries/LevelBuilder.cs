@@ -15,9 +15,9 @@ namespace SuperMarimoBros
     {
         static List<Rectangle> tilePositions;
         
-        static int index = 20;
+        static int index;
 
-        float offset;
+        static float offset;
 
         static List<string[]> level;
 
@@ -33,6 +33,10 @@ namespace SuperMarimoBros
 
         public static void LoadLevelFile()
         {
+            offset = 0;
+            index = 20;
+            
+
             StreamReader streamReader = new StreamReader("Levels/levelOneOne.txt");
 
             while (!streamReader.EndOfStream)
