@@ -8,6 +8,7 @@ using SuperMarimoBros;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using SuperMarimoBros.Enemies;
+using SuperMarimoBros.Blocks;
 
 namespace SuperMarimoBros
 {
@@ -37,7 +38,9 @@ namespace SuperMarimoBros
         bool isDying;
         bool isDead;
         bool wasHitByEnemy;
-
+        bool isOnFlagpole;
+        bool runFinishAnimation;
+        bool levelIsFinished;
 
         bool shouldMoveRight;
         bool shouldMoveLeft;
@@ -136,7 +139,30 @@ namespace SuperMarimoBros
             Walking.Update(gt);
             Running.Update(gt);
 
-            if (isDying)
+            if (runFinishAnimation)
+            {
+                timer += elapsedGameTime;
+                if (timer >= 5)
+                    levelIsFinished = true;
+                else
+                {
+                    ChangeState(State.Walking);
+                    velocity.X = 50f;
+                    base.Update(gt);
+                }
+            }
+            else if (isOnFlagpole)
+            {
+                ChangeState(State.Standing);
+                if (!isOnSolidTile)
+                    position.Y += Flagpole.FlagSpeed * elapsedGameTime;
+                if (Flagpole.AnimationFinished == true)
+                {
+                    runFinishAnimation = true;
+                    position.X += 18;
+                }
+            }
+            else if (isDying)
             {
                 ChangeState(State.Dying);
                 base.Update(gt);
@@ -431,6 +457,11 @@ namespace SuperMarimoBros
                 Sounds.Play(Sounds.SoundFx.mushroomeat);
                 BecomeFireMario();
             }
+            else if (touchedObject.GetType().Name == "Flagpole")
+            {
+                isOnFlagpole = true;
+                velocity = Vector2.Zero;
+            }
 
             base.OnTouch(touchedObject);
         }
@@ -509,6 +540,11 @@ namespace SuperMarimoBros
         public bool WasHitByEnemy
         {
             get { return wasHitByEnemy; }
+        }
+
+        public bool LevelIsFinished
+        {
+            get { return levelIsFinished; }
         }
     }
 }

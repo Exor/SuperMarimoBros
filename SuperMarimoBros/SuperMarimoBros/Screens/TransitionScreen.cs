@@ -79,9 +79,6 @@ namespace SuperMarimoBros.Screens
 
                 ScreenManager.AddScreen(screenToLoad, ControllingPlayer);
 
-                // Pause for a bit to let the player see the details
-                Thread.Sleep(1000);
-
                 // Once the load has finished, we use ResetElapsedTime to tell
                 // the  game timing mechanism that we have just finished a very
                 // long frame, and that it should not try to catch up.

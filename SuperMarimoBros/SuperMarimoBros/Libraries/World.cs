@@ -61,13 +61,6 @@ namespace SuperMarimoBros
             levelBuilder.UpdateLevelFrame(camera.Position.X);
 
             RunCollisionDetection();
-            //foreach (GameObject g in gameObjects)
-            //{
-            //    if (g.runCollisionDetection)
-            //        CollisionDetection(g);
-            //    else
-            //        g.isOnSolidTile = false;
-            //}
         }
 
         private void RunCollisionDetection()

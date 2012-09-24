@@ -31,13 +31,13 @@ namespace SuperMarimoBros
                     tilePositions.Add(new Rectangle(x, y, 16, 16));
         }
 
-        public static void LoadLevelFile()
+        public static void LoadLevelFile(string levelNumber)
         {
             offset = 0;
             index = 20;
             
 
-            StreamReader streamReader = new StreamReader("Levels/levelOneOne.txt");
+            StreamReader streamReader = new StreamReader("Levels/" + levelNumber + ".txt");
 
             while (!streamReader.EndOfStream)
             {
@@ -91,6 +91,9 @@ namespace SuperMarimoBros
                         break;
                     case "102":
                         World.AddObject(new Koopa(position, Koopa.CurrentState.hopping));
+                        break;
+                    case "99":
+                        World.AddObject(new Flagpole(position));
                         break;
                     default:
                         World.AddObject(new BackgroundTile(tilePositions[Convert.ToInt32(row[y])], position));

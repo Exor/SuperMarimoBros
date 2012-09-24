@@ -69,11 +69,11 @@ namespace SuperMarimoBros
                 
                 if (position.X > touchedObject.position.X)//collision from the right
                 {
-                    position.X = touchedObject.position.X + touchedObject.BoundingRectangle().Width;
+                    position.X = touchedObject.BoundingRectangle().X + touchedObject.BoundingRectangle().Width;
                 }
                 else//collision from the left
                 {
-                    position.X = touchedObject.position.X - this.BoundingRectangle().Width;
+                    position.X = touchedObject.BoundingRectangle().X - this.BoundingRectangle().Width;
                 }
                 
             }

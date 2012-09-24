@@ -48,7 +48,7 @@ namespace SuperMarimoBros.Screens
 
             font = content.Load<SpriteFont>("myFont");
 
-            LevelBuilder.LoadLevelFile();
+            LevelBuilder.LoadLevelFile(Player.World + "-" + Player.Level);
 
             base.LoadContent();
 
@@ -71,6 +71,12 @@ namespace SuperMarimoBros.Screens
             if (marimo.IsDead)
             {
                 //reload the level
+                TransitionScreen.Load(ScreenManager, this);
+            }
+            if (marimo.LevelIsFinished)
+            {
+                //load the next level
+                Player.NextLevel();
                 TransitionScreen.Load(ScreenManager, this);
             }
         }
@@ -98,6 +104,10 @@ namespace SuperMarimoBros.Screens
             {
                 this.ExitScreen();
                 ScreenManager.AddScreen(new MenuScreen(), null);
+            }
+            if (input.WasButtonPressed(Keys.Enter))
+            {
+                //Pause the game
             }
             base.HandleInput(input);
         }
