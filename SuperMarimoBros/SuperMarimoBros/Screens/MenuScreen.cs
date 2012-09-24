@@ -34,7 +34,7 @@ namespace SuperMarimoBros.Screens
             if (input.WasButtonPressed(Keys.Enter))
             {
                 //ScreenManager.AddScreen(new GameplayScreen(), null);
-                TransitionScreen.Load(ScreenManager, "1-1", 5, new GameplayScreen());
+                TransitionScreen.Load(ScreenManager, new GameplayScreen());
             }
             base.HandleInput(input);
         }

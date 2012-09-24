@@ -35,6 +35,7 @@ namespace SuperMarimoBros
         static bool isBig = true;
         static bool isFireMario;
         bool isDying;
+        bool isDead;
         bool wasHitByEnemy;
 
         bool shouldMoveRight;
@@ -137,6 +138,14 @@ namespace SuperMarimoBros
             if (isDying)
             {
                 ChangeState(State.Dying);
+                base.Update(gt);
+                timer += elapsedGameTime;
+                if (timer > 2)
+                {
+                    isDead = true;
+                    Player.LoseLife();
+                }
+
             }
             else if (wasHitByEnemy)
             {
@@ -145,6 +154,7 @@ namespace SuperMarimoBros
                 if (timer > 1)
                 {
                     wasHitByEnemy = false;
+                    timer = 0;
                 }
             }
             else
@@ -152,10 +162,8 @@ namespace SuperMarimoBros
                 //Mario falls off the screen
                 if (position.Y > 250)
                 {
-                    position.Y = -32;
-                    //isDying = true;
-                    //CurrentState = State.Dying;
-                    //Sounds.Play(Sounds.Music.death);
+                    //position.Y = -32;
+                    InitiateDeath();
                 }
 
                 DealWithControllerInput();
@@ -427,7 +435,9 @@ namespace SuperMarimoBros
                 BecomeSmallMario();
             }
             else
-                isDying = true;
+            {
+                InitiateDeath();
+            }
         }
 
         public static bool IsBig
@@ -472,6 +482,19 @@ namespace SuperMarimoBros
             Walking.FramePosition = new Point(81, 53);
             Crouching.Frame = new Rectangle(61, 63, 16, 22);
             isFireMario = true;
+        }
+
+        private void InitiateDeath()
+        {
+            isDying = true;
+            velocity.Y = -200;
+            velocity.X = 0;
+            Sounds.Play(Sounds.Music.death);
+        }
+
+        public bool IsDead
+        {
+            get { return isDead; }
         }
     }
 }

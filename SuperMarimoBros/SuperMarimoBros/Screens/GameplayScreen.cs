@@ -66,6 +66,12 @@ namespace SuperMarimoBros.Screens
             world.Update(gameTime);
             hud.Update(400);
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+            
+            if (marimo.IsDead)
+            {
+                //reload the level
+                TransitionScreen.Load(ScreenManager, this);
+            }
         }
 
         public override void Draw(GameTime gameTime)

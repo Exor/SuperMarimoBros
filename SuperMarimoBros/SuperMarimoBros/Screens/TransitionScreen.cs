@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Threading;
 
 namespace SuperMarimoBros.Screens
 {
@@ -14,26 +15,23 @@ namespace SuperMarimoBros.Screens
         bool otherScreensAreGone;
         GameScreen screenToLoad;
 
-        private TransitionScreen(string levelToLoad, int numberOfLives, GameScreen screenToLoad)
+        private TransitionScreen(GameScreen screenToLoad)
         {
             TransitionOnTime = TimeSpan.Zero;
             TransitionOffTime = TimeSpan.Zero;
-            level = levelToLoad;
-            lives = numberOfLives;
+            level = Player.World + "-" + Player.Level;
+            lives = Player.Lives;
             this.screenToLoad = screenToLoad;
         }
 
-        public static void Load(ScreenManager screenManager,
-                        string levelToLoad,
-                        int numberOfLives,
-                        GameScreen screenToLoad)
+        public static void Load(ScreenManager screenManager, GameScreen screenToLoad)
         {
             // Tell all the current screens to transition off.
             foreach (GameScreen screen in screenManager.GetScreens())
                 screen.ExitScreen();
 
             // Create and activate the loading screen.
-            TransitionScreen loadingScreen = new TransitionScreen(levelToLoad, numberOfLives, screenToLoad);
+            TransitionScreen loadingScreen = new TransitionScreen(screenToLoad);
 
             screenManager.AddScreen(loadingScreen, null);
         }
@@ -80,6 +78,9 @@ namespace SuperMarimoBros.Screens
                 ScreenManager.RemoveScreen(this);
 
                 ScreenManager.AddScreen(screenToLoad, ControllingPlayer);
+
+                // Pause for a bit to let the player see the details
+                Thread.Sleep(1000);
 
                 // Once the load has finished, we use ResetElapsedTime to tell
                 // the  game timing mechanism that we have just finished a very
