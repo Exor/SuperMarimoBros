@@ -16,7 +16,7 @@ namespace SuperMarimoBros.Screens
             TransitionOnTime = TimeSpan.Zero;
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
             ScreenManager.SpriteBatch.Begin();
             ScreenManager.SpriteBatch.DrawString(ScreenManager.Font, "Super Marimo Bros!", new Vector2(200, 0), Color.White);
@@ -33,7 +33,8 @@ namespace SuperMarimoBros.Screens
             }
             if (input.WasButtonPressed(Keys.Enter))
             {
-                ScreenManager.AddScreen(new GameplayScreen(), null);
+                //ScreenManager.AddScreen(new GameplayScreen(), null);
+                TransitionScreen.Load(ScreenManager, "1-1", 5, new GameplayScreen());
             }
             base.HandleInput(input);
         }

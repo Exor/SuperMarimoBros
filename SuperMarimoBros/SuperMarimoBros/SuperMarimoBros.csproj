@@ -131,6 +131,7 @@
     <Compile Include="Libraries\Sprite.cs" />
     <Compile Include="Screens\GameplayScreen.cs" />
     <Compile Include="Screens\MenuScreen.cs" />
+    <Compile Include="Screens\TransitionScreen.cs" />
     <Compile Include="SuperMariomoBros.cs" />
     <Compile Include="Blocks\Brick.cs" />
     <Compile Include="Blocks\QuestionBlock.cs" />
