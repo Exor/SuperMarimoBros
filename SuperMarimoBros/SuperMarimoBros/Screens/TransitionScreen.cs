@@ -59,8 +59,8 @@ namespace SuperMarimoBros.Screens
             SpriteBatch sb = ScreenManager.SpriteBatch;
 
             sb.Begin();
-            sb.DrawString(ScreenManager.Font, "Level " + level, new Vector2(250, 50), Color.White);
-            sb.DrawString(ScreenManager.Font, "Lives x" + lives.ToString(), new Vector2(250, 100), Color.White);
+            sb.DrawString(ScreenManager.Font, "Level " + level, new Vector2(100, 50), Color.White);
+            sb.DrawString(ScreenManager.Font, "Lives x" + lives.ToString(), new Vector2(100, 100), Color.White);
             sb.End();
 
 
@@ -77,8 +77,10 @@ namespace SuperMarimoBros.Screens
             {
                 ScreenManager.RemoveScreen(this);
 
-                ScreenManager.AddScreen(screenToLoad, ControllingPlayer);
+                Thread.Sleep(1000);
 
+                ScreenManager.AddScreen(screenToLoad, ControllingPlayer);
+                
                 // Once the load has finished, we use ResetElapsedTime to tell
                 // the  game timing mechanism that we have just finished a very
                 // long frame, and that it should not try to catch up.

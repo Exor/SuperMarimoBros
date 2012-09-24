@@ -167,7 +167,7 @@ namespace SuperMarimoBros
                 ChangeState(State.Dying);
                 base.Update(gt);
                 timer += elapsedGameTime;
-                if (timer > 2)
+                if (timer > 2.5f)
                 {
                     isDead = true;
                     Player.LoseLife();

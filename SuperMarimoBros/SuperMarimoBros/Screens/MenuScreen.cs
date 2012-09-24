@@ -19,8 +19,8 @@ namespace SuperMarimoBros.Screens
         public override void Draw(GameTime gameTime)
         {
             ScreenManager.SpriteBatch.Begin();
-            ScreenManager.SpriteBatch.DrawString(ScreenManager.Font, "Super Marimo Bros!", new Vector2(200, 0), Color.White);
-            ScreenManager.SpriteBatch.DrawString(ScreenManager.Font, "Press Enter to start!", new Vector2(200, 100), Color.White);
+            ScreenManager.SpriteBatch.DrawString(ScreenManager.Font, "Super Marimo Bros!", new Vector2(100, 0), Color.White);
+            ScreenManager.SpriteBatch.DrawString(ScreenManager.Font, "Press Enter to start!", new Vector2(100, 100), Color.White);
             ScreenManager.SpriteBatch.End();
             base.Draw(gameTime);
         }
