@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using SuperMarimoBros;
-using SuperMarimoBros.Player;
 using SuperMarimoBros.PowerUps;
 
 namespace SuperMarimoBros.Blocks

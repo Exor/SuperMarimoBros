@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using SuperMarimoBros.Enemies;
 
-namespace SuperMarimoBros.Player
+namespace SuperMarimoBros
 {
     class Marimo : MovingGameObject
     {

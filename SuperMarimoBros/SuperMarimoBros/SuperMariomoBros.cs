@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Media;
 using SuperMarimoBros;
 using System.IO;
 using SuperMarimoBros.Enemies;
-using SuperMarimoBros.Player;
 using SuperMarimoBros.Screens;
 
 namespace SuperMarimoBros
@@ -27,6 +26,7 @@ namespace SuperMarimoBros
         FPS fps;
 
         ScreenManager screenManager;
+        Player player;
 
         public SuperMariomoBros()
         {
@@ -59,6 +59,7 @@ namespace SuperMarimoBros
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            player = new Player(5, 1, 1);
 
         }
 

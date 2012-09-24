@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
-using SuperMarimoBros.Player;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -20,6 +19,7 @@ namespace SuperMarimoBros.Screens
 
         Marimo marimo;
         World world;
+        HeadsUpDisplay hud;
 
         SpriteFont font;
         static string debugMessage = "";
@@ -42,6 +42,7 @@ namespace SuperMarimoBros.Screens
             soundManager.LoadSounds(content);
             textures.LoadTextures(content);
 
+            hud = new HeadsUpDisplay(400, ScreenManager.Font);
             marimo = new Marimo(new Vector2(32, 192), ScreenManager.GetInput());
             world = new World(levelBuilder, marimo);
 
@@ -63,7 +64,7 @@ namespace SuperMarimoBros.Screens
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             world.Update(gameTime);
-
+            hud.Update(400);
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
 
@@ -73,8 +74,8 @@ namespace SuperMarimoBros.Screens
 
             spriteBatch.Begin();
             world.Draw(spriteBatch);
-
-            spriteBatch.DrawString(font, debugMessage, new Vector2(0, 0), Color.White);
+            hud.Draw(spriteBatch);
+            //spriteBatch.DrawString(font, debugMessage, new Vector2(0, 0), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }

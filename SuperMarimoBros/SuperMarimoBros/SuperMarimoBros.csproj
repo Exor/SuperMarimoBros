@@ -116,6 +116,7 @@
     <Compile Include="Libraries\GameScreen.cs" />
     <Compile Include="Libraries\ScreenManager.cs" />
     <Compile Include="Player\Fireball.cs" />
+    <Compile Include="Player\Player.cs" />
     <Compile Include="PowerUps\FireFlower.cs" />
     <Compile Include="Libraries\GameObject.cs" />
     <Compile Include="PowerUps\Mushroom.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Libraries\Sprite.cs" />
     <Compile Include="Screens\GameplayScreen.cs" />
+    <Compile Include="Screens\HeadsUpDisplay.cs" />
     <Compile Include="Screens\MenuScreen.cs" />
     <Compile Include="Screens\TransitionScreen.cs" />
     <Compile Include="SuperMariomoBros.cs" />
