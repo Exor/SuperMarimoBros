@@ -8,6 +8,7 @@ namespace SuperMarimoBros.PowerUps
 {
     class Fireflower : GameObject
     {
+        int points = 1000;
         float spawnSpeed = 20f;
         bool isSpawning = true;
         Vector2 initialPosition;
@@ -46,6 +47,7 @@ namespace SuperMarimoBros.PowerUps
             if (touchedObject.GetType().Name == "Marimo")
             {
                 shouldRemove = true;
+                Player.AddPoints(points);
             }
         }
 

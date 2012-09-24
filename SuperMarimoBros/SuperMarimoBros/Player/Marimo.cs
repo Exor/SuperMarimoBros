@@ -38,6 +38,7 @@ namespace SuperMarimoBros
         bool isDead;
         bool wasHitByEnemy;
 
+
         bool shouldMoveRight;
         bool shouldMoveLeft;
         bool shouldRun;
@@ -87,7 +88,7 @@ namespace SuperMarimoBros
             CurrentState = State.Standing;
 
 #if DEBUG
-            //BecomeBigMario();
+            BecomeBigMario();
             //BecomeFireMario();
 #endif
         }
@@ -430,6 +431,7 @@ namespace SuperMarimoBros
         {
             if (isFireMario || isBig)
             {
+                wasHitByEnemy = true;
                 ChangeState(State.Standing);
                 Sounds.Play(Sounds.SoundFx.shrink);
                 BecomeSmallMario();
@@ -440,14 +442,8 @@ namespace SuperMarimoBros
             }
         }
 
-        public static bool IsBig
-        {
-            get { return isBig; }
-        }
-
         private void BecomeSmallMario()
         {
-            wasHitByEnemy = true;
             Standing.Frame = new Rectangle(0, 0, 16, 16);
             Jumping.Frame = new Rectangle(40, 0, 16, 16);
             Sliding.Frame = new Rectangle(17, 0, 16, 16);
@@ -492,9 +488,19 @@ namespace SuperMarimoBros
             Sounds.Play(Sounds.Music.death);
         }
 
+        public static bool IsBig
+        {
+            get { return isBig; }
+        }
+
         public bool IsDead
         {
             get { return isDead; }
+        }
+
+        public bool WasHitByEnemy
+        {
+            get { return wasHitByEnemy; }
         }
     }
 }

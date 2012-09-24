@@ -9,6 +9,8 @@ namespace SuperMarimoBros.Enemies
 {
     abstract class Enemy : MovingGameObject
     {
+        internal int points = 100;
+
         public Enemy(Vector2 position)
             : base(position)
         {

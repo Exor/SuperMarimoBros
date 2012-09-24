@@ -63,6 +63,8 @@ namespace SuperMarimoBros.Blocks
                     {
                         coinAnimation.Play();
                         Sounds.Play(Sounds.SoundFx.coin);
+                        Player.AddCoin();
+                        Player.AddPoints(100);
                     }
                     if (item == Contains.Mushroom)
                     {

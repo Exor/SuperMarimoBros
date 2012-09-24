@@ -10,6 +10,7 @@ namespace SuperMarimoBros.PowerUps
 {
     class Mushroom : MovingGameObject
     {
+        int points = 1000;
         Sprite mushroom;
         float spawnSpeed = 20f;
         bool isSpawning = true;
@@ -63,6 +64,7 @@ namespace SuperMarimoBros.PowerUps
             if (touchedObject.GetType().Name == "Marimo")
             {
                 shouldRemove = true;
+                Player.AddPoints(points);
             }
             //base.OnTouch(touchedObject);
         }

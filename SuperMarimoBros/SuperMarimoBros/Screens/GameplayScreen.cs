@@ -46,13 +46,13 @@ namespace SuperMarimoBros.Screens
             marimo = new Marimo(new Vector2(32, 192), ScreenManager.GetInput());
             world = new World(levelBuilder, marimo);
 
-            Sounds.Play(Sounds.Music.overworld);
-
             font = content.Load<SpriteFont>("myFont");
 
             LevelBuilder.LoadLevelFile();
 
             base.LoadContent();
+
+            Sounds.Play(Sounds.Music.overworld);
         }
 
         public override void UnloadContent()
@@ -96,6 +96,7 @@ namespace SuperMarimoBros.Screens
             if (input.WasButtonPressed(Keys.Escape))
             {
                 this.ExitScreen();
+                ScreenManager.AddScreen(new MenuScreen(), null);
             }
             base.HandleInput(input);
         }

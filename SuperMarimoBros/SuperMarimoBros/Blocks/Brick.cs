@@ -10,6 +10,7 @@ namespace SuperMarimoBros.Blocks
 {
     class Brick : GameObject
     {
+        int points = 100;
         bool wasBumped = false;
         float bumpSpeed = 75f;
         float bumpAmount = 6; //pixels
@@ -42,6 +43,9 @@ namespace SuperMarimoBros.Blocks
                     World.AddObject(new BrickParticle(new Vector2(-150f, -200f), position));
                     World.AddObject(new BrickParticle(new Vector2(150f, -150f), position));
                     World.AddObject(new BrickParticle(new Vector2(-150f, -150f), position));
+
+                    //Add the score
+                    Player.AddPoints(points);
 
                     Sounds.Play(SuperMarimoBros.Sounds.SoundFx.blockbreak);
                 }

@@ -120,6 +120,8 @@ namespace SuperMarimoBros.Enemies
         {
             if (touchedObject.GetType().Name == "Marimo")
             {
+                Player.AddPoints(points);
+
                 switch (state)
                 {
                     case CurrentState.flying:

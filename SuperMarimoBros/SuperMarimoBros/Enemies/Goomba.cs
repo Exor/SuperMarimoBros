@@ -68,6 +68,7 @@ namespace SuperMarimoBros.Enemies
             if (touchedObject.GetType().Name == "Marimo")
             {
                 wasStomped = true;
+                Player.AddPoints(points);
             }
             base.OnHeadbutt(touchedObject);
         }
