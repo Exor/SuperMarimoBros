@@ -14,7 +14,6 @@ namespace SuperMarimoBros.Enemies
         Sprite goomba;
         float walkingSpeed = 20f;
         bool wasStomped = false;
-        bool wasHitByFireball = false;
         float timeBetweenAnimation = 0.3f;
         float timeToDie = 1f;
         float elapsedGameTime;
@@ -78,26 +77,7 @@ namespace SuperMarimoBros.Enemies
             base.OnStomp(touchedObject);
         }
 
-        public override void OnSideCollision(GameObject touchedObject)
-        {
-            GameplayScreen.AddDebugMessage("HIT: " + touchedObject.GetType().Name.ToString());
-            velocity.X = -velocity.X;
-            base.OnSideCollision(touchedObject);
-        }
 
-        internal override void OnTouch(GameObject touchedObject)
-        {
-            if (touchedObject.GetType().Name == "Fireball")
-            {
-                wasHitByFireball = true;
-                isOnSolidTile = false;
-                velocity.X = 0;
-                velocity.Y = -150f;
-                effects = SpriteEffects.FlipVertically;
-                Sounds.Play(Sounds.SoundFx.stomp);
-                Player.AddPoints(points);
-            }
-        }
 
         private void Flip()
         {

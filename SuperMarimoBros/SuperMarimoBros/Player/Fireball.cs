@@ -63,21 +63,6 @@ namespace SuperMarimoBros
                 return new Rectangle((int)position.X, (int)position.Y, fireball.CurrentFrame.Width, fireball.CurrentFrame.Height);
         }
 
-        //public override void OnStomp(Tile touchedObject, int y)
-        //{
-        //    velocity.Y = -150f;
-        //}
-
-        //public override void OnHeadbutt(Tile touchedObject, int y)
-        //{
-        //    Explode();
-        //}
-
-        //public override void OnSideCollision(Tile touchedObject, int x)
-        //{
-        //    Explode();
-        //}
-
         public override void OnStomp(GameObject touchedObject)
         {
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Blocks")

@@ -19,7 +19,10 @@ namespace SuperMarimoBros.Enemies
 
         public override Rectangle BoundingRectangle()
         {
-            return new Rectangle((int)position.X, (int)position.Y, shell.Frame.Width, shell.Frame.Height);
+            if (wasHitByFireball)
+                return Rectangle.Empty;
+            else
+                return new Rectangle((int)position.X, (int)position.Y, shell.Frame.Width, shell.Frame.Height);
         }
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
@@ -47,10 +50,11 @@ namespace SuperMarimoBros.Enemies
             if (touchedObject.GetType().Name == "Marimo")
             {
                 Kick(touchedObject);
-            }
-            if (touchedObject.GetType().Namespace == "SuperMarimoBros.Blocks")
-            {
-                velocity.X = -velocity.X;
+                
+                //if (touchedObject.position.X < position.X)
+                //    position.X = touchedObject.BoundingRectangle().X + touchedObject.BoundingRectangle().Width;
+                //else
+                //    position.X = touchedObject.BoundingRectangle().X - this.BoundingRectangle().Width;
             }
 
             base.OnSideCollision(touchedObject);
@@ -62,6 +66,13 @@ namespace SuperMarimoBros.Enemies
                 velocity.X = speed;
             else
                 velocity.X = -speed;
+        }
+
+        public static bool ShellIsMoving(Shell shell)
+        {
+            if (shell.velocity.X == 0)
+                return false;
+            return true;
         }
     }
 }

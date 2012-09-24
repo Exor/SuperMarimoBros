@@ -89,7 +89,7 @@ namespace SuperMarimoBros
 
 #if DEBUG
             BecomeBigMario();
-            //BecomeFireMario();
+            BecomeFireMario();
 #endif
         }
 
@@ -382,14 +382,22 @@ namespace SuperMarimoBros
             {
                 if (touchedObject.GetType().Name == "Shell")
                 { 
-                    
-                    //Need to check if the koopa is a shell or not
+                    DoShellStuff((Shell)touchedObject);
+                    //Need to check if the koopa shell is moving or not
                 }
                 else
                     OnHitEnemy();
             }
             base.OnSideCollision(touchedObject);
         }
+
+
+        private void DoShellStuff(Shell shell)
+        {
+            if (shell.velocity.X != 0)
+                OnHitEnemy();
+        }
+
 
         public override void OnHeadbutt(GameObject touchedObject)
         {

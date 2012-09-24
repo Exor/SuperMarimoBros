@@ -12,8 +12,6 @@ namespace SuperMarimoBros.Enemies
         float walkingSpeed = 20f;
         float jumpVelocity = -170f;
         float timeBetweenAnimation = 0.3f;
-
-        bool wasHitByFireball;
         
         Animation walking;
         Animation hopping;
@@ -58,33 +56,35 @@ namespace SuperMarimoBros.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            if (velocity.X < 0)
-                effects = SpriteEffects.None;
-            else
-                effects = SpriteEffects.FlipHorizontally;
+            if (!wasHitByFireball)
+            {
+                if (velocity.X < 0)
+                    effects = SpriteEffects.None;
+                else
+                    effects = SpriteEffects.FlipHorizontally;
 
-            if (state == CurrentState.flying)
-            {
-                // needs implemented
-                // isn't affected by gravity
-                // can be floating up/down or left/right
-                // maybe I should implement a flight path for the koopa to follow?
-                // or FlyingKoopa as a child class?
-            }
-            else if (state == CurrentState.hopping)
-            {
-                hopping.Update(gameTime);
-                if (isOnSolidTile)
+                if (state == CurrentState.flying)
                 {
-                    velocity.Y = jumpVelocity;
-                    isOnSolidTile = false;
+                    // needs implemented
+                    // isn't affected by gravity
+                    // can be floating up/down or left/right
+                    // maybe I should implement a flight path for the koopa to follow?
+                    // or FlyingKoopa as a child class?
+                }
+                else if (state == CurrentState.hopping)
+                {
+                    hopping.Update(gameTime);
+                    if (isOnSolidTile)
+                    {
+                        velocity.Y = jumpVelocity;
+                        isOnSolidTile = false;
+                    }
+                }
+                else if (state == CurrentState.walking)
+                {
+                    walking.Update(gameTime);
                 }
             }
-            else if (state == CurrentState.walking)
-            {
-                walking.Update(gameTime);
-            }
-            
             base.Update(gameTime);
         }
 
@@ -127,21 +127,6 @@ namespace SuperMarimoBros.Enemies
             }
 
             base.OnHeadbutt(touchedObject);
-        }
-
-        internal override void OnTouch(GameObject touchedObject)
-        {
-            if (touchedObject.GetType().Name == "Fireball")
-            {
-                wasHitByFireball = true;
-                velocity.X = 0;
-                velocity.Y = -150f;
-                effects = SpriteEffects.FlipVertically;
-                Sounds.Play(Sounds.SoundFx.stomp);
-                Player.AddPoints(points);
-            }
-
-            base.OnTouch(touchedObject);
         }
 
 
