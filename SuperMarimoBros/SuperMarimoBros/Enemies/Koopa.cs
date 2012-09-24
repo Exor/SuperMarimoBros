@@ -10,13 +10,11 @@ namespace SuperMarimoBros.Enemies
     class Koopa : Enemy
     {
         float walkingSpeed = 20f;
-        float shellSpeed = 170f;
         float jumpVelocity = -170f;
         float timeBetweenAnimation = 0.3f;
 
         bool wasHitByFireball;
-
-        Sprite shell;
+        
         Animation walking;
         Animation hopping;
 
@@ -24,8 +22,7 @@ namespace SuperMarimoBros.Enemies
         {
             hopping,
             flying,
-            walking,
-            shell
+            walking
         };
 
         CurrentState state;
@@ -34,7 +31,7 @@ namespace SuperMarimoBros.Enemies
             : base(new Vector2(initialPosition.X, initialPosition.Y - 8))
         {
             Texture2D koopaTexture = Textures.GetTexture(Textures.Texture.koopa);
-            shell = new Sprite(koopaTexture, new Rectangle(32, 10, 16, 16));
+            
             walking = new Animation(koopaTexture, new Rectangle(0, 0, 16, 24), 2, timeBetweenAnimation, 0);
             hopping = new Animation(koopaTexture, new Rectangle(48, 0, 16, 24), 2, timeBetweenAnimation, 0);
             velocity.X = -walkingSpeed;
@@ -50,8 +47,6 @@ namespace SuperMarimoBros.Enemies
             {
                 case CurrentState.walking:
                     return new Rectangle((int)position.X, (int)position.Y, walking.CurrentFrame.Width, walking.CurrentFrame.Height);
-                case CurrentState.shell:
-                    return new Rectangle((int)position.X, (int)position.Y, shell.Frame.Width, shell.Frame.Height);
                 case CurrentState.hopping:
                     return new Rectangle((int)position.X, (int)position.Y, hopping.CurrentFrame.Width, hopping.CurrentFrame.Height);
                 case CurrentState.flying:
@@ -89,10 +84,6 @@ namespace SuperMarimoBros.Enemies
             {
                 walking.Update(gameTime);
             }
-            else if (state == CurrentState.shell)
-            {
-
-            }
             
             base.Update(gameTime);
         }
@@ -103,9 +94,6 @@ namespace SuperMarimoBros.Enemies
             {
                 case CurrentState.walking:
                     walking.Draw(spriteBatch, position, effects);
-                    break;
-                case CurrentState.shell:
-                    shell.Draw(spriteBatch, position, effects);
                     break;
                 case CurrentState.hopping:
                     hopping.Draw(spriteBatch, position, effects);
@@ -131,35 +119,14 @@ namespace SuperMarimoBros.Enemies
                         velocity.Y = 0;
                         state = CurrentState.walking;
                         break;
-                    case CurrentState.shell:
-                        velocity.X = 0;
-                        break;
                     case CurrentState.walking:
-                        position.Y += 8;
-                        velocity.X = 0;
-                        state = CurrentState.shell;
+                        this.shouldRemove = true;
+                        World.AddObject(new Shell(new Vector2(position.X, position.Y + 8)));
                         break;
                 }
             }
 
             base.OnHeadbutt(touchedObject);
-        }
-
-        public override void OnSideCollision(GameObject touchedObject)
-        {
-            if (touchedObject.GetType().Name == "Marimo" && state == CurrentState.shell)
-            {
-                if (touchedObject.position.X < position.X)
-                    velocity.X = shellSpeed;
-                else
-                    velocity.X = -shellSpeed;
-            }
-            else
-            {
-                velocity.X = -velocity.X;
-            }
-
-            base.OnSideCollision(touchedObject);
         }
 
         internal override void OnTouch(GameObject touchedObject)
@@ -171,16 +138,12 @@ namespace SuperMarimoBros.Enemies
                 velocity.Y = -150f;
                 effects = SpriteEffects.FlipVertically;
                 Sounds.Play(Sounds.SoundFx.stomp);
+                Player.AddPoints(points);
             }
 
             base.OnTouch(touchedObject);
         }
 
-        public bool IsShell()
-        {
-            if (state == CurrentState.shell)
-                return true;
-            return false;
-        }
+
     }
 }

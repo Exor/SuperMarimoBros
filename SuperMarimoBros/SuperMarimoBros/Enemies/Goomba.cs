@@ -95,6 +95,7 @@ namespace SuperMarimoBros.Enemies
                 velocity.Y = -150f;
                 effects = SpriteEffects.FlipVertically;
                 Sounds.Play(Sounds.SoundFx.stomp);
+                Player.AddPoints(points);
             }
         }
 

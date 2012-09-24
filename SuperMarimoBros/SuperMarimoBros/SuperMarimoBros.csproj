@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blocks\SolidBlock.cs" />
+    <Compile Include="Enemies\Shell.cs" />
     <Compile Include="Libraries\Camera.cs" />
     <Compile Include="Enemies\Goomba.cs" />
     <Compile Include="Enemies\Koopa.cs" />

@@ -380,7 +380,7 @@ namespace SuperMarimoBros
         {
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
             {
-                if (touchedObject.GetType().Name == "Koopa")
+                if (touchedObject.GetType().Name == "Shell")
                 { 
                     
                     //Need to check if the koopa is a shell or not
