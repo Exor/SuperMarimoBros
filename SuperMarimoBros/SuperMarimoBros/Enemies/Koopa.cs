@@ -26,7 +26,7 @@ namespace SuperMarimoBros.Enemies
         CurrentState state;
 
         public Koopa(Vector2 initialPosition, CurrentState type)
-            : base(new Vector2(initialPosition.X, initialPosition.Y - 8))
+            : base(new Vector2(initialPosition.X, initialPosition.Y))
         {
             Texture2D koopaTexture = Textures.GetTexture(Textures.Texture.koopa);
             
@@ -44,11 +44,11 @@ namespace SuperMarimoBros.Enemies
             switch (state)
             {
                 case CurrentState.walking:
-                    return new Rectangle((int)position.X, (int)position.Y, walking.CurrentFrame.Width, walking.CurrentFrame.Height);
+                    return new Rectangle((int)position.X, (int)position.Y, walking.CurrentFrame.Width, walking.CurrentFrame.Height - 8);
                 case CurrentState.hopping:
-                    return new Rectangle((int)position.X, (int)position.Y, hopping.CurrentFrame.Width, hopping.CurrentFrame.Height);
+                    return new Rectangle((int)position.X, (int)position.Y, hopping.CurrentFrame.Width, hopping.CurrentFrame.Height - 8);
                 case CurrentState.flying:
-                    return new Rectangle((int)position.X, (int)position.Y, hopping.CurrentFrame.Width, hopping.CurrentFrame.Height);
+                    return new Rectangle((int)position.X, (int)position.Y, hopping.CurrentFrame.Width, hopping.CurrentFrame.Height - 8);
                 default:
                     return Rectangle.Empty;
             }
@@ -93,13 +93,13 @@ namespace SuperMarimoBros.Enemies
             switch (state)
             {
                 case CurrentState.walking:
-                    walking.Draw(spriteBatch, position, effects);
+                    walking.Draw(spriteBatch, new Vector2(position.X, position.Y -8), effects);
                     break;
                 case CurrentState.hopping:
-                    hopping.Draw(spriteBatch, position, effects);
+                    hopping.Draw(spriteBatch, new Vector2(position.X, position.Y - 8), effects);
                     break;
                 case CurrentState.flying:
-                    hopping.Draw(spriteBatch, position, effects);
+                    hopping.Draw(spriteBatch, new Vector2(position.X, position.Y - 8), effects);
                     break;
             }
         }
@@ -121,7 +121,7 @@ namespace SuperMarimoBros.Enemies
                         break;
                     case CurrentState.walking:
                         this.shouldRemove = true;
-                        World.AddObject(new Shell(new Vector2(position.X, position.Y + 8)));
+                        World.AddObject(new Shell(position));
                         break;
                 }
             }

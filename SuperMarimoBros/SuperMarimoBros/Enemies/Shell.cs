@@ -50,14 +50,9 @@ namespace SuperMarimoBros.Enemies
             if (touchedObject.GetType().Name == "Marimo")
             {
                 Kick(touchedObject);
-                
-                //if (touchedObject.position.X < position.X)
-                //    position.X = touchedObject.BoundingRectangle().X + touchedObject.BoundingRectangle().Width;
-                //else
-                //    position.X = touchedObject.BoundingRectangle().X - this.BoundingRectangle().Width;
             }
-
-            base.OnSideCollision(touchedObject);
+            else
+                base.OnSideCollision(touchedObject);
         }
 
         private void Kick(GameObject touchedObject)
