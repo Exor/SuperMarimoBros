@@ -95,6 +95,21 @@ namespace SuperMarimoBros
                     case "99":
                         World.AddObject(new Flagpole(position));
                         break;
+                    case "92":
+                        World.AddObject(new Pipe(position, 2));
+                        break;
+                    case "93":
+                        World.AddObject(new Pipe(position, 3));
+                        break;
+                    case "94":
+                        World.AddObject(new Pipe(position, 4));
+                        break;
+                    case "95":
+                        World.AddObject(new Pipe(position, 5));
+                        break;
+                    case "96":
+                        World.AddObject(new Pipe(position, 6));
+                        break;
                     default:
                         World.AddObject(new BackgroundTile(tilePositions[Convert.ToInt32(row[y])], position));
                         break;
@@ -103,23 +118,6 @@ namespace SuperMarimoBros
 
 
         }
-
-        //public static Boolean SolidTileExistsAt(Point p)
-        //{
-        //    return false;
-        //}
-
-        //public static BackgroundTile ReturnTileAt(Point p)
-        //{
-        //    int xOffset = -(int)tiles[0].position.X;
-
-        //    int x = (xOffset + p.X) / 16;
-        //    int y = p.Y / 16;
-        //    int tile = x * 15 + y;
-        //    if (tile > 0 && tile < tiles.Count)
-        //        return tiles[tile];
-        //    return tiles[0];
-        //}
 
         public void UpdateLevelFrame(float amount)
         {
@@ -142,10 +140,5 @@ namespace SuperMarimoBros
 
         }
 
-        //public void Draw(SpriteBatch spriteBatch)
-        //{
-        //    foreach (BackgroundTile t in tiles)
-        //        t.Draw(spriteBatch);
-        //}
     }
 }
