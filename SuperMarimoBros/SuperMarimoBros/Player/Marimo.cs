@@ -417,15 +417,13 @@ namespace SuperMarimoBros
             }
             base.OnSideCollision(touchedObject);
         }
-
-
+        
         private void DoShellStuff(Shell shell)
         {
             if (shell.velocity.X != 0)
                 OnHitEnemy();
         }
-
-
+        
         public override void OnHeadbutt(GameObject touchedObject)
         {
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")

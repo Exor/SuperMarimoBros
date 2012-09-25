@@ -57,7 +57,7 @@ namespace SuperMarimoBros
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Blocks")
             {
                 velocity.Y = 0;
-                position.Y = touchedObject.position.Y + touchedObject.BoundingRectangle().Height ;
+                position.Y = touchedObject.BoundingRectangle().Y + touchedObject.BoundingRectangle().Height ;
             }
             base.OnHeadbutt(touchedObject);
         }

@@ -32,10 +32,12 @@ namespace SuperMarimoBros.Blocks
         float bumpAmount = 6; //pixels
         float originalPosition;
         bool isEmpty = false;
+        bool isInvisible;
 
-        public QuestionBlock(Vector2 position, Contains contains)
+        public QuestionBlock(Vector2 position, Contains contains, bool isInvisible)
             : base(position)
         {
+            this.isInvisible = isInvisible;
             item = contains;
             blockAnimation = new Animation(Textures.GetTexture(Textures.Texture.coinBlockAnimation), new Rectangle(0,0,16,16), 6, animationSpeed, 0);
             blockAnimation.Play();
@@ -58,6 +60,9 @@ namespace SuperMarimoBros.Blocks
         {
             if (touchedObject.GetType() == typeof(Marimo))
             {
+                if (isInvisible)
+                    isInvisible = false;
+
                 if (!isEmpty)
                 {
                     if (item == Contains.Coin)
@@ -105,6 +110,8 @@ namespace SuperMarimoBros.Blocks
 
         public override Rectangle BoundingRectangle()
         {
+            if (isInvisible)
+                return Rectangle.Empty; //new Rectangle((int)position.X, (int)position.Y + 15, 16, 2);
             return new Rectangle((int)position.X, (int)position.Y, blockAnimation.CurrentFrame.Width, blockAnimation.CurrentFrame.Height);
         }
 
@@ -114,6 +121,8 @@ namespace SuperMarimoBros.Blocks
                 coinAnimation.Draw(spriteBatch, coinAnimationPosition, effects);
             if (isEmpty)
                 emptyBlock.Draw(spriteBatch, position, effects);
+            else if (isInvisible)
+            {/* Don't draw anything */ }
             else
                 blockAnimation.Draw(spriteBatch, position, effects);
         }
