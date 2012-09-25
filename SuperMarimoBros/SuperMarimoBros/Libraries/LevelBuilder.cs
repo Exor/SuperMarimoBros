@@ -74,6 +74,9 @@ namespace SuperMarimoBros
                     case "1":
                         World.AddObject(new SolidBlock(new Rectangle(17, 0, 16, 16), position));
                         break;
+                    case "77":
+                        World.AddObject(new SolidBlock(new Rectangle(187, 51, 16, 16), position));
+                        break;
                     case "6":
                         World.AddObject(new Brick(position));
                         break;
@@ -149,7 +152,8 @@ namespace SuperMarimoBros
             if (offset >= 16)
             {
                 index++;
-                LoadRow(20, level[index]);
+                if (index < level.Count)
+                    LoadRow(20, level[index]);
                 offset -= 16;
             }
             else if (offset <= -16)

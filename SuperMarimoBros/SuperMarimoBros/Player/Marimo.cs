@@ -438,6 +438,10 @@ namespace SuperMarimoBros
         public override void OnStomp(GameObject touchedObject)
         {
             base.OnStomp(touchedObject);
+            if (touchedObject.GetType() == typeof(Spikey))
+            {
+                OnHitEnemy();
+            }
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
             {
                 if (!IsStar)
