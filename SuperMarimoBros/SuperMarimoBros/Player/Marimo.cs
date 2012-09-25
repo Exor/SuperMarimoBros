@@ -34,7 +34,7 @@ namespace SuperMarimoBros
         Sprite Crouching;
         Sprite Firing;
 
-        static bool isBig = true;
+        static bool isBig;
         static bool isFireMario;
         bool isDying;
         bool isDead;
@@ -42,6 +42,8 @@ namespace SuperMarimoBros
         bool isOnFlagpole;
         bool runFinishAnimation;
         bool levelIsFinished;
+
+        static bool isStarMario;
 
         bool shouldMoveRight;
         bool shouldMoveLeft;
@@ -438,7 +440,8 @@ namespace SuperMarimoBros
             base.OnStomp(touchedObject);
             if (touchedObject.GetType().Namespace == "SuperMarimoBros.Enemies")
             {
-                velocity.Y = -100f;
+                if (!IsStar)
+                    velocity.Y = -100f;
                 Sounds.Play(Sounds.SoundFx.stomp);
             }
             
@@ -454,6 +457,12 @@ namespace SuperMarimoBros
             {
                 Sounds.Play(Sounds.SoundFx.mushroomeat);
                 BecomeFireMario();
+            }
+            else if (touchedObject.GetType().Name == "Star")
+            {
+                Sounds.Play(Sounds.SoundFx.mushroomeat);
+                Sounds.Play(Sounds.Music.starmusic);
+                BecomeStarMario();
             }
             else if (touchedObject.GetType().Name == "Flagpole")
             {
@@ -479,16 +488,19 @@ namespace SuperMarimoBros
 
         private void OnHitEnemy()
         {
-            if (isFireMario || isBig)
+            if (!IsStar)
             {
-                wasHitByEnemy = true;
-                ChangeState(State.Standing);
-                Sounds.Play(Sounds.SoundFx.shrink);
-                BecomeSmallMario();
-            }
-            else
-            {
-                InitiateDeath();
+                if (isFireMario || isBig)
+                {
+                    wasHitByEnemy = true;
+                    ChangeState(State.Standing);
+                    Sounds.Play(Sounds.SoundFx.shrink);
+                    BecomeSmallMario();
+                }
+                else
+                {
+                    InitiateDeath();
+                }
             }
         }
 
@@ -530,6 +542,11 @@ namespace SuperMarimoBros
             isFireMario = true;
         }
 
+        private void BecomeStarMario()
+        {
+            isStarMario = true;
+        }
+
         private void InitiateDeath()
         {
             isDying = true;
@@ -541,6 +558,18 @@ namespace SuperMarimoBros
         public static bool IsBig
         {
             get { return isBig; }
+        }
+
+        public static bool IsStarMario(Marimo mario)
+        {
+            if (mario.IsStar)
+                return true;
+            return false;
+        }
+
+        public bool IsStar
+        {
+            get { return isStarMario; }
         }
 
         public bool IsDead

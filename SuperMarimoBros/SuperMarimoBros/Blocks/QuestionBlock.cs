@@ -82,6 +82,10 @@ namespace SuperMarimoBros.Blocks
                     {
                         World.AddObject(new Mushroom(position, true));
                     }
+                    if (item == Contains.Star)
+                    {
+                        World.AddObject(new Star(position));
+                    }
                     wasBumped = true;
                     isEmpty = true;
 
@@ -111,7 +115,7 @@ namespace SuperMarimoBros.Blocks
         public override Rectangle BoundingRectangle()
         {
             if (isInvisible)
-                return Rectangle.Empty; //new Rectangle((int)position.X, (int)position.Y + 15, 16, 2);
+                return new Rectangle((int)position.X, (int)position.Y + 15, 16, 3);
             return new Rectangle((int)position.X, (int)position.Y, blockAnimation.CurrentFrame.Width, blockAnimation.CurrentFrame.Height);
         }
 

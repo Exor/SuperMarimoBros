@@ -31,6 +31,10 @@ namespace SuperMarimoBros.Enemies
                 UpsideDownDeath();
                 FireballExplode((Fireball)touchedObject);
             }
+            else if (touchedObject.GetType() == typeof(Marimo) && Marimo.IsStarMario((Marimo)touchedObject))
+            {
+                UpsideDownDeath();
+            }
             else if (touchedObject.GetType().Name == "Shell" && Shell.ShellIsMoving((Shell)touchedObject))
             {
                 UpsideDownDeath();

@@ -43,10 +43,6 @@ namespace SuperMarimoBros.PowerUps
             {
                 base.Update(gameTime);
             }
-            if (position.Y >= 256)
-            {
-                shouldRemove = true;
-            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)

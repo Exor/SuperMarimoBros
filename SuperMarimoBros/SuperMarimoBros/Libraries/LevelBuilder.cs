@@ -80,14 +80,26 @@ namespace SuperMarimoBros
                     case "701": // create coin block
                         World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.Coin, false));
                         break;
+                    case "711":
+                        World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.Coin, true));
+                        break;
                     case "702": // create mushroom block
                         World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.Mushroom, false));
+                        break;
+                    case "712":
+                        World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.Mushroom, true));
                         break;
                     case "703":
                         World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.OneUp, false));
                         break;
                     case "713":
                         World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.OneUp, true));
+                        break;
+                    case "704":
+                        World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.Star, false));
+                        break;
+                    case "714":
+                        World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.Star, true));
                         break;
                     case "100":
                         World.AddObject(new Goomba(position));

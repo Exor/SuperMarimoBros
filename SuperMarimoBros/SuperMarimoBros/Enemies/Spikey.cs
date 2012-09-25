@@ -13,10 +13,9 @@ namespace SuperMarimoBros.Enemies
         Animation thrown;
         float walkingSpeed = 20f;
         float thrownSpeed = -100f;
-        bool wasHitByFireball = false;
         float timeBetweenAnimation = 0.3f;
 
-        public static enum CurrentState
+        public enum CurrentState
         {
             walking,
             thrown
@@ -51,9 +50,9 @@ namespace SuperMarimoBros.Enemies
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
             if (state == CurrentState.walking)
-                walking.Draw(spriteBatch);
+                walking.Draw(spriteBatch, position, effects);
             else
-                thrown.Draw(spriteBatch);
+                thrown.Draw(spriteBatch, position, effects);
         }
 
         public override Rectangle BoundingRectangle()
@@ -61,23 +60,9 @@ namespace SuperMarimoBros.Enemies
             if (wasHitByFireball)
                 return Rectangle.Empty;
             else if (state == CurrentState.walking)
-                return walking.CurrentFrame;
+                return new Rectangle((int)position.X, (int)position.Y, walking.CurrentFrame.Width, walking.CurrentFrame.Height);
             else
-                return thrown.CurrentFrame;
-        }
-
-        internal override void OnTouch(GameObject touchedObject)
-        {
-            if (touchedObject.GetType().Name == "Fireball")
-            {
-                wasHitByFireball = true;
-                runCollisionDetection = false;
-                velocity.X = 0;
-                velocity.Y = -150f;
-                effects = SpriteEffects.FlipVertically;
-                Sounds.Play(Sounds.SoundFx.stomp);
-            }
-            base.OnTouch(touchedObject);
+                return new Rectangle((int)position.X, (int)position.Y, thrown.CurrentFrame.Width, thrown.CurrentFrame.Height);
         }
     }
 }
