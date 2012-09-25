@@ -110,6 +110,12 @@ namespace SuperMarimoBros
                     case "102":
                         World.AddObject(new Koopa(position, Koopa.CurrentState.hopping));
                         break;
+                    case "103":
+                        World.AddObject(new Spikey(position, Spikey.CurrentState.walking));
+                        break;
+                    case "104":
+                        World.AddObject(new Spikey(position, Spikey.CurrentState.thrown));
+                        break;
                     case "99":
                         World.AddObject(new Flagpole(position));
                         break;

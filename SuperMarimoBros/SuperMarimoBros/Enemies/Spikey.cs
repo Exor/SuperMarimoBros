@@ -39,6 +39,14 @@ namespace SuperMarimoBros.Enemies
 
         public override void Update(GameTime gameTime)
         {
+            walking.Update(gameTime);
+            thrown.Update(gameTime);
+
+            if (velocity.X < 0)
+                effects = SpriteEffects.None;
+            else
+                effects = SpriteEffects.FlipHorizontally;
+
             if (state == CurrentState.thrown && isOnSolidTile)
             {
                 state = CurrentState.walking;
