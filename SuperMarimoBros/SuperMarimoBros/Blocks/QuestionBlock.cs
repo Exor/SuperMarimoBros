@@ -15,7 +15,8 @@ namespace SuperMarimoBros.Blocks
         {
             Coin,
             Mushroom,
-            Star
+            Star,
+            OneUp
         };
 
         Contains item;
@@ -62,9 +63,7 @@ namespace SuperMarimoBros.Blocks
                     if (item == Contains.Coin)
                     {
                         coinAnimation.Play();
-                        Sounds.Play(Sounds.SoundFx.coin);
                         Player.AddCoin();
-                        Player.AddPoints(100);
                     }
                     if (item == Contains.Mushroom)
                     {
@@ -72,7 +71,11 @@ namespace SuperMarimoBros.Blocks
                         if (Marimo.IsBig)
                             World.AddObject(new Fireflower(position));
                         else
-                            World.AddObject(new Mushroom(position));
+                            World.AddObject(new Mushroom(position, false));
+                    }
+                    if (item == Contains.OneUp)
+                    {
+                        World.AddObject(new Mushroom(position, true));
                     }
                     wasBumped = true;
                     isEmpty = true;

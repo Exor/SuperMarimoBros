@@ -77,7 +77,7 @@ namespace SuperMarimoBros.Screens
             {
                 ScreenManager.RemoveScreen(this);
 
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
 
                 ScreenManager.AddScreen(screenToLoad, ControllingPlayer);
                 

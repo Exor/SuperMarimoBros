@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using SuperMarimoBros.Enemies;
 using SuperMarimoBros.Blocks;
+using SuperMarimoBros.PowerUps;
 
 namespace SuperMarimoBros
 {
@@ -449,8 +450,7 @@ namespace SuperMarimoBros
         {
             if (touchedObject.GetType().Name == "Mushroom")
             {
-                Sounds.Play(Sounds.SoundFx.mushroomeat);
-                BecomeBigMario();
+                DealWithMushroom((Mushroom)touchedObject);
             }
             else if (touchedObject.GetType().Name == "Fireflower")
             {
@@ -464,6 +464,19 @@ namespace SuperMarimoBros
             }
 
             base.OnTouch(touchedObject);
+        }
+
+        private void DealWithMushroom(Mushroom mushroom)
+        {
+            if (mushroom.IsOneUp)
+            {
+                Player.GainLife();
+            }
+            else
+            {
+                Sounds.Play(Sounds.SoundFx.mushroomeat);
+                BecomeBigMario();
+            }
         }
 
         private void OnHitEnemy()

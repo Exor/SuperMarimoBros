@@ -41,6 +41,7 @@ namespace SuperMarimoBros
         public static void GainLife()
         {
             lives++;
+            Sounds.Play(Sounds.SoundFx.oneup);
         }
 
         public static void AddPoints(int amount)
@@ -50,11 +51,13 @@ namespace SuperMarimoBros
 
         public static void AddCoin()
         {
+            Sounds.Play(Sounds.SoundFx.coin);
+            AddPoints(100);
+
             if (coins == 99)
             {
                 //1-up!
                 GainLife();
-                Sounds.Play(Sounds.SoundFx.oneup);
                 coins = 0;
             }
             else

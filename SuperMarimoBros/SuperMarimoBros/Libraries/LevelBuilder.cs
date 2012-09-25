@@ -83,6 +83,9 @@ namespace SuperMarimoBros
                     case "702": // create mushroom block
                         World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.Mushroom));
                         break;
+                    case "703":
+                        World.AddObject(new QuestionBlock(position, QuestionBlock.Contains.OneUp));
+                        break;
                     case "100":
                         World.AddObject(new Goomba(position));
                         break;

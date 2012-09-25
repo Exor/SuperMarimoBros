@@ -28,6 +28,8 @@ namespace SuperMarimoBros.Screens
             spriteBatch.DrawString(font, Player.World + "-" + Player.Level, new Vector2(100, 10), Color.White);
             spriteBatch.DrawString(font, "Time", new Vector2(150, 0), Color.White);
             spriteBatch.DrawString(font, remainingTime.ToString(), new Vector2(150, 10), Color.White);
+            spriteBatch.DrawString(font, "Lives", new Vector2(200, 0), Color.White);
+            spriteBatch.DrawString(font, Player.Lives.ToString(), new Vector2(200, 10), Color.White);
         }
 
         public void Update(float remainingTime)

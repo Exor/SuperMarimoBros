@@ -22,9 +22,9 @@ namespace SuperMarimoBros.Blocks
             : base(position)
         {
             pole = new Sprite(Textures.GetTexture(Textures.Texture.smbTiles), new Rectangle(237, 68, 16, 16));
-            flag = new Sprite(Textures.GetTexture(Textures.Texture.smbTiles), new Rectangle(85, 85, 16, 16));
+            flag = new Sprite(Textures.GetTexture(Textures.Texture.flag), new Rectangle(0, 0, 16, 16));
             ball = new Sprite(Textures.GetTexture(Textures.Texture.smbTiles), new Rectangle(187, 68, 16, 16));
-            flagPosition = new Vector2(position.X - 16, position.Y);
+            flagPosition = new Vector2(position.X - 8, position.Y + 16);
         }
 
         public override Rectangle BoundingRectangle()
@@ -49,8 +49,7 @@ namespace SuperMarimoBros.Blocks
 
         public override void Update(GameTime gameTime)
         {
-            flagPosition.X = position.X - 16;
-
+            flagPosition.X = position.X - 8;
             if (pullingDownFlag)
             {
                 flagPosition.Y += flagSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;

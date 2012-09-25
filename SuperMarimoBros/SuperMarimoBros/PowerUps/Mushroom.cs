@@ -12,18 +12,21 @@ namespace SuperMarimoBros.PowerUps
     {
         int points = 1000;
         Sprite mushroom;
+        Sprite oneUp;
         float spawnSpeed = 20f;
         bool isSpawning = true;
         Vector2 initialPosition;
+        bool isOneUp;
 
-        public Mushroom(Vector2 position)
+        public Mushroom(Vector2 position, bool isOneUp)
             :base(position)
         {
             mushroom = new Sprite(Textures.GetTexture(Textures.Texture.entities), new Rectangle(17, 0, 16, 16));
+            oneUp = new Sprite(Textures.GetTexture(Textures.Texture.entities), new Rectangle(34, 0, 16, 16));
+            this.isOneUp = isOneUp;            
             initialPosition = position;
             velocity.X = 50f;
             Sounds.Play(Sounds.SoundFx.mushroomappear);
-            
         }
 
         public override void Update(GameTime gameTime)
@@ -48,7 +51,10 @@ namespace SuperMarimoBros.PowerUps
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            mushroom.Draw(spriteBatch, position, effects);
+            if (isOneUp)
+                oneUp.Draw(spriteBatch, position, effects);
+            else
+                mushroom.Draw(spriteBatch, position, effects);
         }
 
         public override Rectangle BoundingRectangle()
@@ -67,6 +73,11 @@ namespace SuperMarimoBros.PowerUps
                 Player.AddPoints(points);
             }
             //base.OnTouch(touchedObject);
+        }
+
+        public bool IsOneUp
+        {
+            get { return isOneUp; }
         }
     }
 }
