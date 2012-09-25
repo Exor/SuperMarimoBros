@@ -23,7 +23,21 @@ namespace SuperMarimoBros
             koopa,
             plant,
             spikey,
-            star
+            star,
+            axe,
+            beetle,
+            bowser,
+            bulletBill,
+            cheepCheep,
+            coin,
+            coinAnimation,
+            fire,
+            flag,
+            hammer,
+            koopaRed,
+            lakitu,
+            squid,
+            upFire
         };
 
         public Textures()
@@ -45,6 +59,20 @@ namespace SuperMarimoBros
             loadedTextures.Add(Content.Load<Texture2D>("Graphics/plant"));
             loadedTextures.Add(Content.Load<Texture2D>("Graphics/spikey"));
             loadedTextures.Add(Content.Load<Texture2D>("Graphics/star"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/axe"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/beetle"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/bowser"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/bulletbill"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/cheepcheep"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/coin"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/coinanimation"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/fire"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/flag"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/hammer"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/koopared"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/lakito"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/squid"));
+            loadedTextures.Add(Content.Load<Texture2D>("Graphics/upfire"));
             
         }
 
