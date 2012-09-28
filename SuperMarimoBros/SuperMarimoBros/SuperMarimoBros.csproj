@@ -121,6 +121,7 @@
     <Compile Include="Libraries\ScreenManager.cs" />
     <Compile Include="Player\Fireball.cs" />
     <Compile Include="Player\Player.cs" />
+    <Compile Include="PowerUps\Coin.cs" />
     <Compile Include="PowerUps\FireFlower.cs" />
     <Compile Include="Libraries\GameObject.cs" />
     <Compile Include="PowerUps\Mushroom.cs" />

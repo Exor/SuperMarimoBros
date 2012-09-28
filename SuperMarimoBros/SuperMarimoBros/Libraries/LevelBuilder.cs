@@ -8,6 +8,7 @@ using SuperMarimoBros;
 using SuperMarimoBros.Blocks;
 using System.IO;
 using SuperMarimoBros.Enemies;
+using SuperMarimoBros.PowerUps;
 
 namespace SuperMarimoBros
 {
@@ -136,6 +137,9 @@ namespace SuperMarimoBros
                         break;
                     case "96":
                         World.AddObject(new Pipe(position, 6));
+                        break;
+                    case "2":
+                        World.AddObject(new Coin(position));
                         break;
                     default:
                         World.AddObject(new BackgroundTile(tilePositions[Convert.ToInt32(row[y])], position));
