@@ -14,7 +14,7 @@ namespace SuperMarimoBros.Enemies
         public Shell(Vector2 initialPosition)
             : base(initialPosition)
         {
-            shell = new Sprite(Textures.GetTexture(Textures.Texture.koopa), new Rectangle(32, 10, 16, 16));
+            shell = new Sprite(Textures.GetTexture(Textures.Texture.koopa), new Rectangle(32, 10 + (24 * World.WorldType), 16, 16));
         }
 
         public override Rectangle BoundingRectangle()

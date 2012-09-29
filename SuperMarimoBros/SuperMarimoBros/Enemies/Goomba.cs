@@ -21,8 +21,8 @@ namespace SuperMarimoBros.Enemies
         public Goomba(Vector2 initialPosition)
             : base(initialPosition)
         {
-            death = new Sprite(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(16, 0, 16, 16));
-            goomba = new Sprite(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(0, 0, 16, 16));
+            death = new Sprite(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(16, 0 + (16 * World.WorldType), 16, 16));
+            goomba = new Sprite(Textures.GetTexture(Textures.Texture.goomba), new Rectangle(0, 0 + (16 * World.WorldType), 16, 16));
             velocity.X = -walkingSpeed;
         }
 

@@ -9,6 +9,8 @@ namespace SuperMarimoBros
 {
     class World
     {
+        static int worldType;
+        
         static List<BackgroundTile> tiles;
         static List<BackgroundTile> tilesToAdd;
         static List<GameObject> gameObjects;
@@ -195,5 +197,12 @@ namespace SuperMarimoBros
                 m.Draw(spriteBatch);
             }
         }
+
+        public static int WorldType
+        {
+            set { worldType = value; }
+            get { return worldType; }
+        }
+
     }
 }

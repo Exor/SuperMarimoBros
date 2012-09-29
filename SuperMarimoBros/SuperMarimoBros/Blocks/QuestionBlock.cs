@@ -39,7 +39,7 @@ namespace SuperMarimoBros.Blocks
         {
             this.isInvisible = isInvisible;
             item = contains;
-            blockAnimation = new Animation(Textures.GetTexture(Textures.Texture.coinBlockAnimation), new Rectangle(0,0,16,16), 6, animationSpeed, 0);
+            blockAnimation = new Animation(Textures.GetTexture(Textures.Texture.coinBlockAnimation), new Rectangle(0, 0 + (16 * World.WorldType), 16, 16), 6, animationSpeed, 0);
             blockAnimation.Play();
 
             emptyBlock = new Sprite(Textures.GetTexture(Textures.Texture.smbTiles), new Rectangle(34, 85, 16, 16));

@@ -29,9 +29,9 @@ namespace SuperMarimoBros.Enemies
             : base(new Vector2(initialPosition.X, initialPosition.Y))
         {
             Texture2D koopaTexture = Textures.GetTexture(Textures.Texture.koopa);
-            
-            walking = new Animation(koopaTexture, new Rectangle(0, 0, 16, 24), 2, timeBetweenAnimation, 0);
-            hopping = new Animation(koopaTexture, new Rectangle(48, 0, 16, 24), 2, timeBetweenAnimation, 0);
+
+            walking = new Animation(koopaTexture, new Rectangle(0, 0 + (24 * World.WorldType), 16, 24), 2, timeBetweenAnimation, 0);
+            hopping = new Animation(koopaTexture, new Rectangle(48, 0 + (24 * World.WorldType), 16, 24), 2, timeBetweenAnimation, 0);
             velocity.X = -walkingSpeed;
 
             state = type;

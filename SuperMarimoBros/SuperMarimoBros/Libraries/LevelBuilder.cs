@@ -54,7 +54,10 @@ namespace SuperMarimoBros
 
         private static void LoadGameObjects()
         {
-            for (int x = 0; x <= index; x++)
+            string[] levelCharacteristics = level[0];
+            SetWorldType(levelCharacteristics[0]);
+
+            for (int x = 1; x <= index; x++)
             {
                 string[] row = level[x];
 
@@ -170,6 +173,25 @@ namespace SuperMarimoBros
                 offset += 16;
             }
 
+        }
+
+        private static void SetWorldType(string type)
+        {
+            switch (type)
+            {
+                case "Overworld":
+                    World.WorldType = 0;
+                    break;
+                case "Underground":
+                    World.WorldType = 1;
+                    break;
+                case "Snow":
+                    World.WorldType = 2;
+                    break;
+                case "Castle":
+                    World.WorldType = 3;
+                    break;
+            }
         }
 
     }
