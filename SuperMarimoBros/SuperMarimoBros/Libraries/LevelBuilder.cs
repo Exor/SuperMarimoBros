@@ -123,6 +123,9 @@ namespace SuperMarimoBros
                     case "104":
                         World.AddObject(new Spikey(position, Spikey.CurrentState.thrown));
                         break;
+                    case "105":
+                        World.AddObject(new Beetle(position));
+                        break;
                     case "99":
                         World.AddObject(new Flagpole(position));
                         break;

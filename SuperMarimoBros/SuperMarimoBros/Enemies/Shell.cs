@@ -11,10 +11,13 @@ namespace SuperMarimoBros.Enemies
         Sprite shell;
         float speed = 170f;
 
-        public Shell(Vector2 initialPosition)
+        public Shell(Vector2 initialPosition, bool isKoopa)
             : base(initialPosition)
         {
-            shell = new Sprite(Textures.GetTexture(Textures.Texture.koopa), new Rectangle(32, 10 + (24 * World.WorldType), 16, 16));
+            if (isKoopa)
+                shell = new Sprite(Textures.GetTexture(Textures.Texture.koopa), new Rectangle(32, 10 + (24 * World.WorldType), 16, 16));
+            else
+                shell = new Sprite(Textures.GetTexture(Textures.Texture.beetle), new Rectangle(32, 7 + (24 * World.WorldType), 16, 16));
         }
 
         public override Rectangle BoundingRectangle()

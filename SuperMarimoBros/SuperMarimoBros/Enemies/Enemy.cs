@@ -46,7 +46,7 @@ namespace SuperMarimoBros.Enemies
             fireball.OnTouch(this);
         }
 
-        private void UpsideDownDeath()
+        internal void UpsideDownDeath()
         {
             wasHitByFireball = true;
             isOnSolidTile = false;

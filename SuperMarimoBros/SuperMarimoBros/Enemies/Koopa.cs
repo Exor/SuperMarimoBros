@@ -121,7 +121,7 @@ namespace SuperMarimoBros.Enemies
                         break;
                     case CurrentState.walking:
                         this.shouldRemove = true;
-                        World.AddObject(new Shell(position));
+                        World.AddObject(new Shell(position, true));
                         break;
                 }
             }

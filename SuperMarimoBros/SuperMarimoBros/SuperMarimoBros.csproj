@@ -110,6 +110,7 @@
     <Compile Include="Blocks\Flagpole.cs" />
     <Compile Include="Blocks\Pipe.cs" />
     <Compile Include="Blocks\SolidBlock.cs" />
+    <Compile Include="Enemies\Beetle.cs" />
     <Compile Include="Enemies\Shell.cs" />
     <Compile Include="Enemies\Spikey.cs" />
     <Compile Include="Libraries\Camera.cs" />
