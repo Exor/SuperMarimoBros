@@ -39,5 +39,16 @@ namespace SuperMarimoBros.Blocks
         {
             //throw new NotImplementedException();
         }
+
+        public bool IsOnPipe(Marimo mario)
+        {
+            if (mario.BoundingRectangle().Bottom == this.BoundingRectangle().Top
+                && mario.BoundingRectangle().Left > this.BoundingRectangle().Left 
+                && mario.BoundingRectangle().Right < this.BoundingRectangle().Right)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
